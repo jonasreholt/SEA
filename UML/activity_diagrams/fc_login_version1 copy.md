@@ -1,7 +1,10 @@
 
 ```mermaid
 flowchart TD
-    A[Start program] --> B
+    A0{Sippo decides\n login type} --> A1
+    A0 --> A2
+    A1[Start program] --> B
+    A2[Start program] --> B2(Login screen)
     subgraph 1
     B(Login screen)
     B --> C{Select user type}
@@ -9,7 +12,6 @@ flowchart TD
     C -->|Experimenter| E[Menu for Experimenter]
     C -->|Experiments admin| F[Menu for Admin]
     end
-    A[Start program] --> B2(Login screen)
     subgraph 2
     B2 --> C2{Select user type}
     C2 -->|Experimenter| E2[Menu for Experimenter]
