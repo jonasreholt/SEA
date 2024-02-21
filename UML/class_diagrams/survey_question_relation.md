@@ -6,6 +6,7 @@ classDiagram
         +GetId()
         +AddQuestion(int, SurveyQustion)
         +RemoveQuestion(int)
+        +GetQuestion(int)
     }
         
     class SurveyQuestion{
