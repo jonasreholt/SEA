@@ -1,6 +1,6 @@
 ```mermaid
 flowchart TD
-    Start{Select user} -->A1[Experimentee login]
+    Start{Main menu} -->A1[Start survey]
     A1 --> A11{Select survey\n from list}
     A11 --> A12{Back to \n main manu}
     subgraph Surve A
