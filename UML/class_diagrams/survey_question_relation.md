@@ -10,8 +10,16 @@ classDiagram
     }
         
     class SurveyQuestion{
+        +SurveyQuestionID
         +QuestionType Question
         +AnswerType Answer
+    }
+
+    class QuestionType{
+        Render(int, int) 
+    }
+    class AnswerType{
+        Render(int, int) 
     }
     Survey --> SurveyQuestion
     SurveyQuestion --> QuestionType
