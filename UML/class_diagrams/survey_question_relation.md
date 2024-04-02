@@ -21,11 +21,18 @@ classDiagram
     class AnswerType{
         Render(int, int) 
     }
-    Survey --> SurveyQuestion
-    SurveyQuestion --> QuestionType
+    class QuestionVideo
+    style QuestionVideo fill:#bbb
+    class QuestionAudio
+    style QuestionAudio fill:#bbb
+    class AnswerOther
+    style AnswerOther fill: #bbb
+
+    Survey --> "*" SurveyQuestion
+    SurveyQuestion -->  QuestionType
     SurveyQuestion --> AnswerType
     QuestionType <|.. QuestionPicture
-    QuestionType <|.. QuestionVideo
+    QuestionType <|..  QuestionVideo 
     QuestionType <|.. QuestionText
     QuestionType <|.. QuestionAudio
     AnswerType <|.. AnswerMultipleChoice
