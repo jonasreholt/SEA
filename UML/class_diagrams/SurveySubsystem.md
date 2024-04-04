@@ -1,25 +1,38 @@
 ```mermaid
 classDiagram
     class Survey{
-        -List~Question~ questions
-        -int iD
-        +GetId()
-        +AddQuestion(int, SurveyQustion)
-        +RemoveQuestion(int)
-        +GetQuestion(int)
+        - static nextSurveyID [get;]
+        - List~Question~ questions
+        SurveyID [get;]
+        AddQuestion(int, SurveyQustion)
+        RemoveQuestion(int)
+        GetQuestion(int)
+        CopySurvey()
     }
         
     class SurveyQuestion{
-        +SurveyQuestionID
-        +QuestionType Question
-        +AnswerType Answer
+        - static nextQustionID [get;]
+        SurveyQuestionID [get;]
+        - QuestionType question
+        - AnswerType answer
+        SetQuestion()
+        GetQuestion()
+        DelteQuestion()
+        DeleteSurveyQuestion()
+        SetAnswer()
+        GetAnswer()
+        DeleteAnswer()
     }
 
     class QuestionType{
-        Render(int, int) 
+        SetQuestion()
+        GetQustion()
+        Render() 
     }
     class AnswerType{
-        Render(int, int) 
+        SetAnswer()
+        GetAnswer()
+        Render() 
     }
     class QuestionVideo
     style QuestionVideo fill:#bbb
