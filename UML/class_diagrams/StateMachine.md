@@ -3,7 +3,7 @@ classDiagram
 
     class StateMachine{
         -activeState
-        SwitchState()
+        -SwitchState()
     }
 
     class IEventProcessor{
@@ -12,7 +12,7 @@ classDiagram
     class IStateInterface{
         -mediator
         static GetInstance()
-        ProcessEvent()
+        ProcessUIEvent()
         RenderState()
     }
     class Mediator{

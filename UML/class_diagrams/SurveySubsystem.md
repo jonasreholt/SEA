@@ -42,8 +42,8 @@ classDiagram
     style AnswerOther fill: #bbb
 
     Survey --> "*" SurveyQuestion
-    SurveyQuestion -->  QuestionType
-    SurveyQuestion --> AnswerType
+    SurveyQuestion o--  QuestionType
+    SurveyQuestion *.. AnswerType
     QuestionType <|.. QuestionPicture
     QuestionType <|..  QuestionVideo 
     QuestionType <|.. QuestionText
