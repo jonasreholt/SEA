@@ -2,6 +2,7 @@
 classDiagram
 
     class StateMachine{
+        -activeState
         SwitchState()
     }
 
@@ -9,16 +10,16 @@ classDiagram
         ProcessEvent()
     }
     class IStateInterface{
+        -mediator
         static GetInstance()
         ProcessEvent()
-        ProcessUIEvent()
         RenderState()
-        ?HandleKeyEvent()
     }
     class Mediator{
         RegisterEvent()
         Subscribe()
     }
+
     IStateInterface     ..* StateMachine
     IStateInterface     <|.. MainMenu
     IStateInterface     <|.. SuperUserMenu
