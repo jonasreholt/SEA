@@ -26,11 +26,12 @@ classDiagram
     IStateInterface     <|.. ModifySurvey
     IStateInterface     <|.. ExperimenterMenu
     IStateInterface     <|.. RunExperiment
-    Mediator            <--     MainMenu           
-    Mediator            <--     SuperUserMenu       
-    Mediator            <--     ModifySurvey        
-    Mediator            <--     ExperimenterMenu    
-    Mediator            <--     RunExperiment       
+    Mediator            <..     MainMenu           
+    Mediator            <..     SuperUserMenu       
+    Mediator            <..     ModifySurvey        
+    Mediator            <..     ExperimenterMenu    
+    Mediator            <..     RunExperiment 
+    StateMachine        ..>     Mediator
     Mediator *.. IEventProcessor
     IEventProcessor     <|.. MainMenu
     IEventProcessor     <|.. SuperUserMenu
