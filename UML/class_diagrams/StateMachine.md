@@ -2,23 +2,24 @@
 classDiagram
 
     class StateMachine{
-        SwitchState()
+        -activeState
+        -SwitchState()
     }
 
     class IEventProcessor{
         ProcessEvent()
     }
     class IStateInterface{
+        -mediator
         static GetInstance()
-        ProcessEvent()
         ProcessUIEvent()
         RenderState()
-        ?HandleKeyEvent()
     }
     class Mediator{
         RegisterEvent()
         Subscribe()
     }
+
     IStateInterface     ..* StateMachine
     IStateInterface     <|.. MainMenu
     IStateInterface     <|.. SuperUserMenu
@@ -29,7 +30,8 @@ classDiagram
     Mediator            <--     SuperUserMenu       
     Mediator            <--     ModifySurvey        
     Mediator            <--     ExperimenterMenu    
-    Mediator            <--     RunExperiment       
+    Mediator            <--     RunExperiment
+    StateMachine        -->     Mediator    
     Mediator *.. IEventProcessor
     IEventProcessor     <|.. MainMenu
     IEventProcessor     <|.. SuperUserMenu
