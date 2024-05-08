@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Windows.Input;
 using ReactiveUI;
 using scivu.Models;
+using scivu.Views;
 
 namespace scivu.ViewModels;
 
@@ -10,20 +11,17 @@ public class MainWindowViewModel : ViewModelBase
 {
     private ViewModelBase _contentViewModel;
 
-    private readonly MainMenuViewModel _mainMenu;
-
     public SurveyViewModel Surveys { get; }
 
     public ReactiveCommand<string, Unit> Change { get; }
-    
+
     public MainWindowViewModel()
     {
         Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
-        
-        _mainMenu = new MainMenuViewModel(ChangeViewTo);
 
-        _contentViewModel = _mainMenu;
+
+        _contentViewModel = new MainMenuViewModel(ChangeViewTo);
     }
 
     public ViewModelBase ContentViewModel
@@ -43,10 +41,10 @@ public class MainWindowViewModel : ViewModelBase
                 ContentViewModel = new SurveyTakeViewModel();
                 break;
             case "ExperimenterMenu" when arg is IReadSurvey survey:
-                throw new NotImplementedException("Changing to experimenter menu");
+                ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
-                ContentViewModel = _mainMenu;
+                ContentViewModel = new MainMenuViewModel(ChangeViewTo);
                 break;
             case "SuperUserMenu":
                 throw new NotImplementedException("Changing to super user menu");
