@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using ReactiveUI;
 using scivu.Models;
@@ -82,33 +84,39 @@ public class MainMenuViewModel : ViewModelBase
         // Need to raise that fields under IsLogin has changed!
         this.RaisePropertyChanged(nameof(IsLogin));
     }
-
-    public async void DoLogin()
+    
+    public void DoLogin()
     {
-        if (string.IsNullOrWhiteSpace(Password))
-        {
-            IsFirstTry = false;
-            return;
-        }
+        if (IsSuperLogin) DoSuperUserLogin();
+        else DoExperimenterLogin();
+    }
 
-        var trySuperUser = Username != null;
-        var result = false;
-        var survey = default(IReadSurvey?);
-        if (trySuperUser)
-        {
-            result = await _loginManager.Login(Username!, Password);
-        }
-        else if (Int32.TryParse(Password, out var pin))
-        {
-            (result, survey) = await _loginManager.GetSurvey(pin);
-        }
+    private async void DoSuperUserLogin()
+    {
+        Debug.Assert(IsSuperLogin);
 
+        var result = await _loginManager.Login(Username, Password);
         if (result)
         {
-            // do the login thingy somehow
-            if (trySuperUser) _changeViewCommand.Invoke("SuperUserMenu", null);
-            else  _changeViewCommand.Invoke("ExperimenterMenu", survey!);
+            _changeViewCommand.Invoke("SuperUserMenu", null!);
             return;
+        }
+
+        IsFirstTry = false;
+    }
+
+    private async void DoExperimenterLogin()
+    {
+        Debug.Assert(IsExperimenterLogin);
+
+        if (Int32.TryParse(Password, out var pin))
+        {
+            var (result, survey) = await _loginManager.GetSurvey(pin);
+            if (result)
+            {
+                _changeViewCommand.Invoke("ExperimenterMenu", survey!);
+                return;
+            }
         }
 
         IsFirstTry = false;
