@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using ReactiveUI;
+using scivu.Model;
 using scivu.Models;
 
 namespace scivu.ViewModels;
@@ -15,6 +16,8 @@ public class MainMenuViewModel : ViewModelBase
 
     private string? _username;
     private string? _password;
+
+    private string _errorMessage = string.Empty;
 
     private bool _isFirstTry;
     private bool _isExperimenterLogin;
@@ -36,6 +39,12 @@ public class MainMenuViewModel : ViewModelBase
     {
         get => _isLoginEnabled;
         set => this.RaiseAndSetIfChanged(ref _isLoginEnabled, value);
+    }
+
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        private set => this.RaiseAndSetIfChanged(ref _errorMessage, value);
     }
 
     public string? Username
@@ -96,6 +105,7 @@ public class MainMenuViewModel : ViewModelBase
 
         Username = null;
         Password = null;
+        ErrorMessage = string.Empty;
 
         // Need to raise that fields under IsLogin has changed!
         this.RaisePropertyChanged(nameof(IsLogin));
@@ -118,6 +128,8 @@ public class MainMenuViewModel : ViewModelBase
             return;
         }
 
+        ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_InvalidLogin);
+
         IsFirstTry = false;
     }
 
@@ -136,7 +148,8 @@ public class MainMenuViewModel : ViewModelBase
     {
         Debug.Assert(IsExperimenterLogin);
         return !string.IsNullOrWhiteSpace(Password)
-               && Password.Length == PinCodeLength;
+               && Password.Length == PinCodeLength
+               && Int32.TryParse(Password, out _);
     }
 
     private async void DoExperimenterLogin()
@@ -151,6 +164,8 @@ public class MainMenuViewModel : ViewModelBase
                 _changeViewCommand.Invoke("ExperimenterMenu", survey!);
                 return;
             }
+
+            ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_PinCodeNotFound);
         }
 
         IsFirstTry = false;
@@ -168,6 +183,6 @@ public class LoginMock : ILoginManager
 
     public async Task<bool> Login(string usrname, string password)
     {
-        return true;
+        return usrname == "jonas" && password == "erKongen";
     }
 }

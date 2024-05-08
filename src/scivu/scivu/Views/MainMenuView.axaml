@@ -28,10 +28,9 @@
         </Button>
 
         <!-- Tell them they can't remember anything -->
-        <TextBlock IsVisible="{Binding !IsFirstTry}"
-                   Foreground="Firebrick">
-            Try again
-        </TextBlock>
+        <TextBlock IsVisible="{Binding IsLogin}"
+                   Foreground="Firebrick"
+                   Text="{Binding ErrorMessage}"/>
 
         <!-- Super user login -->
         <Grid IsVisible="{Binding IsSuperLogin}"
@@ -65,7 +64,8 @@
             </TextBlock>
             <TextBox Grid.Row="0" Grid.Column="2"
                      PasswordChar="*"
-                     Text="{Binding Password, Mode=TwoWay}"/>
+                     Text="{Binding Password, Mode=TwoWay}"
+                     Watermark="6 digit code"/>
         </Grid>
 
         <!-- Buttons for login pages -->
