@@ -18,7 +18,7 @@
             </Button.CommandParameter>
             Super User Login
         </Button>
-        
+
         <Button IsVisible="{Binding !IsLogin}"
                 Command="{Binding GoToLogin}">
             <Button.CommandParameter>
@@ -26,43 +26,56 @@
             </Button.CommandParameter>
             Experimenter Login
         </Button>
-        
+
         <!-- Tell them they can't remember anything -->
         <TextBlock IsVisible="{Binding !IsFirstTry}"
                    Foreground="Firebrick">
             Try again
         </TextBlock>
-        
+
         <!-- Super user login -->
         <Grid IsVisible="{Binding IsSuperLogin}"
-              ColumnDefinitions="*,4*"
-              RowDefinitions="*,*">
-            <TextBlock Grid.Row="0" Grid.Column="0">User name</TextBlock>
-            <TextBox Grid.Row="0" Grid.Column="1"
+              ColumnDefinitions="*,10,4*"
+              RowDefinitions="*,*"> <!-- a middle column for spacing -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                User name
+            </TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="2"
                      Text="{Binding Username, Mode=TwoWay}"/>
-            
-            <TextBlock Grid.Row="1" Grid.Column="0">Password</TextBlock>
-            <TextBox Grid.Row="1" Grid.Column="1"
-                     PasswordChar="*" 
-                     Text="{Binding Password, Mode=TwoWay}"/>
-        </Grid>
-        
-        <!-- Experimenter login -->
-        <Grid IsVisible="{Binding IsExperimenterLogin}"
-              ColumnDefinitions="*,4*">
-            <TextBlock Grid.Row="0" Grid.Column="0">PIN</TextBlock>
-            <TextBox Grid.Row="0" Grid.Column="1"
+
+            <TextBlock Grid.Row="1" Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                Password
+            </TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="2"
                      PasswordChar="*"
                      Text="{Binding Password, Mode=TwoWay}"/>
         </Grid>
-        
+
+        <!-- Experimenter login -->
+        <Grid IsVisible="{Binding IsExperimenterLogin}"
+              ColumnDefinitions="*,10,4*"> <!-- a middle column for spacing -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                PIN
+            </TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="2"
+                     PasswordChar="*"
+                     Text="{Binding Password, Mode=TwoWay}"/>
+        </Grid>
+
         <!-- Buttons for login pages -->
         <WrapPanel IsVisible="{Binding IsLogin}">
             <Button Command="{Binding GoBackToMenu}">
                 Cancel
             </Button>
-            
-            <Button Command="{Binding DoLogin}">
+
+            <Button Command="{Binding DoLogin}"
+                    IsEnabled="{Binding IsLoginEnabled}">
                 Login
             </Button>
         </WrapPanel>

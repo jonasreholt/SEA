@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="scivu/App.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/AurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/LoginMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/LoginView.axaml" value="scivu/scivu.csproj" />

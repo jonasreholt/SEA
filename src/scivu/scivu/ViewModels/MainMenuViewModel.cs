@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using ReactiveUI;
 using scivu.Models;
@@ -9,6 +8,8 @@ namespace scivu.ViewModels;
 
 public class MainMenuViewModel : ViewModelBase
 {
+    private const int PinCodeLength = 6;
+
     private readonly ILoginManager _loginManager;
     private readonly Action<string, object> _changeViewCommand;
 
@@ -19,6 +20,7 @@ public class MainMenuViewModel : ViewModelBase
     private bool _isExperimenterLogin;
     private bool _isSuperLogin;
 
+    private bool _isLoginEnabled;
 
     public MainMenuViewModel(Action<string, object> changeViewCommand)
     {
@@ -30,16 +32,30 @@ public class MainMenuViewModel : ViewModelBase
         _changeViewCommand = changeViewCommand;
     }
 
+    public bool IsLoginEnabled
+    {
+        get => _isLoginEnabled;
+        set => this.RaiseAndSetIfChanged(ref _isLoginEnabled, value);
+    }
+
     public string? Username
     {
         get => _username;
-        set => this.RaiseAndSetIfChanged(ref _username, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _username, value);
+            IsLoginEnabled = EnableLoginButton();
+        }
     }
 
     public string? Password
     {
         get => _password;
-        set => this.RaiseAndSetIfChanged(ref _password, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _password, value);
+            IsLoginEnabled = EnableLoginButton();
+        }
     }
 
     public bool IsFirstTry
@@ -103,6 +119,24 @@ public class MainMenuViewModel : ViewModelBase
         }
 
         IsFirstTry = false;
+    }
+
+    private bool EnableLoginButton() => IsSuperLogin
+        ? EnableSuperUserLogin()
+        : IsExperimenterLogin && EnableExperimenterLogin();
+
+    private bool EnableSuperUserLogin()
+    {
+        Debug.Assert(IsSuperLogin);
+        return !string.IsNullOrWhiteSpace(Username)
+               && !string.IsNullOrWhiteSpace(Password);
+    }
+
+    private bool EnableExperimenterLogin()
+    {
+        Debug.Assert(IsExperimenterLogin);
+        return !string.IsNullOrWhiteSpace(Password)
+               && Password.Length == PinCodeLength;
     }
 
     private async void DoExperimenterLogin()
