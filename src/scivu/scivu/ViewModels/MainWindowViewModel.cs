@@ -48,6 +48,8 @@ public class MainWindowViewModel : ViewModelBase
             case "LoginMenu":
                 ContentViewModel = _loginMenu;
                 break;
+            case "SuperUserMenu":
+                throw new NotImplementedException("Changing to super user menu");
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");
         }

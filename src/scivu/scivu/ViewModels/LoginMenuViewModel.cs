@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive;
 using System.Threading.Tasks;
 using ReactiveUI;
 using scivu.Models;
@@ -107,7 +106,7 @@ public class LoginMenuViewModel : ViewModelBase
         if (result)
         {
             // do the login thingy somehow
-            if (trySuperUser) throw new NotImplementedException("Navigating to super user menu");
+            if (trySuperUser) _changeViewCommand.Invoke("SuperUserMenu", null);
             else  _changeViewCommand.Invoke("MainMenu", survey!);
             return;
         }
