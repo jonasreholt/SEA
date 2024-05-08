@@ -10,7 +10,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     private ViewModelBase _contentViewModel;
 
-    private readonly LoginMenuViewModel _loginMenu;
+    private readonly MainMenuViewModel _mainMenu;
 
     public SurveyViewModel Surveys { get; }
 
@@ -21,9 +21,9 @@ public class MainWindowViewModel : ViewModelBase
         Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
         
-        _loginMenu = new LoginMenuViewModel(ChangeViewTo);
+        _mainMenu = new MainMenuViewModel(ChangeViewTo);
 
-        _contentViewModel = _loginMenu;
+        _contentViewModel = _mainMenu;
     }
 
     public ViewModelBase ContentViewModel
@@ -42,11 +42,11 @@ public class MainWindowViewModel : ViewModelBase
             case "TakeSurvey":
                 ContentViewModel = new SurveyTakeViewModel();
                 break;
-            case "MainMenu" when arg is IReadSurvey survey:
-                ContentViewModel = new MainMenuViewModel(survey);
+            case "ExperimenterMenu" when arg is IReadSurvey survey:
+                throw new NotImplementedException("Changing to experimenter menu");
                 break;
-            case "LoginMenu":
-                ContentViewModel = _loginMenu;
+            case "MainMenu":
+                ContentViewModel = _mainMenu;
                 break;
             case "SuperUserMenu":
                 throw new NotImplementedException("Changing to super user menu");
