@@ -6,6 +6,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.ExperimenterMenuView"
              x:DataType="vm:ExperimenterMenuViewModel">
+
       <DockPanel >
       <!-- Maybe change to something else to avoid having "empty" columns  -->
       <Grid ColumnDefinitions="auto,50,auto,50,auto" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
@@ -24,23 +25,19 @@
       </Grid>
 
       <StackPanel HorizontalAlignment="Center" Spacing="25">
-                <TextBlock Text="Survey Name"
+                <TextBlock Text="{Binding SurveyName}"
                            FontSize="18"
                            FontWeight="Bold"
                            HorizontalAlignment="Center"/>
       <Grid ColumnDefinitions="*,20,*,20,*"
               RowDefinitions="*,20,*">
-              <TextBlock Grid.Row="0" Grid.Column="0">
-                Started Surveys
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding StartedSurveys, StringFormat='Started surveys: {0}'}">
               </TextBlock>
-              <TextBlock Grid.Row="0" Grid.Column="2">
-                Completed Surveys
+              <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FinishedSurveys, StringFormat='Completed surveys: {0}'}">
               </TextBlock>
-              <TextBlock Grid.Row="0" Grid.Column="4">
-                Average answer percenage
+              <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding CompletionRate, StringFormat='Completion rate: {0}%'}">
               </TextBlock>
-              <TextBlock Grid.Row="2" Grid.Column="0">
-                Placeholder
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding AverageCompletionRate, StringFormat='Average Completion rate: {0}%'}">
               </TextBlock>
               <TextBlock Grid.Row="2" Grid.Column="2">
                 Placeholder
