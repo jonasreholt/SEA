@@ -2,22 +2,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:scivu.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="scivu.Views.ExperimenterMenuView">
+             x:Class="scivu.Views.ExperimenterMenuView"
+             x:DataType="vm:ExperimenterMenuViewModel">
       <StackPanel>
-        <Button x:CompileBindings="False"
-                Command="{Binding $parent[Window].DataContext.Change}"
+        <Button Command="{Binding ChangeView}"
                 CommandParameter="MainMenu">
             Go back
         </Button>
 
-        <Button x:CompileBindings="False"
-                Command="{Binding $parent[Window].DataContext.Change}"
+        <Button Command="{Binding ChangeView}"
                 CommandParameter="StartSurvey">
             Start Survey
         </Button>
-                <Button x:CompileBindings="False"
-                Command="{Binding $parent[Window].DataContext.Change}"
+        <Button Command="{Binding ChangeView}"
                 CommandParameter="ExportData">
             Export Data
         </Button>

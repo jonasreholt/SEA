@@ -41,7 +41,7 @@ public class MainWindowViewModel : ViewModelBase
                 ContentViewModel = new SurveyTakeViewModel();
                 break;
             case "ExperimenterMenu" when arg is IReadSurvey survey:
-                ContentViewModel = new ExperimenterMenuViewModel(survey);
+                ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo);
