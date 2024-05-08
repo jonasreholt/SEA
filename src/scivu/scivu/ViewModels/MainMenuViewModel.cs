@@ -14,12 +14,12 @@ public class MainMenuViewModel : ViewModelBase
 
     private string? _username;
     private string? _password;
-    
+
     private bool _isFirstTry;
     private bool _isExperimenterLogin;
     private bool _isSuperLogin;
-    
-    
+
+
     public MainMenuViewModel(Action<string, object> changeViewCommand)
     {
         _isFirstTry = true;
@@ -67,7 +67,7 @@ public class MainMenuViewModel : ViewModelBase
         if (isSuperUser) IsSuperLogin = true;
         else IsExperimenterLogin = true;
         IsFirstTry = true;
-        
+
         // Need to raise that fields under IsLogin has changed!
         this.RaisePropertyChanged(nameof(IsLogin));
     }
@@ -80,11 +80,11 @@ public class MainMenuViewModel : ViewModelBase
 
         Username = null;
         Password = null;
-        
+
         // Need to raise that fields under IsLogin has changed!
         this.RaisePropertyChanged(nameof(IsLogin));
     }
-    
+
     public void DoLogin()
     {
         if (IsSuperLogin) DoSuperUserLogin();
