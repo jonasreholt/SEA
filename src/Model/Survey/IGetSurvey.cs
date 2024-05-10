@@ -1,13 +1,10 @@
 namespace FrontEndAPI;
+using Question;
 
 public interface IGetSurvey {
     IGetQuestion GetNextQuestion {get;}
-    
-    IGetQuestion GetQuestionA {get;}
-    
+    IGetQuestion GetQuestionA {get;}    
     IGetQuestion GetQuestionB {get;}
-
     IGetAnswer GetAnswer {get;}
-    
     IGetQuestion GetPreviousQuestion {get;}
 }
