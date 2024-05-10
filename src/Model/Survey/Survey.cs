@@ -3,7 +3,7 @@ namespace Survey;
 using Question;
 using Answer;
 
-public class Survey : IGetSurvey, IModifySurvey {
+// public class Survey : IGetSurvey, IModifySurvey {
 //     private int surveyID;
 //     private Question[] surveyQuestions[];
 //     public IGetQuestion GetNextQuestion {get;}
@@ -25,4 +25,4 @@ public class Survey : IGetSurvey, IModifySurvey {
 
 
 //     }
-}
+// }

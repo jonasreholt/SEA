@@ -1,5 +1,6 @@
-namespace FrontEndAPI;
+namespace Survey;
 using Question;
+using Answer;
 
 public interface IGetSurvey {
     IGetQuestion GetNextQuestion {get;}
