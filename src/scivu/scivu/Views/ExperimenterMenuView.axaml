@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:scivu.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.ExperimenterMenuView"
+             x:DataType="vm:ExperimenterMenuViewModel">
+
+      <DockPanel >
+      <!-- Maybe change to something else to avoid having "empty" columns  -->
+      <Grid ColumnDefinitions="auto,50,auto,50,auto" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+        <Button Grid.Column="0" Margin="10"  Command="{Binding ChangeView}"
+                CommandParameter="MainMenu">
+            Go back
+        </Button>
+        <Button Grid.Column="2" Margin="10" Command="{Binding ChangeView}"
+                CommandParameter="StartSurvey">
+            Start Survey
+        </Button>
+        <Button Grid.Column="4" Margin="10" Command="{Binding ChangeView}"
+                CommandParameter="ExportData">
+            Export Data
+        </Button>
+      </Grid>
+
+      <StackPanel HorizontalAlignment="Center" Spacing="25">
+                <TextBlock Text="{Binding SurveyName}"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"/>
+      <Grid ColumnDefinitions="*,20,*,20,*"
+              RowDefinitions="*,20,*">
+              <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding StartedSurveys, StringFormat='Started surveys: {0}'}">
+              </TextBlock>
+              <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding FinishedSurveys, StringFormat='Completed surveys: {0}'}">
+              </TextBlock>
+              <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding CompletionRate, StringFormat='Completion rate: {0}%'}">
+              </TextBlock>
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding AverageCompletionRate, StringFormat='Average Completion rate: {0}%'}">
+              </TextBlock>
+              <TextBlock Grid.Row="2" Grid.Column="2">
+                Placeholder
+              </TextBlock>
+              <TextBlock Grid.Row="2" Grid.Column="4">
+                Placeholder
+              </TextBlock>
+      </Grid>
+
+
+
+    </StackPanel>
+    </DockPanel>
+</UserControl>

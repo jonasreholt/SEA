@@ -1,16 +1,70 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:scivu.ViewModels"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="scivu.Views.MainMenuView">
-    <StackPanel>
-        <Button x:CompileBindings="False"
-                Command="{Binding $parent[Window].DataContext.Change}"
-                CommandParameter="TakeSurvey">
-            Start survey
+             x:Class="scivu.Views.MainMenuView"
+             x:DataType="vm:MainMenuViewModel">
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25">
+        <!-- Actual menu items -->
+        <Button IsVisible="{Binding !IsLogin}"
+                Command="{Binding GoToLogin}">
+            <Button.CommandParameter>
+                <sys:Boolean>true</sys:Boolean>
+            </Button.CommandParameter>
+            Super User Login
         </Button>
+        
+        <Button IsVisible="{Binding !IsLogin}"
+                Command="{Binding GoToLogin}">
+            <Button.CommandParameter>
+                <sys:Boolean>false</sys:Boolean>
+            </Button.CommandParameter>
+            Experimenter Login
+        </Button>
+        
+        <!-- Tell them they can't remember anything -->
+        <TextBlock IsVisible="{Binding !IsFirstTry}"
+                   Foreground="Firebrick">
+            Try again
+        </TextBlock>
+        
+        <!-- Super user login -->
+        <Grid IsVisible="{Binding IsSuperLogin}"
+              ColumnDefinitions="*,4*"
+              RowDefinitions="*,*">
+            <TextBlock Grid.Row="0" Grid.Column="0">User name</TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     Text="{Binding Username, Mode=TwoWay}"/>
+            
+            <TextBlock Grid.Row="1" Grid.Column="0">Password</TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="1"
+                     PasswordChar="*" 
+                     Text="{Binding Password, Mode=TwoWay}"/>
+        </Grid>
+        
+        <!-- Experimenter login -->
+        <Grid IsVisible="{Binding IsExperimenterLogin}"
+              ColumnDefinitions="*,4*">
+            <TextBlock Grid.Row="0" Grid.Column="0">PIN</TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1"
+                     PasswordChar="*"
+                     Text="{Binding Password, Mode=TwoWay}"/>
+        </Grid>
+        
+        <!-- Buttons for login pages -->
+        <WrapPanel IsVisible="{Binding IsLogin}">
+            <Button Command="{Binding GoBackToMenu}">
+                Cancel
+            </Button>
+            
+            <Button Command="{Binding DoLogin}">
+                Login
+            </Button>
+        </WrapPanel>
     </StackPanel>
 </UserControl>
