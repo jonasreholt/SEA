@@ -3,9 +3,8 @@ namespace Question;
 using System.Drawing;
 
 public interface IModifyQuestion {
-QuestionType SetType {set;}
-string SetCaption {set;}
-Image SetPicture {set;}
-string SetText {set;}
-
+    void SetType(QuestionType questionType);
+    // string SetCaption
+    // Image SetPicture
+    void SetText(string questionText);
 }

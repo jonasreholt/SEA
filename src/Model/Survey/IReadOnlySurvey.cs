@@ -1,12 +1,12 @@
-namespace FrontEndAPI;
+namespace Survey;
 
 using Question;
 using Answer;
 
 public interface IReadOnlySurvey {
-    IReadOnlyQuestion TryGetNextReadOnlyQuestion();
+    IReadOnlyQuestion? TryGetNextReadOnlyQuestion(QuestionVersion questionVersion);
 
-    IReadOnlyQuestion TryGetPreviousReadOnlyQuestion();
+    IReadOnlyQuestion? TryGetPreviousReadOnlyQuestion(QuestionVersion questionVersion);
 
     IReadOnlyQuestion ReadOnlyQuestionA {get;}
 

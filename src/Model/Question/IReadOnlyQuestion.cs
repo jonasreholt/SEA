@@ -1,11 +1,11 @@
 namespace Question;
 
-using System.Drawing;
+//using System.Drawing;
 
 public interface IReadOnlyQuestion {
-int GetId {get;}
-QuestionType GetType {get;}
-string GetCaption {get;}
-Image GetPicture {get;}
-string GetText {get;}
+    int GetId();
+    QuestionType GetType();
+    //string GetCaption {get;}
+    //Image GetPicture {get;}
+    string GetText();
 }
