@@ -43,6 +43,20 @@
     * SetAnswerTyp 
     * AddAnswerOption
     * RemoveAnswerOption(int)
+
+* IClientRequests
+    * ValidateSuperUser()
+    * GetSurvey(SurveyId)
+    * ModifySurvey(SurveyId) # Possibly (SuperUserId, SurveyId)?
+    * StoreSurveyInDatabase(IModifySurvey)
+    * StoreResultFromQuestion(surveyID, questionsID, UserID, Result)
+    * ExportSurveyFromDatabase(Surveyid) 
+    * ImportSurvey(FilePath)
+    * ExportResults(SurveyId)
+
+%Todo:
+* Statistics for results
+
 ## Database API: Prioritet 2
 * GetNextSurveyID()
 * StoreSurvey(Survey)
