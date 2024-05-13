@@ -4,16 +4,13 @@ using Question;
 using Answer;
 
 
-public class Survey : IReadOnlySurvey, IModifySurvey{
-    public IReadOnlyQuestion ReadOnlyNextQuestion {get;}
-
+public class Survey : IReadOnlySurvey, IModifySurvey {
     public IReadOnlyQuestion ReadOnlyQuestionA {get;}
     
     public IReadOnlyQuestion ReadOnlyQuestionB {get;}
 
-    public IReadOnlyAnswer ReadOnlyAnswerAnswer {get;}
+    public IReadOnlyAnswer ReadOnlyAnswer {get;}
     
-    public IReadOnlyQuestion ReadOnlyPreviousQuestion {get;}
 
     //Go to previous question, when modifying questions.
     // public IModifyQuestion SetGoToPreviousQuestion {get; set;}    
@@ -33,19 +30,45 @@ public class Survey : IReadOnlySurvey, IModifySurvey{
         if(current < (surveyQuestions.Count() - 1)) { 
             current ++;
             return surveyQuestions[current];
-        } else 
+        } else{
             current = surveyQuestions.Count();
             return null;
+            
     }
 
     public IModifyQuestion TryGetNextModifyQuestion() {
         if(current < (surveyQuestions.Count() - 1)) { 
             current ++;
             return surveyQuestions[current];
-        } else 
+        } else{
             current = surveyQuestions.Count();
             return null;
+        }
     }
 
-    public IModifyQuestion CreateQuestion()
+    public IReadOnlyQuestion TryGetPreviousReadOnlyQuestion() {
+        if (current > 0) { 
+            current --;
+            return surveyQuestions[current];
+        } else {
+            current = 0;
+            return null; 
+        }   
+    }
+
+    public IModifyQuestion TryGetPreviousModifyQuestion() {
+        if (current > 0) { 
+            current --;
+            return surveyQuestions[current];
+        } 
+        else {
+            current = -1;
+            return null;    
+        }
+    }
+    
+    public IModifyQuestion CreateQuestion(){
+        
+    }
+
 }

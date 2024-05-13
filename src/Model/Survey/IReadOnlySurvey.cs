@@ -6,11 +6,11 @@ using Answer;
 public interface IReadOnlySurvey {
     IReadOnlyQuestion TryGetNextReadOnlyQuestion();
 
-    IReadOnlyQuestion GetQuestionA {get;}
+    IReadOnlyQuestion TryGetPreviousReadOnlyQuestion();
 
-    IReadOnlyQuestion GetQuestionB {get;}
+    IReadOnlyQuestion ReadOnlyQuestionA {get;}
 
-    IReadOnlyAnswer GetAnswer {get;}
+    IReadOnlyQuestion ReadOnlyQuestionB {get;}
 
-    IReadOnlyQuestion GetPreviousQuestion {get;}
+    IReadOnlyAnswer ReadOnlyAnswer {get;}
 }
