@@ -1,5 +1,7 @@
-namespace FrontEndAPI
-{
+namespace FrontEndAPI;
+
+using Question;
+using Answer;
     public interface IGetSurvey {
         IGetQuestion GetNextQuestion {get;}
     
@@ -11,4 +13,3 @@ namespace FrontEndAPI
     
         IGetQuestion GetPreviousQuestion {get;}
     }
-}
