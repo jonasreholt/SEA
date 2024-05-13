@@ -2,7 +2,7 @@ namespace Question;
 
 using System.Drawing;
 
-public interface IGetQuestion {
+public interface IReadOnlyQuestion {
 int GetId {get;}
 QuestionType GetType {get;}
 string GetCaption {get;}

@@ -5,18 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Survey;
+using Result;
 
 namespace Backend.FrontEndAPI;
 public interface IClientRequest {
     bool ValidateSuperUser();
 
-    IGetSurvey GetSurvey(int surveyId);
+    IReadOnlySurvey GetSurvey(int surveyId);
 
     void ModifySurvey(int durveyId); // Possibly (SuperUserId, SurveyId)?
 
     void StoreSurveyInDatabase(Survey.IModifySurvey survey);
 
-    void StoreResultFromQuestion(int surveyID, int questionsID, int userID, IAnswer answer);
+    void StoreResultFromQuestion(int surveyID, int questionsID, int userID, IResult answer);
 
     void ExportSurveyFromDatabase(int surveyId);
 
