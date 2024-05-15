@@ -1,4 +1,4 @@
-namespace tests;
+namespace Tests.Frontend;
 
 public class FrontEndTests
 {
