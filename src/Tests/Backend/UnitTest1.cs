@@ -1,6 +1,6 @@
 namespace tests;
 
-public class Tests
+public class BackendTests
 {
     [SetUp]
     public void Setup()
