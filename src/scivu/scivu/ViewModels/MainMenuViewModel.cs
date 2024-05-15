@@ -128,7 +128,7 @@ public class LoginMock : ILoginManager
     public async Task<(bool, IReadSurvey?)> GetSurvey(int pin)
     {
         return pin == 123
-            ? (true, new Survey())
+            ? (true, new scivu.Models.Survey())
             : (false, null);
     }
 
