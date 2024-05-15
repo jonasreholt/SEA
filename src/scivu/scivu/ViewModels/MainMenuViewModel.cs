@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using ReactiveUI;
 using scivu.Model;
-using scivu.Models;
+using FrontEndAPI;
 
 namespace scivu.ViewModels;
 
@@ -11,7 +10,6 @@ public class MainMenuViewModel : ViewModelBase
 {
     private const int PinCodeLength = 6;
 
-    private readonly ILoginManager _loginManager;
     private readonly Action<string, object> _changeViewCommand;
 
     private string? _username;
@@ -31,7 +29,6 @@ public class MainMenuViewModel : ViewModelBase
         _isExperimenterLogin = false;
         _isSuperLogin = false;
 
-        _loginManager = new LoginMock();
         _changeViewCommand = changeViewCommand;
     }
 
@@ -121,7 +118,7 @@ public class MainMenuViewModel : ViewModelBase
     {
         Debug.Assert(IsSuperLogin);
 
-        var result = await _loginManager.Login(Username, Password);
+        var result = FrontEndMainMenu.ValidateSuperUser(Username!, Password!);
         if (result)
         {
             _changeViewCommand.Invoke("SuperUserMenu", null!);
@@ -158,8 +155,8 @@ public class MainMenuViewModel : ViewModelBase
 
         if (Int32.TryParse(Password, out var pin))
         {
-            var (result, survey) = await _loginManager.GetSurvey(pin);
-            if (result)
+            var survey = FrontEndMainMenu.GetSurvey(pin);
+            if (survey != null)
             {
                 _changeViewCommand.Invoke("ExperimenterMenu", survey!);
                 return;
@@ -169,20 +166,5 @@ public class MainMenuViewModel : ViewModelBase
         }
 
         IsFirstTry = false;
-    }
-}
-
-public class LoginMock : ILoginManager
-{
-    public async Task<(bool, IReadSurvey?)> GetSurvey(int pin)
-    {
-        return pin == 123
-            ? (true, new scivu.Models.Survey())
-            : (false, null);
-    }
-
-    public async Task<bool> Login(string usrname, string password)
-    {
-        return usrname == "jonas" && password == "erKongen";
     }
 }

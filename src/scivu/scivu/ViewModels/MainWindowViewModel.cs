@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Reactive;
-using System.Windows.Input;
 using ReactiveUI;
-using scivu.Models;
-using scivu.Views;
+using FrontEndAPI;
 
 namespace scivu.ViewModels;
 
@@ -40,7 +38,7 @@ public class MainWindowViewModel : ViewModelBase
             case "TakeSurvey":
                 ContentViewModel = new SurveyTakeViewModel();
                 break;
-            case "ExperimenterMenu" when arg is IReadSurvey survey:
+            case "ExperimenterMenu" when arg is IGetSurvey survey:
                 ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
