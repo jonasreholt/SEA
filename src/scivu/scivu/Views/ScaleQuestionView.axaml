@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:scivu.ViewModels"
+             xmlns:views="clr-namespace:scivu.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.ScaleQuestionView"
              x:DataType="vm:ScaleQuestionViewModel">
@@ -16,15 +17,24 @@
                 </Panel>
             </Panel>
         </Border>
+
         <TextBlock HorizontalAlignment="Center" Text="{Binding Text}" />
 
         <!-- Add the toggle button using RadioButton -->
-        <ListBox ItemsSource="{Binding Buttons}">
-            <ListBox.ItemsPanel>
+        <ItemsControl Margin="0 10 0 0"
+                      ItemsSource="{Binding Buttons}"
+                      HorizontalAlignment="Center">
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ScaleView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>
