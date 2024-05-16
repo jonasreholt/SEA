@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.ScaleQuestionView"
              x:DataType="vm:ScaleQuestionViewModel">
-    <StackPanel Spacing="5" Width="200">
+    <StackPanel Spacing="5" Width="300">
         <TextBlock HorizontalAlignment="Center" Text="{Binding Caption}" />
         <Border CornerRadius="10" ClipToBounds="True">
             <Panel Background="#7FFF22DD">
@@ -15,23 +15,29 @@
             </Panel>
         </Border>
 
-        <TextBlock HorizontalAlignment="Center" Text="{Binding Text}" />
+        <Grid ColumnDefinitions="*,*">
+            <TextBlock VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Margin="0 0 0 7"
+                       Text="{Binding Text}"
+                       Grid.Column="0" />
 
-        <!-- Add the toggle button using RadioButton -->
-        <ItemsControl Margin="0 10 0 0"
-                      ItemsSource="{Binding Buttons}"
-                      HorizontalAlignment="Center">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <!-- Add the toggle button using RadioButton -->
+            <ItemsControl Margin="0 0 0 0"
+                          ItemsSource="{Binding Buttons}"
+                          Grid.Column="1">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <views:ScaleView />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:ScaleView />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
     </StackPanel>
 </UserControl>
