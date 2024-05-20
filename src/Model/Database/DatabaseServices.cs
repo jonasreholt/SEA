@@ -5,6 +5,8 @@ using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
 public class DatabaseServices {
 
+
+    private string databaseFolder = "./surveyDatabase/";
     private string SurveyDatabasePath = "./surveyDatabase.json";
     public DatabaseServices() {
         if (!File.Exists(SurveyDatabasePath)) {

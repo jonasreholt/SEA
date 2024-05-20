@@ -4,8 +4,11 @@ using Model.Question;
 using Model.Answer;
 
 public interface IReadOnlySurvey {
-    IEnumerable<IReadOnlyQuestion> TryGetReadOnlyNextReadOnlyQuestion();
 
-    IEnumerable<IReadOnlyQuestion> TryGetReadOnlyReadOnlyQuestion();
+    int SurveyId {get;}
+    string SurveyName {get;}
+    IEnumerable<IReadOnlyQuestion> TryGetNextReadOnlyQuestion();
+
+    IEnumerable<IReadOnlyQuestion> TryGetPreviousReadOnlyQuestion();
 
 }

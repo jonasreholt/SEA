@@ -2,11 +2,11 @@
 
 public interface IResult
 {
-    ResultType ResultType {get;}
+    AnswerType AnswerType {get;}
     string QuestionResult {get; set;}
-    int userId {get;}
-    int questionId {get;}
-    int surveyId {get;}
+    int UserId {get;}
+    int QuestionId {get;}
+    int SurveyId {get;}
 }
 
 //     void StoreResultFromQuestion(int surveyID, int questionsID, int userID, Result result);

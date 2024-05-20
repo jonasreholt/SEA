@@ -27,7 +27,6 @@ public class Question : IReadOnlyQuestion, IModifyQuestion {
     public string ModifyCaption { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyPicture { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyText { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    // public Answer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IModifyAnswer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public Question(int id, QuestionType type, string questionText) {
@@ -45,11 +44,4 @@ public class Question : IReadOnlyQuestion, IModifyQuestion {
 
     public void SetText(string questionText) { questionText = questionText; }
     
-    
-    
-    
-    // string SetText {set;}
-
-    // string GetCaption {get;}
-    // string GetText {get;}
 }

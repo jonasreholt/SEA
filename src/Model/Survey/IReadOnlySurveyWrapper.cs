@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public interface IReadOnlySurveyWrapper {
 
-    IReadOnlySurveyWrapper TryGetReadOnlySurveyWrapper(int surveyId); // <SurveyA,SurveyB>
+    IReadOnlySurveyWrapper TryGetReadOnlySurveyWrapper(int surveyId); // List<SurveyA,SurveyB>
 
     IReadOnlySurvey TryGetReadOnlySurveyVersion(int index); // Return survey index'
 

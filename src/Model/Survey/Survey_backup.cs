@@ -29,11 +29,11 @@
 //         this.surveyId = surveyId;
 //     }
 
-//     /// <summary>
-//     /// Tries to get version A or B of a question pair. Returns null if the last
-//     /// question has been reached.
-//     /// </summary>
-//     /// <param name="questionAorB">question A="QuestionA" and question B="QuestionB"</param>
+    /// <summary>
+    /// Tries to get version A or B of a question pair. Returns null if the last
+    /// question has been reached.
+    /// </summary>
+    /// <param name="questionAorB">question A="QuestionA" and question B="QuestionB"</param>
 //     public IReadOnlyQuestion? TryGetNextReadOnlyQuestion(QuestionVersion questionVersion) {
 //         if(current < (surveyQuestions.Count() - 1)) { 
 //             current++;

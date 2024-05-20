@@ -1,6 +1,7 @@
 namespace Model.Answer;
+using System.Collections.ObjectModel;
 
 public interface IReadOnlyAnswer {
-    AnswerType GetAnswerType {get;}
-    string?[] GetAnswers {get;}
+    AnswerType ReadOnlyAnswerType {get;}
+    ReadOnlyCollection<string> ReadOnlyAnswers {get;}
 }

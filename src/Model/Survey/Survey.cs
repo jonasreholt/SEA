@@ -1,5 +1,5 @@
-using System;
 namespace Model.Survey;
+using System;
 
 using Model.Question;
 using Model.Answer;
@@ -9,9 +9,14 @@ public class Survey : IReadOnlySurvey, IModifySurvey {
 
     public IReadOnlyAnswer ReadOnlyAnswer {get;}
     
-    public IModifyAnswer ModifyAnswer {get; set;}   
+    public IModifyAnswer ModifyAnswer {get; set;} 
+
     private int current;    
-    public int surveyId {get;}
+
+    public int SurveyId {get;}
+
+    public string SurveyName {get; set;}
+
     public Survey(int surveyId) { 
         this.surveyId = surveyId;
     }
