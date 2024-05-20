@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Model.FrontEndAPI;
 using ReactiveUI;
 using scivu.Model;
-using Model.FrontEndAPI;
 
 namespace scivu.ViewModels;
 
