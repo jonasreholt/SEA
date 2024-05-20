@@ -58,12 +58,20 @@ public class ScaleQuestionViewModel : ViewModelBase
         var answer = question.ReadOnlyAnswer;
         Debug.Assert(answer.ReadOnlyAnswerType == AnswerType.Scale);
         var answers = answer.ReadOnlyAnswers;
-        Debug.Assert(answers.Count == 2);
+        if (answers.Count != 2)
+        {
+            throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
+        }
 
-        if (!Int32.TryParse(answers[0], out var min)) throw new ArgumentException("Minimum value");
-        if (!Int32.TryParse(answers[1], out var max)) throw new ArgumentException("Max value");
+        if (!Int32.TryParse(answers[0], out var min) || !Int32.TryParse(answers[1], out var max))
+        {
+            throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeNotInt));
+        }
+        if (!(SharedConstants.ScaleMinimumValue <= min && min < max))
+        {
+            throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
+        }
 
-        Debug.Assert(SharedConstants.ScaleMinimumValue <= min && min < max);
         _groupName++;
         for (; min <= max; min++)
         {
