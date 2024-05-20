@@ -1,34 +1,34 @@
-using System.Net.Mime;
-namespace Model.Question;
+// using System.Net.Mime;
+// namespace Model.Question;
 
-public class Question : IReadOnlyQuestion, IModifyQuestion {
+// public class Question : IReadOnlyQuestion, IModifyQuestion {
 
-    //TODO: Implement getters and setters for images
-    private int id;
-    private QuestionType questionType;
-    //private string caption;
-    private string questionText;
+//     //TODO: Implement getters and setters for images
+//     private int id;
+//     private QuestionType questionType;
+//     //private string caption;
+//     private string questionText;
 
-    public Question(int id, QuestionType type, string questionText) {
-        id = id;
-        questionType = type;
-        questionText = questionText;
-    }
-    public int GetId() { return id; }
+//     public Question(int id, QuestionType type, string questionText) {
+//         id = id;
+//         questionType = type;
+//         questionText = questionText;
+//     }
+//     public int GetId() { return id; }
 
-    public QuestionType GetType() { return questionType; }
+//     public QuestionType GetType() { return questionType; }
 
-    public string GetText() { return questionText; }
+//     public string GetText() { return questionText; }
 
-    public void SetType(QuestionType questionType) { questionType = questionType; }
+//     public void SetType(QuestionType questionType) { questionType = questionType; }
 
-    public void SetText(string questionText) { questionText = questionText; }
+//     public void SetText(string questionText) { questionText = questionText; }
     
     
     
     
-    // string SetText {set;}
+//     // string SetText {set;}
 
-    // string GetCaption {get;}
-    // string GetText {get;}
-}
+//     // string GetCaption {get;}
+//     // string GetText {get;}
+// }

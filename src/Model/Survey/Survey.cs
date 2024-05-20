@@ -3,7 +3,7 @@ namespace Model.Survey;
 
 using Model.Question;
 using Model.Answer;
-
+using System.Collections.Generic;
 
 public class Survey : IReadOnlySurvey, IModifySurvey {
 
@@ -16,6 +16,45 @@ public class Survey : IReadOnlySurvey, IModifySurvey {
         this.surveyId = surveyId;
     }
 
+    public IEnumerable<IReadOnlyQuestion> TryGetReadOnlyNextReadOnlyQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IReadOnlyQuestion> TryGetReadOnlyReadOnlyQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IModifyQuestion>? TryGetModifyQuestion(int index)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IModifyQuestion>? TryGetNextModifyQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IModifyQuestion>? TryGetPreviousModifyQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteQuestion(int index)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Question> AddNewQuestion()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<Question> InsertNewQuestion(int index)
+    {
+        throw new NotImplementedException();
+    }
 }
     // /// <summary>
     // /// Tries to get version A or B of a question pair. Returns null if the last
