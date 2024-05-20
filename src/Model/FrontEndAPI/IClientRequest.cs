@@ -14,7 +14,6 @@ public interface IClientRequest {
 
     IReadOnlySurveyWrapper GetSurvey(int surveyId); // <SurveyA,SurveyB>
     // IReadOnlySurvey GetSurvey(int surveyId);
-    
 
     IModifySurveyWrapper ModifySurvey(int surveyId); // Possibly (SuperUserId, SurveyId)?
 

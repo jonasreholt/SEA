@@ -1,36 +1,60 @@
 
-using System.Text.Json;
 namespace DatabaseServices;
+using System.Text.Json;
+using System.IO;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
 public class DatabaseServices {
 
     private string databasePath = "./surveyDatabase/";
-    // private string SurveyDatabasePath = "./surveyDatabase.json";
     public DatabaseServices() {
-        Directory.CreateDirectory(databasePath); //is only created if not already exists
+        Directory.CreateDirectory(databasePath); //is only created if not exists
     }
 
-    // public bool StoreSurvey(Survey survey) {
+    public bool StoreSurvey(Survey survey) {
+        string surveyPath = GetSurveyPath(survey.SurveyId);
+        Directory.CreateDirectory(surveyPath);
+        SaveSurveyToFile(surveyPath, survey);
+        return true;
+    }
 
-    // }
+    public void StorePictureOverwrite(string src, int surveyId) {
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string dest = surveyAssetsPath + Path.GetFileName(src);
+        Directory.CreateDirectory(surveyAssetsPath);
+        File.Move(src, dest, true); //true -> overwrites automatically if dest already exists
+    }
 
-    // public bool StoreSurvey(Survey survey) {
-    //     List<Survey> surveys = LoadAllSurveysFromDatabase();
-    //     //add check that this survey does not already exist? will surveys only ever be stored as complete finished surveys?
-    //     surveys.Add(survey);
-    //     SaveSurveysToFile(surveys);
-    //     return true;
-    // }
+    public bool TryStorePicture(string src, int surveyId) {
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string dest = surveyAssetsPath + Path.GetFileName(src);
+        Directory.CreateDirectory(surveyAssetsPath);
+        if (!File.Exists(dest)) {
+            File.Move(src, dest);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private string GetSurveyPath(int surveyId) {
+        return databasePath + surveyId + "/";
+    }
+
+    private string GetSurveyAssetsPath(int surveyId) {
+        return GetSurveyPath(surveyId) + "/assets/";
+    }
+
+    private static void SaveSurveyToFile(string surveyPath, Survey survey) {
+        string jsonString = JsonSerializer.Serialize(survey);
+        File.WriteAllText(surveyPath, jsonString);
+    }
 
     // private List<Survey> LoadAllSurveysFromDatabase() {
     //     string jsonString = File.ReadAllText(SurveyDatabasePath);
     //     List<Survey> surveys = JsonSerializer.Deserialize<List<Survey>>(jsonString)!;
     //     return surveys;
     // }
-    // private void SaveSurveysToFile(List<Survey> surveys) {
-    //     string jsonString = JsonSerializer.Serialize(surveys);
-    //     File.WriteAllText(SurveyDatabasePath, jsonString);
-    // }
+    
 }
 
