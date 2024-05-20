@@ -1,16 +1,11 @@
-namespace Survey;
-
-using Question;
-using Answer;
+namespace Model.Survey;
+using System.Linq;
+using Model.Question;
+using Model.Answer;
 
 public interface IReadOnlySurvey {
-    IReadOnlyQuestion? TryGetNextReadOnlyQuestion(QuestionVersion questionVersion);
+    IEnumerable<IReadOnlyQuestion> TryGetReadOnlyNextReadOnlyQuestion();
 
-    IReadOnlyQuestion? TryGetPreviousReadOnlyQuestion(QuestionVersion questionVersion);
+    IEnumerable<IReadOnlyQuestion> TryGetReadOnlyReadOnlyQuestion();
 
-    IReadOnlyQuestion ReadOnlyQuestionA {get;}
-
-    IReadOnlyQuestion ReadOnlyQuestionB {get;}
-
-    IReadOnlyAnswer ReadOnlyAnswer {get;}
 }

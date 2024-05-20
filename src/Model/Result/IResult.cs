@@ -1,4 +1,4 @@
-﻿namespace Result;
+﻿namespace Model.Result;
 
 public interface IResult
 {

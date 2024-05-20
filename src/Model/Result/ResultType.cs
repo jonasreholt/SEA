@@ -1,8 +1,9 @@
-namespace Result;
+namespace Model.Result;
 
 public enum ResultType {
     Text,
-    MultipleChoice
+    MultipleChoice,
+    Scale
 }
 
 // "a,b,c", "b", "c",

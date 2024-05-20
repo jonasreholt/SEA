@@ -1,17 +1,15 @@
+namespace Backend.DatabaseAPI;
 // using FrontEndAPI;
 // using Survey;
 // using Result;
-using FrontEndAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.DatabaseAPI;
-
-using Survey = Survey.Survey;
-using Result = Result.Result;
+using Survey = Model.Survey.Survey;
+using Result = Model.Result.Result;
 public interface IDatabase {
     int GetNextSurveyID();
     bool StoreSurvey(Survey survey);

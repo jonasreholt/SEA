@@ -1,8 +1,8 @@
 
 using System.Text.Json;
 namespace DatabaseServices;
-using Survey = Survey.Survey;
-using Result = Result.Result;
+using Survey = Model.Survey.Survey;
+using Result = Model.Result.Result;
 public class DatabaseServices {
 
     private string SurveyDatabasePath = "./surveyDatabase.json";

@@ -1,4 +1,4 @@
-namespace FrontEndAPI;
+namespace Model.FrontEndAPI;
 
 public static class FrontEndMainMenu
 {

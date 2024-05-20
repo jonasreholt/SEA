@@ -1,6 +1,6 @@
-namespace Answer;
+namespace Model.Answer;
 
 public interface IReadOnlyAnswer {
-    // AnswerType GetAnswerType {get;}
-    // string?[] GetAnswers {get;}
+    AnswerType GetAnswerType {get;}
+    string?[] GetAnswers {get;}
 }

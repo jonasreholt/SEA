@@ -1,4 +1,4 @@
-namespace Answer;
+namespace Model.Answer;
 
 
 // Answer is the given options to a question, by the survey creater.
