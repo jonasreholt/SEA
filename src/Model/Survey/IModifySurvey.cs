@@ -1,13 +1,18 @@
-namespace Survey;
-using Question;
-using Answer;
+namespace Model.Survey;
+using Model.Question;
+using Model.Answer;
 
 public interface IModifySurvey {
-    // IModifyQuestion SetNextQuestion {set;} // Det giver ikke mening at have en hel modify next question? det er forskellige dele der modifies.
-    // IModifyQuestion ModifyQuestion {get; set;}
-    IModifyQuestion ModifyQuestion(int questionNumber);
-    IModifyAnswer   ModifyAnswer(int questionNumber);
-    void DeleteQuestionAndAnswers(int questionNumber);
-    void CreateNewQuestion();
-    void InsertNewQuestionAfterThis(int questionNumber);
+
+    int SurveyId {get;}
+    string SurveyName {get; set;}
+    IEnumerable<IModifyQuestion>? TryGetModifyQuestion(int index);
+    IEnumerable<IModifyQuestion>? TryGetNextModifyQuestion();
+    IEnumerable<IModifyQuestion>? TryGetPreviousModifyQuestion();
+    void DeleteQuestion(int index);
+    IEnumerable<Question> AddNewQuestion(); // Add new question at the end of the Enumerable
+    IEnumerable<Question> InsertNewQuestion(int index); // Add new question at position 'index'
+
+    
+
 }

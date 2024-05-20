@@ -1,6 +1,7 @@
-namespace Answer;
+namespace Model.Answer;
 
 public enum AnswerType {
     Text,
-    MultipleChoice
+    MultipleChoice,
+    Scale
 }

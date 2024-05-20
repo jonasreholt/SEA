@@ -1,5 +1,5 @@
-namespace FrontEndAPI;
-using Survey;
+namespace Model.FrontEndAPI;
+using Model.Survey;
 
 public static class FrontEndSharedSUAndExperimenter {
     public static void ImportSurvey(string path) {

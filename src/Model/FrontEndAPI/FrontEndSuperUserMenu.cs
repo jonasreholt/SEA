@@ -1,5 +1,5 @@
-namespace FrontEndAPI;
-using Survey;
+namespace Model.FrontEndAPI;
+using Model.Survey;
     public static class FrontEndSuperUserMenu {
         // Flyt 3 nedenstående til separat interface?
         public static void DeleteSurvey(int surveyId) {

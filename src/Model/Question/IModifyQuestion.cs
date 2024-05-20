@@ -1,11 +1,10 @@
-namespace Question;
-
-using System.Drawing;
+namespace Model.Question;
+using Model.Answer;
 
 public interface IModifyQuestion {
-QuestionType SetType {set;}
-string SetCaption {set;}
-Image SetPicture {set;}
-string SetText {set;}
-
+    int GetId {get;}    
+    string ModifyCaption {get; set;}
+    string ModifyPicture {get; set;}
+    string ModifyText {get; set;}
+    IModifyAnswer ModifyAnswer {get; set;}
 }
