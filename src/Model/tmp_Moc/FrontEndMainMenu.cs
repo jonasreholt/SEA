@@ -1,4 +1,5 @@
 namespace Model.FrontEndAPI;
+using Model.Survey;
 
 public static class FrontEndMainMenu
 {
@@ -12,7 +13,7 @@ public static class FrontEndMainMenu
     public static IReadOnlySurvey? GetSurvey(int surveyId)
     {
         return surveyId == DeveloperPin
-            ? new MockSurvey()
+            ? null
             : null;
     }
 }

@@ -1,5 +1,5 @@
 ﻿namespace Model.Result;
-
+using Model.Answer;
 public interface IResult
 {
     AnswerType AnswerType {get;}

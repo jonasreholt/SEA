@@ -1,47 +1,41 @@
-using System.Net.Mime;
-
 namespace Model.Question;
+
+using System.Net.Mime;
 using Model.Answer;
 
 public class Question : IReadOnlyQuestion, IModifyQuestion {
 
     //TODO: Implement getters and setters for images
     private int id;
-    private QuestionType questionType;
-    //private string caption;
+    private string caption;
     private string questionText;
+    private string picture;
 
-    int IReadOnlyQuestion.GetId => throw new NotImplementedException();
+    public Question(int id, string text) {
+        //id = id;
+        // questionText = questionText;
+    }
 
-    public string GetCaption => throw new NotImplementedException();
+    public int ReadOnlyId => throw new NotImplementedException();
 
-    public string GetPicture => throw new NotImplementedException();
+    public string ReadOnlyCaption => throw new NotImplementedException();
 
-    string IReadOnlyQuestion.GetText => throw new NotImplementedException();
+    public string ReadOnlyPicture => throw new NotImplementedException();
 
-    public Answer GetAnswer => throw new NotImplementedException();
+    public string ReadOnlyText => throw new NotImplementedException();
 
-    int IModifyQuestion.GetId => throw new NotImplementedException();
+    public Answer ReadOnlyAnswer => throw new NotImplementedException();
 
-    public QuestionType ModifyType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int GetId => throw new NotImplementedException();
+
     public string ModifyCaption { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyPicture { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyText { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public IModifyAnswer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-    public Question(int id, QuestionType type, string questionText) {
-        id = id;
-        questionType = type;
-        questionText = questionText;
-    }
-    public int GetId() { return id; }
 
-    public QuestionType GetType() { return questionType; }
+    // public string GetText() { return questionText; }
 
-    public string GetText() { return questionText; }
+    // public void SetText(string questionText) { questionText = questionText; }
 
-    public void SetType(QuestionType questionType) { questionType = questionType; }
-
-    public void SetText(string questionText) { questionText = questionText; }
-    
 }

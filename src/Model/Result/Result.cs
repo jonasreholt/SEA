@@ -1,4 +1,5 @@
 namespace Model.Result;
+using Model.Answer;
 
 public class Result
 {

@@ -18,15 +18,15 @@ public class Survey : IReadOnlySurvey, IModifySurvey {
     public string SurveyName {get; set;}
 
     public Survey(int surveyId) { 
-        this.surveyId = surveyId;
+        SurveyId = surveyId;
     }
 
-    public IEnumerable<IReadOnlyQuestion> TryGetReadOnlyNextReadOnlyQuestion()
+    public IEnumerable<IReadOnlyQuestion> TryGetNextReadOnlyQuestion()
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<IReadOnlyQuestion> TryGetReadOnlyReadOnlyQuestion()
+    public IEnumerable<IReadOnlyQuestion> TryGetPreviousReadOnlyQuestion()
     {
         throw new NotImplementedException();
     }
