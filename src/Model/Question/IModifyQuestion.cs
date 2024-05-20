@@ -1,4 +1,5 @@
 namespace Model.Question;
+using Model.Answer;
 
 public interface IModifyQuestion {
     int GetId {get;}    
@@ -6,5 +7,5 @@ public interface IModifyQuestion {
     string ModifyCaption {get; set;}
     string ModifyPicture {get; set;}
     string ModifyText {get; set;}
-    Answer ModifyAnswer {get; set;}
+    IModifyAnswer ModifyAnswer {get; set;}
 }

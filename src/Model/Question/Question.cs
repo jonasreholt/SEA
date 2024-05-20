@@ -27,8 +27,8 @@ public class Question : IReadOnlyQuestion, IModifyQuestion {
     public string ModifyCaption { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyPicture { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public string ModifyText { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public Answer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    Model.Answer IModifyQuestion.ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    // public Answer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public IModifyAnswer ModifyAnswer { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public Question(int id, QuestionType type, string questionText) {
         id = id;
