@@ -20,17 +20,17 @@ public class DatabaseServices {
 
     public void StorePictureOverwrite(string src, int surveyId) {
         string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
-        string dest = surveyAssetsPath + Path.GetFileName(src);
+        string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
         Directory.CreateDirectory(surveyAssetsPath);
-        File.Move(src, dest, true); //true -> overwrites automatically if dest already exists
+        File.Copy(src, dest, true); //true -> overwrites automatically if dest already exists
     }
 
     public bool TryStorePicture(string src, int surveyId) {
         string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
-        string dest = surveyAssetsPath + Path.GetFileName(src);
+        string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
         Directory.CreateDirectory(surveyAssetsPath);
         if (!File.Exists(dest)) {
-            File.Move(src, dest);
+            File.Copy(src, dest);
             return true;
         } else {
             return false;
@@ -38,11 +38,11 @@ public class DatabaseServices {
     }
 
     private string GetSurveyPath(int surveyId) {
-        return databasePath + surveyId + "/";
+        return Path.Combine(databasePath, surveyId.ToString());
     }
 
     private string GetSurveyAssetsPath(int surveyId) {
-        return GetSurveyPath(surveyId) + "/assets/";
+        return Path.Combine( GetSurveyPath(surveyId), "assets");
     }
 
     private static void SaveSurveyToFile(string surveyPath, Survey survey) {
