@@ -18,7 +18,6 @@ public interface IDatabase {
     bool ImportSurvey(string path);
     bool TryStorePicture(string path, int surveyId);
     void StorePictureOverwrite(string path, int surveyId);
-    //todo: make another storepicture function that automatically overwrites
     List<Result> GetResults(int id);
     bool StoreResults(int id, int questionId, int userId, List<Result> results);
 }
