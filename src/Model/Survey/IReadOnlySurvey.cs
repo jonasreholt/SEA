@@ -6,7 +6,7 @@ using Model.Answer;
 public interface IReadOnlySurvey {
     int SurveyId {get;}
     string SurveyName {get;}
-    bool IsFirst {get;}
+    bool PreviousQuestionExist {get;}
     bool IsLast {get;}
     IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion();
     IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion();
