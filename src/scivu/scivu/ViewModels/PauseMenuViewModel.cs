@@ -1,6 +1,9 @@
 ﻿using System;
-using Model.SharedConstants;
-
+using System.Diagnostics;
+using Model.FrontEndAPI;
+using ReactiveUI;
+using scivu.Model;
+using Model.Survey;
 
 namespace scivu;
 
@@ -13,7 +16,7 @@ public class PauseMenuViewModel
     private bool _isLoginEnabled;
     private bool _isLoggedIn;
 
-    private IReadOnlySurveyWrapper _survey;
+    private string _errorMessage = string.Empty;
 
     public PauseMenuViewModel(IReadOnlySurveyWrapper survey, Action<string, object> changeViewCommand)
     {
@@ -43,11 +46,19 @@ public class PauseMenuViewModel
         }
     }
 
+    private bool EnableLoginButton()
+    {
+        Debug.Assert(!_isLoggedIn);
+        return !string.IsNullOrWhiteSpace(Pincode)
+               && Pincode.Length == SharedConstants.PinCodeLength
+               && Int32.TryParse(Pincode, out _);
+    }
+
     private async void DoLogin()
     {
         Debug.Assert(!_isLoggedIn);
 
-        if (Int32.TryParse(Password, out var pin))
+        if (Int32.TryParse(Pincode, out var pin))
         {
             // Should manually check the pin of the survey rather than trying to get a new one and see if it exists.
             var survey = FrontEndMainMenu.GetSurvey(pin);
