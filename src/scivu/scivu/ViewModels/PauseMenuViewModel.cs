@@ -4,10 +4,11 @@ using Model.FrontEndAPI;
 using ReactiveUI;
 using scivu.Model;
 using Model.Survey;
+using scivu.ViewModels;
 
-namespace scivu;
+namespace scivu.ViewModels;
 
-public class PauseMenuViewModel
+public class PauseMenuViewModel : ViewModelBase
 {
 
     private readonly IReadOnlySurveyWrapper _survey;
@@ -23,6 +24,13 @@ public class PauseMenuViewModel
         _survey = survey;
         _isLoggedIn = false;
     }
+
+    public bool IsLoggedIn
+    {
+        get => _isLoggedIn;
+        set => this.RaiseAndSetIfChanged(ref _isLoggedIn, value);
+    }
+
 
     public bool IsLoginEnabled
     {
@@ -44,6 +52,11 @@ public class PauseMenuViewModel
             this.RaiseAndSetIfChanged(ref _pincode, value);
             IsLoginEnabled = EnableLoginButton();
         }
+    }
+
+    public void ChangeView(string view)
+    {
+        _changeViewCommand(view, null!);
     }
 
     private bool EnableLoginButton()
