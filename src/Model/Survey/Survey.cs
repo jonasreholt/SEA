@@ -7,153 +7,84 @@ using System.Collections.Generic;
 
 public class Survey : IReadOnlySurvey, IModifySurvey {
 
-    public IReadOnlyAnswer ReadOnlyAnswer {get;}
+    // public IReadOnlyAnswer ReadOnlyAnswer {get;}
     
-    public IModifyAnswer ModifyAnswer {get; set;} 
-
-    private int current;    
-
+    // public IModifyAnswer ModifyAnswer {get; set;} 
     public int SurveyId {get;}
 
     public string SurveyName {get; set;}
 
+    private List<List<Question>> surveyQuestions = new List<List<Question>>();
+
+    private int current = 0;    
+
     public Survey(int surveyId) { 
         SurveyId = surveyId;
+        SurveyName = string.Empty;
     }
 
-    public IEnumerable<IReadOnlyQuestion> TryGetNextReadOnlyQuestion()
+    public IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion() {
+        if(0 <= current && current < (surveyQuestions.Count() - 1)) { 
+            current++;
+            return surveyQuestions[current];
+        } else {
+            return null;
+        }  
+    }
+
+    public IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion()
     {
-        throw new NotImplementedException();
+        if(0 < current && current < (surveyQuestions.Count())) { 
+            current--;
+            return surveyQuestions[current];
+        } else {
+            return null;
+        }  
     }
 
-    public IEnumerable<IReadOnlyQuestion> TryGetPreviousReadOnlyQuestion()
-    {
-        throw new NotImplementedException();
+    public IEnumerable<IModifyQuestion>? TryGetModifyQuestion(int index) {
+        if(0 <= index && index < (surveyQuestions.Count() - 1)) { 
+            current = index;
+            return surveyQuestions[index];
+        } else {
+            return null;
+        }
     }
-
-    public IEnumerable<IModifyQuestion>? TryGetModifyQuestion(int index)
-    {
-        throw new NotImplementedException();
-    }
-
     public IEnumerable<IModifyQuestion>? TryGetNextModifyQuestion()
     {
-        throw new NotImplementedException();
+        if(0 <= current && current < (surveyQuestions.Count() - 1)) { 
+            current++;
+            return surveyQuestions[current];
+        } else {
+            return null;
+        }  
     }
 
-    public IEnumerable<IModifyQuestion>? TryGetPreviousModifyQuestion()
-    {
-        throw new NotImplementedException();
+    public IEnumerable<IModifyQuestion>? TryGetPreviousModifyQuestion() {
+        if(0 < current && current < (surveyQuestions.Count())) { 
+            current--;
+            return surveyQuestions[current];
+        } else {
+            return null;
+        }  
     }
 
-    public void DeleteQuestion(int index)
-    {
-        throw new NotImplementedException();
+    public void DeleteQuestion(int index) {
+        if(0 < current && current < (surveyQuestions.Count())) {         
+            surveyQuestions.RemoveAt(index);
+        }
     }
 
-    public IEnumerable<Question> AddNewQuestion()
-    {
-        throw new NotImplementedException();
+    public IEnumerable<Question> AddNewQuestion() {
+        List<Question> result = new List<Question>();
+        surveyQuestions.Add(result);
+        return result;
     }
 
     public IEnumerable<Question> InsertNewQuestion(int index)
     {
-        throw new NotImplementedException();
+        List<Question> result = new List<Question>();
+        surveyQuestions.Insert(index, result);
+        return result;
     }
 }
-    // /// <summary>
-    // /// Tries to get version A or B of a question pair. Returns null if the last
-    // /// question has been reached.
-    // /// </summary>
-    // /// <param name="questionAorB">question A="QuestionA" and question B="QuestionB"</param>
-    // public IReadOnlyQuestion? TryGetNextReadOnlyQuestion(QuestionVersion questionVersion) {
-    //     if(current < (surveyQuestions.Count() - 1)) { 
-    //         current++;
-    //         if (questionVersion == QuestionVersion.QuestionA)
-    //             return surveyQuestions[current].QuestionA;
-    //         else
-    //             return surveyQuestions[current].QuestionB;
-    //     } else{
-    //         current = surveyQuestions.Count();
-    //         return null;
-    //     }  
-    // }
-
-    // public IModifyQuestion? TryGetNextModifyQuestion(QuestionVersion questionVersion) {
-    //     if(current < (surveyQuestions.Count() - 1)) { 
-    //         current++;
-    //         if (questionVersion == QuestionVersion.QuestionA)
-    //             return surveyQuestions[current].QuestionA;
-    //         else
-    //             return surveyQuestions[current].QuestionB;
-    //     } else{
-    //         current = surveyQuestions.Count();
-    //         return null;
-    //     }  
-    // }
-
-    // public IReadOnlyQuestion? TryGetPreviousReadOnlyQuestion(QuestionVersion questionVersion) {
-    //     if (current > 0) { 
-    //         current--;
-    //         if (questionVersion == QuestionVersion.QuestionA)
-    //             return surveyQuestions[current].QuestionA;
-    //         else
-    //             return surveyQuestions[current].QuestionB;
-    //     } else {
-    //         current = -1;
-    //         return null; 
-    //     }   
-    // }
-
-    // public IModifyQuestion? TryGetPreviousModifyQuestion(QuestionVersion questionVersion) {
-    //     if (current > 0) { 
-    //         current--;
-    //         if (questionVersion == QuestionVersion.QuestionA)
-    //             return surveyQuestions[current].QuestionA;
-    //         else
-    //             return surveyQuestions[current].QuestionB;
-    //     } else {
-    //         current = -1;
-    //         return null; 
-    //     }   
-    // }
-
-    // /// <summary>
-    // /// Gets question at index as ModifyQuestion.
-    // /// </summary>
-    // /// <param name="questionNumber"> 1-indexed question number to get. Returns null if less than 0 
-    // /// or greater that question count</param>
-    // public IModifyQuestion? TryGetModifyQuestion(int questionNumber, QuestionVersion questionVersion) {
-    //         if (questionNumber < 1 || questionNumber > surveyQuestions.Count()) 
-    //             return null;
-
-    //         if (questionVersion == QuestionVersion.QuestionA) {
-    //             return surveyQuestions[questionNumber-1].QuestionA;
-    //         }
-    //         else {
-    //             return surveyQuestions[questionNumber-1].QuestionB;
-    //         }
-    // }
-
-    // public IModifyAnswer? TryGetModifyAnswer(int answerNumber, AnswerVersion answerVersion) {
-    //     if (answerNumber < 1 || answerNumber > surveyAnswers.Count()) 
-    //         return null;
-
-    //     if (answerVersion == AnswerVersion.AnswerA) {
-    //         return surveyAnswers[answerNumber-1].AnswerA;
-    //     }
-    //     else {
-    //         return surveyAnswers[answerNumber-1].AnswerB;
-    //     }
-    // }
-    
-    // void DeleteQuestionAndAnswers(int questionNumber, QuestionVersion questionVersion) {
-    //     if (questionNumber > 0 || questionNumber <= surveyQuestions.Count()){
-
-    //         surveyQuestions.RemoveAt(questionNumber-1);
-    //         surveyAnswers.RemoveAt(questionNumber-1);
-    //     }
-    // }
-
-
-    

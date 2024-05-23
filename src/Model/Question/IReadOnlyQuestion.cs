@@ -2,9 +2,9 @@ namespace Model.Question;
 using Model.Answer;
 
 public interface IReadOnlyQuestion {
-    int ReadOnlyId {get;}
+    int QuestionId {get;}
     string ReadOnlyCaption {get;}
     string ReadOnlyPicture {get;}
     string ReadOnlyText{get;}
-    Answer ReadOnlyAnswer {get;}
+    IReadOnlyAnswer ReadOnlyAnswer {get;}
 }

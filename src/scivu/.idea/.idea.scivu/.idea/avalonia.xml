@@ -9,6 +9,8 @@
         <entry key="scivu/Views/LoginView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MainMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MainWindow.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/ScaleQuestionView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/ScaleView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyTakeView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyView.axaml" value="scivu/scivu.csproj" />
       </map>

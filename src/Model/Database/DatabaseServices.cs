@@ -1,38 +1,60 @@
 
-using System.Text.Json;
 namespace DatabaseServices;
+using System.Text.Json;
+using System.IO;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
 public class DatabaseServices {
 
-
-    private string databaseFolder = "./surveyDatabase/";
-    private string SurveyDatabasePath = "./surveyDatabase.json";
+    private string databasePath = "./surveyDatabase/";
     public DatabaseServices() {
-        if (!File.Exists(SurveyDatabasePath)) {
-            List<Survey> emptyList = new List<Survey>{};
-            string jsonString = JsonSerializer.Serialize(emptyList);
-            //ok for the json file with the empty list to be created upon instantiation of this class if it does not already exist?
-            File.WriteAllText(SurveyDatabasePath, jsonString);
-        }
+        Directory.CreateDirectory(databasePath); //is only created if not exists
     }
 
     public bool StoreSurvey(Survey survey) {
-        List<Survey> surveys = LoadAllSurveysFromDatabase();
-        //add check that this survey does not already exist? will surveys only ever be stored as complete finished surveys?
-        surveys.Add(survey);
-        SaveSurveysToFile(surveys);
+        string surveyPath = GetSurveyPath(survey.SurveyId);
+        Directory.CreateDirectory(surveyPath);
+        SaveSurveyToFile(surveyPath, survey);
         return true;
     }
 
-    private List<Survey> LoadAllSurveysFromDatabase() {
-        string jsonString = File.ReadAllText(SurveyDatabasePath);
-        List<Survey> surveys = JsonSerializer.Deserialize<List<Survey>>(jsonString)!;
-        return surveys;
+    public void StorePictureOverwrite(string src, int surveyId) {
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
+        Directory.CreateDirectory(surveyAssetsPath);
+        File.Copy(src, dest, true); //true -> overwrites automatically if dest already exists
     }
-    private void SaveSurveysToFile(List<Survey> surveys) {
-        string jsonString = JsonSerializer.Serialize(surveys);
-        File.WriteAllText(SurveyDatabasePath, jsonString);
+
+    public bool TryStorePicture(string src, int surveyId) {
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
+        Directory.CreateDirectory(surveyAssetsPath);
+        if (!File.Exists(dest)) {
+            File.Copy(src, dest);
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    private string GetSurveyPath(int surveyId) {
+        return Path.Combine(databasePath, surveyId.ToString());
+    }
+
+    private string GetSurveyAssetsPath(int surveyId) {
+        return Path.Combine( GetSurveyPath(surveyId), "assets");
+    }
+
+    private static void SaveSurveyToFile(string surveyPath, Survey survey) {
+        string jsonString = JsonSerializer.Serialize(survey);
+        File.WriteAllText(surveyPath, jsonString);
+    }
+
+    // private List<Survey> LoadAllSurveysFromDatabase() {
+    //     string jsonString = File.ReadAllText(SurveyDatabasePath);
+    //     List<Survey> surveys = JsonSerializer.Deserialize<List<Survey>>(jsonString)!;
+    //     return surveys;
+    // }
+    
 }
 
