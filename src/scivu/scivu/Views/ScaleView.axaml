@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.ScaleView"
+             x:DataType="vm:ScaleViewModel">
+
+    <StackPanel>
+
+        <!-- Put text in separate TextBlock to get it above the button -->
+        <TextBlock Text="{Binding Text}" TextAlignment="Center" />
+
+        <!-- Putting it in a Panel and setting margin is a hack to center the radio button.
+             Default RadioButton style is in a grid with button on left and content on right. -->
+        <Panel Margin="10 0 0 0">
+            <RadioButton GroupName="{Binding GroupName}" />
+        </Panel>
+    </StackPanel>
+
+</UserControl>
