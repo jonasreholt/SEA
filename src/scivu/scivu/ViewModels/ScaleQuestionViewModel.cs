@@ -67,7 +67,7 @@ public class ScaleQuestionViewModel : ViewModelBase
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeNotInt));
         }
-        if (!(SharedConstants.ScaleMinimumValue <= min && min < max))
+        if (!(SharedConstants.ScaleMinimumValue <= min && min < max && max-min < SharedConstants.ScaleMaxRange))
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
         }

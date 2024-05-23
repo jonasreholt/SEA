@@ -114,6 +114,7 @@ public class TestScaleViewModel
         new object[] { new [] {"4g", "5"} },
         new object[] { new [] {"2", "5g"} },
         new object[] { new [] {"1", "5", "7"} },
+        new object[] { new [] {"1", (SharedConstants.ScaleMaxRange+1).ToString()} },
     };
 
     [TestCaseSource(nameof(InvalidRangeProvider))]
