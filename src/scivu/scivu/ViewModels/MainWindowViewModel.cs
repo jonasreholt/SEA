@@ -21,8 +21,8 @@ public class MainWindowViewModel : ViewModelBase
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
 
-        //_contentViewModel = new MainMenuViewModel(ChangeViewTo);
-        _contentViewModel = new AddPictureViewModel();
+        _contentViewModel = new MainMenuViewModel(ChangeViewTo);
+
     }
 
     public ViewModelBase ContentViewModel
