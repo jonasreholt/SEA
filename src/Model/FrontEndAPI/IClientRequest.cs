@@ -19,7 +19,7 @@ public interface IClientRequest {
 
     void StoreSurveyInDatabase(Survey.IModifySurvey survey);
 
-    void StoreResultFromQuestion(int surveyID, int questionsID, int userID, IResult answer);
+    void StoreResultFromQuestion(IResult answer);
 
     string ExportSurveyFromDatabase(int surveyId);
 
