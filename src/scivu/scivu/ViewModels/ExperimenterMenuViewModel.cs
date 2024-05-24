@@ -32,6 +32,11 @@ public class ExperimenterMenuViewModel : ViewModelBase
         _changeViewCommand(view, null!);
     }
 
+    public void StartSurveyCommand()
+    {
+        _changeViewCommand("TakeSurvey", _survey);
+    }
+
 
 
 
