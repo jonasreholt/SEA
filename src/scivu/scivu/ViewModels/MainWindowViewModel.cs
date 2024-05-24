@@ -22,7 +22,6 @@ public class MainWindowViewModel : ViewModelBase
 
 
         _contentViewModel = new MainMenuViewModel(ChangeViewTo);
-
     }
 
     public ViewModelBase ContentViewModel
