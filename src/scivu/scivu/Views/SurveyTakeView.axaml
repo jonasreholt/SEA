@@ -7,30 +7,33 @@
              x:Class="scivu.Views.SurveyTakeView"
              x:DataType="vm:SurveyTakeViewModel">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top"
-            HorizontalAlignment="Center">
-            This is a header,
-        </TextBlock>
-        
-        
+        <Button DockPanel.Dock="Top"
+                HorizontalAlignment="Left"
+                Content="Quit"
+                Command="{Binding QuitCommand}"/>
+
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     DockPanel.Dock="Bottom">
+
             <Button DockPanel.Dock="Left"
-                    IsVisible="{Binding IsFirstQuestion}">
-                Previous
-            </Button>
+                    IsEnabled="{Binding !IsFirstQuestion}"
+                    Content="Previous"
+                    Command="{Binding DoPrevious}"/>
+
             <Button DockPanel.Dock="Right"
-                    IsVisible="{Binding !IsLastPage}">
-                Next
-            </Button>
-            <Button DockPanel.Dock="Right">
-                Finish
-            </Button>
+                    IsVisible="{Binding !IsLastPage}"
+                    Content="Next"
+                    Command="{Binding DoNext}"/>
+
+            <Button DockPanel.Dock="Right"
+                    IsVisible="{Binding IsLastPage}"
+                    Content="Finish"
+                    Command="{Binding QuitCommand}"/>
         </StackPanel>
-        
+
         <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Surveys}">
+            <ItemsControl ItemsSource="{Binding Questions}">
             </ItemsControl>
         </ScrollViewer>
     </DockPanel>

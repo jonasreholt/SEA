@@ -5,6 +5,8 @@
       <map>
         <entry key="scivu/App.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/AurveyView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/ExitSurveyView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/ExitSurveyWindow.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/LoginMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/LoginView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MainMenuView.axaml" value="scivu/scivu.csproj" />

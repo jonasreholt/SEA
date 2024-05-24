@@ -10,7 +10,8 @@ namespace scivu.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private ViewModelBase _contentViewModel;
+    internal ViewModelBase _contentViewModel;
+    private readonly IClientRequest _client;
 
     private readonly IFrontEndMainMenu _mainMenuClient;
 
@@ -20,6 +21,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        _client = new ClientRequest();
+
         Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
@@ -41,15 +44,17 @@ public class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"Going to view `{vm}`");
         switch (vm)
         {
-            case "TakeSurvey":
-                ContentViewModel = new SurveyTakeViewModel();
+            case "TakeSurvey" when arg is IReadOnlySurveyWrapper survey:
+                ContentViewModel = new SurveyTakeViewModel(_client, ChangeViewTo, survey, 42);
                 break;
             case "ExperimenterMenu" when arg is IReadOnlySurveyWrapper survey:
                 ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
-                ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
+                ContentViewModel = new MainMenuViewModel(ChangeViewTo);
                 break;
+            case "PauseMenu" when arg is IReadOnlySurveyWrapper _:
+                throw new NotImplementedException("PauseMenu Viewmodel");
             case "SuperUserMenu":
                 throw new NotImplementedException("Changing to super user menu");
             default:
