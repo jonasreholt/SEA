@@ -19,8 +19,9 @@ public class SurveyTakeViewModel : ViewModelBase
 {
     private readonly IClientRequest _client;
     private readonly Action<string, object> _changeViewCommand;
-    private readonly IReadOnlySurvey _survey;
-    private readonly int _userId;
+    private IReadOnlySurveyWrapper _wrapper;
+    private IReadOnlySurvey _survey;
+    private int _userId;
 
     private bool _isFirstPage;
     private bool _isLastPage;
@@ -32,21 +33,11 @@ public class SurveyTakeViewModel : ViewModelBase
 
     private readonly Random rnd;
 
-    public SurveyTakeViewModel(IClientRequest client, Action<string, object> changeViewCommand, IReadOnlySurveyWrapper surveyWrapper, int userId)
+    public SurveyTakeViewModel(IClientRequest client, Action<string, object> changeViewCommand)
     {
         _client = client;
         rnd = new Random();
         _changeViewCommand = changeViewCommand;
-        _userId = userId;
-        _survey = ChooseSurvey(surveyWrapper);
-
-        // Make room for results for this specific line of questions
-        _results.Add(new List<IResult>());
-        _resultIdx = 0;
-
-        // Load first page of questions
-        NextQuestions();
-        IsFirstQuestion = true;
 
         // Create dialog for quitting survey
         ShowDialog = new Interaction<ExitSurveyViewModel, bool>();
@@ -61,9 +52,28 @@ public class SurveyTakeViewModel : ViewModelBase
             {
                 // Do the quit
                 Console.WriteLine("Quitting survey");
-                _changeViewCommand.Invoke("PauseMenu", surveyWrapper);
+                _changeViewCommand.Invoke("PauseMenu", _wrapper);
             }
         });
+    }
+
+    public SurveyTakeViewModel(IClientRequest client, Action<string, object> changeViewCommand, IReadOnlySurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    {
+        StartNewSurvey(wrapper, userId);
+    }
+
+    public void StartNewSurvey(IReadOnlySurveyWrapper surveyWrapper, int userId)
+    {
+        _userId = userId;
+        _wrapper = surveyWrapper;
+        _survey = ChooseSurvey(surveyWrapper);
+        _results.Clear();
+        _results.Add(new List<IResult>());
+        _resultIdx = 0;
+
+        // Load first page of questions
+        NextQuestions();
+        IsFirstQuestion = true;
     }
 
     internal IReadOnlySurvey ChooseSurvey(IReadOnlySurveyWrapper surveyWrapper)

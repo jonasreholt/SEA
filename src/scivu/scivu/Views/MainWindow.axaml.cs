@@ -12,7 +12,7 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
         InitializeComponent();
 
         this.WhenActivated(action =>
-            action(((SurveyTakeViewModel)ViewModel!._contentViewModel).ShowDialog.RegisterHandler(DoShowDialogAsync)));
+            action(ViewModel!._surveyTaker.ShowDialog.RegisterHandler(DoShowDialogAsync)));
     }
 
     private async Task DoShowDialogAsync(InteractionContext<ExitSurveyViewModel, bool> interaction)

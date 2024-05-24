@@ -11,6 +11,7 @@ namespace scivu.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     internal ViewModelBase _contentViewModel;
+    internal SurveyTakeViewModel _surveyTaker;
     private readonly IClientRequest _client;
 
     private readonly IFrontEndMainMenu _mainMenuClient;
@@ -22,6 +23,10 @@ public class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel()
     {
         _client = new ClientRequest();
+        // We cache our survey taker both to avoid creating a new version
+        // at each survey start, but also for the workaround with opening
+        // a dialog option
+        _surveyTaker = new SurveyTakeViewModel(_client, ChangeViewTo);
 
         Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
@@ -45,7 +50,8 @@ public class MainWindowViewModel : ViewModelBase
         switch (vm)
         {
             case "TakeSurvey" when arg is IReadOnlySurveyWrapper survey:
-                ContentViewModel = new SurveyTakeViewModel(_client, ChangeViewTo, survey, 42);
+                _surveyTaker.StartNewSurvey(survey, 42);
+                ContentViewModel = _surveyTaker;
                 break;
             case "ExperimenterMenu" when arg is IReadOnlySurveyWrapper survey:
                 ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
