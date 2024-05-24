@@ -6,8 +6,8 @@ using Model.Answer;
 public interface IReadOnlySurvey {
     int SurveyId {get;}
     string SurveyName {get;}
-    bool PreviousQuestionExist {get;}
-    bool NextQuestionExist {get;}
+    bool PreviousQuestionExist();
+    bool NextQuestionExist();
     IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion();
     IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion();
 }
