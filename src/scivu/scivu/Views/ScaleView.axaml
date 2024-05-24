@@ -15,7 +15,8 @@
         <!-- Putting it in a Panel and setting margin is a hack to center the radio button.
              Default RadioButton style is in a grid with button on left and content on right. -->
         <Panel Margin="10 0 0 0">
-            <RadioButton GroupName="{Binding GroupName}" />
+            <RadioButton GroupName="{Binding GroupName}"
+                         IsChecked="{Binding IsChecked}"/>
         </Panel>
     </StackPanel>
 
