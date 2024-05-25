@@ -1,14 +1,30 @@
 
-namespace DatabaseServices;
-using System.Text.Json;
+namespace Model.Database;
+using System;
 using System.IO;
+using System.Text;
+using System.Text.Json;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
-public class DatabaseServices {
+using Model.Result;
+using Model.Answer;
+using System.Collections.Generic;
+
+public class DatabaseServices : IDatabase {
 
     private string databasePath = "./surveyDatabase/";
+    private string resultsPath;
     public DatabaseServices() {
         Directory.CreateDirectory(databasePath); //is only created if not exists
+        resultsPath = Path.Combine(databasePath, "./results.csv");
+        CreateResultsFileIfNotExisting(resultsPath);
+    }
+
+    private static void CreateResultsFileIfNotExisting(string resultsPath) {
+        if (!File.Exists(resultsPath)) {
+            File.Create(resultsPath).Dispose();
+        }
+        
     }
 
     public bool StoreSurvey(Survey survey) {
@@ -55,6 +71,56 @@ public class DatabaseServices {
     //     List<Survey> surveys = JsonSerializer.Deserialize<List<Survey>>(jsonString)!;
     //     return surveys;
     // }
-    
+
+    // Tmp int used to increment to get unique IDs, must be received from db.
+    private int tmpId = 0; 
+    public int GetNextSurveyID() {
+        return tmpId++;
+    }
+
+    public Survey GetSurvey(int surveyId) {
+        return (new Survey(surveyId));
+    }
+
+    public bool ExportSurvey(int id, string path) {
+        return true;
+    }
+
+    public bool ImportSurvey(string path) {
+        return true;
+    }
+
+public List<Result> GetResults(int id) {
+    throw new NotImplementedException();
+}
+
+
+    public bool StoreResult (IResult result) {
+        try {
+            using (StreamWriter writer = new StreamWriter(resultsPath, true, Encoding.UTF8)) {
+                    writer.WriteLine(result.ToString());
+            }
+            return true;
+        }
+        catch (Exception) {
+            // Write failed, return false
+            return false;
+        }
+    }
+
+    public bool StoreResults(List<Result> results) {
+        try {
+            using (StreamWriter writer = new StreamWriter(resultsPath, true, Encoding.UTF8)) {
+                foreach (var result in results) {
+                    writer.WriteLine(result.ToString());
+                }
+            }
+            return true;
+        }
+        catch (Exception) {
+            // Handle exceptions if needed
+            return false;
+        }
+    }
 }
 
