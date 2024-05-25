@@ -20,6 +20,10 @@ public class Result
         QuestionId = questionId;
         SurveyId = surveyId;
     }
+
+    public override string ToString() {
+        return $"{SurveyId},{QuestionId},{AnswerType},{UserId},{QuestionResult}";
+    }
 }
 
 //     void StoreResultFromQuestion(int surveyID, int questionsID, int userID, Result result);
