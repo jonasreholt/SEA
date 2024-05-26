@@ -1,10 +1,10 @@
 using Model.Result;
 using Model.Database;
 namespace Model.FrontEndAPI;
-public class FrontEndExperimenter : IFrontEndExperimenter {
+internal class FrontEndExperimenter : IFrontEndExperimenter {
 
     private IDatabase databaseService;
-    public FrontEndExperimenter(IDatabase database) {
+    internal FrontEndExperimenter(IDatabase database) {
         databaseService = database;
     }
     

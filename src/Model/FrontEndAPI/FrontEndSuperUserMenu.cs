@@ -1,13 +1,13 @@
 namespace Model.FrontEndAPI;
 using Model.Survey;
 using Model.Database;
-    public class FrontEndSuperUserMenu : IFrontEndSuperUser {
+internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
 
-        private  IDatabase db = new DatabaseServices();
+    private  IDatabase db = new DatabaseServices();
 
-        public FrontEndSuperUserMenu(DatabaseServices databaseServices) {
-            this.db = databaseServices;
-        }
+    internal FrontEndSuperUserMenu(DatabaseServices databaseServices) {
+        this.db = databaseServices;
+    }
 
     public string ExportSurveyFromDatabase(int surveyId) {
         throw new NotImplementedException();

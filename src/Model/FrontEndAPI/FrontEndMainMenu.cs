@@ -4,11 +4,11 @@ using Model.Result;
 using Model.Survey;
 using System.Text;
 
-public class FrontEndMainMenu : IFrontEndMainMenu {
+internal class FrontEndMainMenu : IFrontEndMainMenu {
 
     private DatabaseServices databaseService;
 
-    public FrontEndMainMenu(DatabaseServices database) {
+    internal FrontEndMainMenu(DatabaseServices database) {
         databaseService = database;
     }
 

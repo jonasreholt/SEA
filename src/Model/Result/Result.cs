@@ -1,8 +1,7 @@
 namespace Model.Result;
 using Model.Answer;
 
-public class Result
-{
+public class Result {
     public AnswerType AnswerType {get; private set;} // First: ResultType == AnswerType, so no need for 2 different. 2. If we store it as 'ResultType' it can crash if the enum doesn't match the input type.
 
     public string QuestionResult {get; set;}

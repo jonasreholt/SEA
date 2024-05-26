@@ -13,7 +13,7 @@ using Result = Model.Result.Result;
 using Model.Result;
 using Model.Survey;
 
-public interface IDatabase {
+internal interface IDatabase {
     int GetNextSurveyID();
     bool StoreSurvey(Survey survey);
     Survey GetSurvey(int surveyId);
