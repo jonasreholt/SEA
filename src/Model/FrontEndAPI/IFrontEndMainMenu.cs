@@ -5,7 +5,7 @@ public interface IFrontEndMainMenu {
     List<SurveyWrapper>? ValidateSuperUser(string username, string password);
     void ImportSurvey(string filePath);
 
-    bool ExportResults(int surveyId, string path);
+    bool ExportResults(int surveyId, string folderPath);
     IReadOnlySurvey? GetSurvey(int pincode);
 
 }

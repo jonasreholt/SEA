@@ -9,8 +9,12 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
         this.db = databaseServices;
     }
 
-    public string ExportSurveyFromDatabase(int surveyId) {
-        return string.Empty;
+    public bool ExportSurveyFromDatabase(int surveyId, string folderPath) {
+        if (db.ExportSurvey(surveyId, folderPath)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public IModifySurveyWrapper ModifySurvey(int surveyId) {
