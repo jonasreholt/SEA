@@ -122,5 +122,9 @@ public List<Result> GetResults(int id) {
             return false;
         }
     }
+
+    public Model.Survey.SurveyWrapper GetSurveyWrapper(int surveyId) {
+        return new Model.Survey.SurveyWrapper(surveyId);
+    }
 }
 

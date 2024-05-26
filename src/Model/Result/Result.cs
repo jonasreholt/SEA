@@ -13,7 +13,7 @@ public class Result
 
     public int SurveyId {get; private set;}
 
-    public Result (AnswerType type, string questionResult, int userId, int questionId, int surveyId) {
+    public Result (int surveyId, int questionId, AnswerType type, int userId, string questionResult) {
         AnswerType = type;
         QuestionResult = questionResult;
         UserId = userId;
