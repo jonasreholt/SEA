@@ -1,7 +1,7 @@
 namespace Model.FrontEndAPI;
 using Model.Survey;
 
-public static class JonasFrontEndMainMenu
+public static class FrontEndMainMenuMock
 {
     private const string DeveloperUserName = "10xdeveloper";
     private const string DeveloperPassword = "ornot";
