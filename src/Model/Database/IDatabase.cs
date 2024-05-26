@@ -1,4 +1,4 @@
-namespace Backend.DatabaseAPI;
+namespace Model.Database;
 // using FrontEndAPI;
 // using Survey;
 // using Result;
@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
+using Model.Result;
+
 public interface IDatabase {
     int GetNextSurveyID();
     bool StoreSurvey(Survey survey);
@@ -19,5 +21,6 @@ public interface IDatabase {
     bool TryStorePicture(string path, int surveyId);
     void StorePictureOverwrite(string path, int surveyId);
     List<Result> GetResults(int id);
-    bool StoreResults(int id, int questionId, int userId, List<Result> results);
+    bool StoreResults(List<Result> results);
+    bool StoreResult(IResult result);
 }

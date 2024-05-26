@@ -1,7 +1,14 @@
+using Model.Result;
+using Model.Database;
 namespace Model.FrontEndAPI;
-public class FrontEndExperimenter {
+public class FrontEndExperimenter : IFrontEndExperimenter {
 
-    public static void StoreResultInDatabase(int surveyId, int questionId, int userId, string answer) {
-
+    private IDatabase databaseService;
+    public FrontEndExperimenter(IDatabase database) {
+        databaseService = database;
+    }
+    
+    public void StoreResultFromQuestion(IResult answer) {
+        databaseService.StoreResult(answer);   
     }
 }
