@@ -23,21 +23,19 @@ public class FrontEndMainMenu : IFrontEndMainMenu {
             return true;
         }
         catch (Exception) {
-            // Handle exceptions if needed
             return false;
         } 
     }
 
-    public IReadOnlySurvey GetSurvey(int surveyId)
-    {
-        throw new NotImplementedException();
+    public IReadOnlySurvey GetSurvey(int surveyId) {
+        return databaseService.GetSurvey(surveyId);
     }
 
     public void ImportSurvey(string filePath) {
-        
+        databaseService.ImportSurvey(filePath);        
     }
 
-    public bool ValidateSuperUser(string username, string password) {
-        return true;
+    public List<SurveyWrapper>? ValidateSuperUser(string username, string password) {
+        return new List<SurveyWrapper>();
     }
 }  
