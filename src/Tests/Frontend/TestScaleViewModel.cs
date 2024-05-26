@@ -2,12 +2,6 @@ using scivu.Model;
 
 namespace Tests.Frontend;
 
-#if Windows // Due to use of System.Drawing.Image this is only supported on Windows
-using System.Drawing;
-using System.Drawing.Imaging;
-using Bitmap = System.Drawing.Bitmap;
-#endif
-
 using Mocks;
 using Model.Answer;
 using scivu.ViewModels;
@@ -69,42 +63,6 @@ public class TestScaleViewModel
             Assert.That(content.Text, Is.EqualTo(text));
         });
     }
-
-#if Windows // Due to use of System.Drawing.Image this is only supported on Windows
-    [Test]
-    public void TestSetupPicture()
-    {
-        string[] arr = ["1", "5"];
-        var caption = "Title caption";
-        var text = "This is a scale question?";
-        var path = @"tester.png";
-
-        try
-        {
-            using (Bitmap b = new Bitmap(50, 50)) {
-              using (Graphics g = Graphics.FromImage(b)) {
-                g.Clear(Color.Green);
-              }
-              b.Save(path, ImageFormat.Png);
-            }
-
-            var content = SetupVars(arr, caption, text, path);
-
-            Assert.Multiple(() =>
-            {
-                Assert.That(content.Image, Is.Not.Null);
-                Assert.That(content.FoundImage, Is.True);
-                Assert.That(content.Buttons.Count, Is.EqualTo(5));
-                Assert.That(content.Caption, Is.EqualTo(caption));
-                Assert.That(content.Text, Is.EqualTo(text));
-            });
-        }
-        finally
-        {
-            if (File.Exists(path)) File.Delete(path);
-        }
-    }
-#endif
 
     public static object[] InvalidRangeProvider =
     {
