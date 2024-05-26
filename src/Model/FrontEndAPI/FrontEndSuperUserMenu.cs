@@ -10,7 +10,7 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
     }
 
     public string ExportSurveyFromDatabase(int surveyId) {
-        throw new NotImplementedException();
+        return string.Empty;
     }
 
     public IModifySurveyWrapper ModifySurvey(int surveyId) {
@@ -18,31 +18,15 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
     }
 
     public void StorePicture(int surveyId, string filePath) {
-        throw new NotImplementedException();
+        //To be implemented
     }
 
     public void StorePicture(int surveyId, string filePath, string optionalPrefix) {
-        throw new NotImplementedException();
+        //To be implemented
     }
 
-    public void StoreSurveyInDatabase(IModifySurvey survey)
-    {
-        throw new NotImplementedException();
+    public void StoreSurveyInDatabase(IModifySurvey survey) {
+        
     }
-
-    // // Flyt 3 nedenstående til separat interface?
-    // public  void DeleteSurvey(int surveyId) {
-
-    // }
-    // public  IModifySurvey? ModifySurvey(int surveyId) {
-    //     return null;
-    // }
-    // public  IModifySurvey CreateSurvey() {
-    //     return null;
-    // }
-
-    // public  string ExportSurvey(int surveyId) {
-    //     return null;
-    // }
 
 }
