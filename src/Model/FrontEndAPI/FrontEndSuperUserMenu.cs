@@ -1,19 +1,36 @@
 namespace Model.FrontEndAPI;
 using Model.Survey;
-    public static class FrontEndSuperUserMenu {
-        // Flyt 3 nedenstående til separat interface?
-        public static void DeleteSurvey(int surveyId) {
+using Model.Database;
+internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
 
-        }
-        public static IModifySurvey? ModifySurvey(int surveyId) {
-            return null;
-        }
-        public static IModifySurvey CreateSurvey() {
-            return null;
-        }
+    private  IDatabase db = new DatabaseServices();
 
-        public static string ExportSurvey(int surveyId) {
-            return null;
-        }
-
+    internal FrontEndSuperUserMenu(DatabaseServices databaseServices) {
+        this.db = databaseServices;
     }
+
+    public bool ExportSurveyFromDatabase(int surveyId, string folderPath) {
+        if (db.ExportSurvey(surveyId, folderPath)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public IModifySurveyWrapper ModifySurvey(int surveyId) {
+        return db.GetSurveyWrapper(surveyId);
+    }
+
+    public void StorePicture(int surveyId, string filePath) {
+        //To be implemented
+    }
+
+    public void StorePicture(int surveyId, string filePath, string optionalPrefix) {
+        //To be implemented
+    }
+
+    public void StoreSurveyInDatabase(IModifySurvey survey) {
+        
+    }
+
+}

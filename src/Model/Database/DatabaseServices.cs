@@ -4,17 +4,18 @@ using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using SurveyWrapper = Model.Survey.SurveyWrapper;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
 using Model.Result;
 using Model.Answer;
 using System.Collections.Generic;
 
-public class DatabaseServices : IDatabase {
+internal class DatabaseServices : IDatabase {
 
     private string databasePath = "./surveyDatabase/";
     private string resultsPath;
-    public DatabaseServices() {
+    internal DatabaseServices() {
         Directory.CreateDirectory(databasePath); //is only created if not exists
         resultsPath = Path.Combine(databasePath, "./results.csv");
         CreateResultsFileIfNotExisting(resultsPath);
@@ -90,9 +91,9 @@ public class DatabaseServices : IDatabase {
         return true;
     }
 
-public List<Result> GetResults(int id) {
-    throw new NotImplementedException();
-}
+    public List<Result> GetResults(int id) {
+        throw new NotImplementedException();
+    }
 
 
     public bool StoreResult (IResult result) {
@@ -121,6 +122,14 @@ public List<Result> GetResults(int id) {
             // Handle exceptions if needed
             return false;
         }
+    }
+
+    public SurveyWrapper GetSurveyWrapper(int surveyId) {
+        return new SurveyWrapper(surveyId);
+    }
+
+    public List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username){
+        return new List<SurveyWrapper>();
     }
 }
 

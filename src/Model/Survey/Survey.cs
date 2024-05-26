@@ -5,11 +5,7 @@ using Model.Question;
 using Model.Answer;
 using System.Collections.Generic;
 
-public class Survey : IReadOnlySurvey, IModifySurvey {
-
-    // public IReadOnlyAnswer ReadOnlyAnswer {get;}
-
-    // public IModifyAnswer ModifyAnswer {get; set;}
+internal class Survey : IReadOnlySurvey, IModifySurvey {
     public int SurveyId {get;}
 
     public string SurveyName {get; set;}

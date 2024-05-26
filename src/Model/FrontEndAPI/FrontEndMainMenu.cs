@@ -3,19 +3,21 @@ using Model.Database;
 using Model.Result;
 using Model.Survey;
 using System.Text;
+using System.IO;
 
-public class FrontEndMainMenu : IFrontEndMainMenu {
+internal class FrontEndMainMenu : IFrontEndMainMenu {
 
-    private DatabaseServices databaseService;
+    private IDatabase db;
 
-    public FrontEndMainMenu(DatabaseServices database) {
-        databaseService = database;
+    internal FrontEndMainMenu(DatabaseServices database) {
+        db = database;
     }
 
-    public bool ExportResults(int surveyId, string path) {
-        List<Result> results = databaseService.GetResults(surveyId);
+    public bool ExportResults(int surveyId, string folderPath) {
+        List<Result> results = db.GetResults(surveyId);
+        string path = Path.Combine(folderPath, $"{surveyId}.csv");
         try {
-            using (StreamWriter writer = new StreamWriter(path, true, Encoding.UTF8)) {
+            using (StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8)) {
                 foreach (var result in results) {
                     writer.WriteLine(result.ToString());
                 }
@@ -26,16 +28,17 @@ public class FrontEndMainMenu : IFrontEndMainMenu {
             return false;
         } 
     }
-
-    public IReadOnlySurvey? GetSurvey(int pincode) {
-        return databaseService.GetSurvey(pincode);
+    public IReadOnlySurvey GetSurvey(int surveyId) {
+        return db.GetSurvey(surveyId);
     }
 
-    public void ImportSurvey(string filePath) {
-        databaseService.ImportSurvey(filePath);        
+    public bool ImportSurvey(string filePath) {
+        return db.ImportSurvey(filePath);        
     }
 
     public List<SurveyWrapper>? ValidateSuperUser(string username, string password) {
-        return new List<SurveyWrapper>();
+        //Validate superuser against Hashfunction first. If true, then return the list of surveys
+        return db.GetSurveyWrapperForSuperUser(username);
+
     }
 }  

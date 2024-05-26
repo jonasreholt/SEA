@@ -11,11 +11,14 @@ using System.Threading.Tasks;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
 using Model.Result;
+using Model.Survey;
 
-public interface IDatabase {
+internal interface IDatabase {
     int GetNextSurveyID();
     bool StoreSurvey(Survey survey);
     Survey GetSurvey(int surveyId);
+    SurveyWrapper GetSurveyWrapper(int surveyId);
+    List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username);
     bool ExportSurvey(int id,string path);
     bool ImportSurvey(string path);
     bool TryStorePicture(string path, int surveyId);
