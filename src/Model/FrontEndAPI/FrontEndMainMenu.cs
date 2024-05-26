@@ -39,7 +39,7 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
 
     public List<SurveyWrapper>? ValidateSuperUser(string username, string password) {
         //Validate superuser against Hashfunction first. If true, then return the list of surveys
-        return db.GetSurveyWrapperFromSuperUser(username);
+        return db.GetSurveyWrapperForSuperUser(username);
 
     }
 }  

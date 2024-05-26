@@ -127,5 +127,9 @@ internal class DatabaseServices : IDatabase {
     public SurveyWrapper GetSurveyWrapper(int surveyId) {
         return new SurveyWrapper(surveyId);
     }
+
+    public List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username){
+        return new List<SurveyWrapper>();
+    }
 }
 
