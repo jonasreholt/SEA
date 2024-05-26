@@ -27,8 +27,8 @@ public class FrontEndMainMenu : IFrontEndMainMenu {
         } 
     }
 
-    public IReadOnlySurvey GetSurvey(int surveyId) {
-        return databaseService.GetSurvey(surveyId);
+    public IReadOnlySurvey? GetSurvey(int pincode) {
+        return databaseService.GetSurvey(pincode);
     }
 
     public void ImportSurvey(string filePath) {
