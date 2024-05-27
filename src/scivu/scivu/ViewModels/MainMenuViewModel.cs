@@ -18,7 +18,6 @@ public class MainMenuViewModel : ViewModelBase
 
     private string _errorMessage = string.Empty;
 
-    private bool _isFirstTry;
     private bool _isExperimenterLogin;
     private bool _isSuperLogin;
 
@@ -26,7 +25,6 @@ public class MainMenuViewModel : ViewModelBase
 
     public MainMenuViewModel(Action<string, object> changeViewCommand, IFrontEndMainMenu client)
     {
-        _isFirstTry = true;
         _isExperimenterLogin = false;
         _isSuperLogin = false;
 
@@ -66,12 +64,6 @@ public class MainMenuViewModel : ViewModelBase
         }
     }
 
-    public bool IsFirstTry
-    {
-        get => _isFirstTry;
-        private set => this.RaiseAndSetIfChanged(ref _isFirstTry, value);
-    }
-
     public bool IsExperimenterLogin
     {
         get => _isExperimenterLogin;
@@ -86,11 +78,31 @@ public class MainMenuViewModel : ViewModelBase
 
     public bool IsLogin => IsExperimenterLogin || IsSuperLogin;
 
+    public async void ImportSurvey()
+    {
+        var file = await FileExplorer.OpenSurveyAsync();
+        if (file != null)
+        {
+            var path = file.Path.ToString();
+            if (_client.ImportSurvey(path))
+            {
+                return;
+            }
+
+            var stdmsg = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.WAR_CouldNotImportSurvey);
+            ErrorMessage = $"{stdmsg}: '{path}'";
+            return;
+        }
+
+        ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.WAR_InvalidSurveyFileType);
+    }
+
     public void GoToLogin(bool isSuperUser)
     {
         if (isSuperUser) IsSuperLogin = true;
         else IsExperimenterLogin = true;
-        IsFirstTry = true;
+
+        ErrorMessage = string.Empty;
 
         // Need to raise that fields under IsLogin has changed!
         this.RaisePropertyChanged(nameof(IsLogin));
@@ -100,7 +112,6 @@ public class MainMenuViewModel : ViewModelBase
     {
         IsSuperLogin = false;
         IsExperimenterLogin = false;
-        IsFirstTry = true;
 
         Username = null;
         Password = null;
@@ -128,8 +139,6 @@ public class MainMenuViewModel : ViewModelBase
         }
 
         ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_InvalidLogin);
-
-        IsFirstTry = false;
     }
 
     private bool EnableLoginButton() => IsSuperLogin
@@ -166,7 +175,5 @@ public class MainMenuViewModel : ViewModelBase
 
             ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_PinCodeNotFound);
         }
-
-        IsFirstTry = false;
     }
 }

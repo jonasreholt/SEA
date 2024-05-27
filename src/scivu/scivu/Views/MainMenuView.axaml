@@ -10,6 +10,11 @@
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Spacing="25">
+        <!-- Tell them they can't remember anything -->
+        <TextBlock IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                   Foreground="Firebrick"
+                   Text="{Binding ErrorMessage}"/>
+
         <!-- Actual menu items -->
         <Button IsVisible="{Binding !IsLogin}"
                 Command="{Binding GoToLogin}">
@@ -27,10 +32,10 @@
             Experimenter Login
         </Button>
 
-        <!-- Tell them they can't remember anything -->
-        <TextBlock IsVisible="{Binding IsLogin}"
-                   Foreground="Firebrick"
-                   Text="{Binding ErrorMessage}"/>
+        <Button IsVisible="{Binding !IsLogin}"
+                Command="{Binding ImportSurvey}">
+            Import Survey
+        </Button>
 
         <!-- Super user login -->
         <Grid IsVisible="{Binding IsSuperLogin}"
