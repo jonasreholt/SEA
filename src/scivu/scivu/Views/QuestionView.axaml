@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels"
+             xmlns:views="clr-namespace:scivu.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.QuestionView"
+             x:DataType="vm:QuestionViewModel">
+
+    <StackPanel Spacing="5" Margin="10 0 10 0">
+        <TextBlock HorizontalAlignment="Center" Text="{Binding Caption}" />
+        <Border CornerRadius="10" ClipToBounds="True">
+            <Panel>
+                <Image Width="500" Stretch="Uniform" Source="{Binding Image}" />
+
+                <Panel Height="200"
+                       Width="200"
+                       IsVisible="{Binding !FoundImage}"
+                       Background="#7FFF22DD">
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="Image not found" />
+                </Panel>
+            </Panel>
+        </Border>
+
+        <Grid ColumnDefinitions="*,*"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Margin="0 0 0 7"
+                       Text="{Binding Text}"
+                       Grid.Column="0" />
+
+            <!-- Add the list of elements -->
+            <ContentControl Content="{Binding Content}"
+                            Grid.Column="1"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

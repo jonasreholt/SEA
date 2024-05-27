@@ -25,7 +25,7 @@ public class SurveyTakeViewModel : ViewModelBase
     private bool _isFirstPage;
     private bool _isLastPage;
 
-    public ObservableCollection<QuestionBaseViewModel> Questions { get; } = new();
+    public ObservableCollection<QuestionViewModel> Questions { get; } = new();
 
     private readonly List<List<Result>> _results = new();
     private int _resultIdx;
@@ -136,21 +136,14 @@ public class SurveyTakeViewModel : ViewModelBase
         FillSavedResultToQuestions();
     }
 
-    private static void FillQuestions(ICollection<QuestionBaseViewModel> target, IEnumerable<IReadOnlyQuestion> questions)
+    private static void FillQuestions(ICollection<QuestionViewModel> target, IEnumerable<IReadOnlyQuestion> questions)
     {
         target.Clear();
         foreach (var question in questions)
         {
             var answer = question.ReadOnlyAnswer;
             var t = answer.ReadOnlyAnswerType;
-            target.Add(
-                t switch
-                {
-                    AnswerType.Text => throw new NotImplementedException(t.ToString()),
-                    AnswerType.Scale => new ScaleQuestionViewModel(question),
-                    AnswerType.MultipleChoice => throw new NotImplementedException(t.ToString()),
-                    _ => throw new UnreachableException($"Setting questions with `{t}`")
-                });
+            target.Add(new QuestionViewModel(question));
         }
     }
 
@@ -163,10 +156,10 @@ public class SurveyTakeViewModel : ViewModelBase
         {
             var result = new Result(
                 _survey.SurveyId,
-                question.GetId(),
-                question.GetQuestionType(),
+                question.Id,
+                question.Type,
                 _userId,
-                question.GetAnswer());
+                question.GetResult());
             currentResultList.Add(result);
 
             // currently we send in the results each time
