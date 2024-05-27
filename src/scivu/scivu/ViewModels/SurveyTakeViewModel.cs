@@ -8,7 +8,6 @@ using Model.FrontEndAPI;
 using Model.Question;
 using Model.Result;
 using Model.Survey;
-using Answer = scivu.Model.Answer;
 
 namespace scivu.ViewModels;
 
@@ -17,7 +16,7 @@ using ReactiveUI;
 
 public class SurveyTakeViewModel : ViewModelBase
 {
-    private readonly IClientRequest _client;
+    private readonly IFrontEndExperimenter _client;
     private readonly Action<string, object> _changeViewCommand;
     private IReadOnlySurveyWrapper _wrapper;
     private IReadOnlySurvey _survey;
@@ -28,12 +27,12 @@ public class SurveyTakeViewModel : ViewModelBase
 
     public ObservableCollection<QuestionBaseViewModel> Questions { get; } = new();
 
-    private readonly List<List<IResult>> _results = new();
+    private readonly List<List<Result>> _results = new();
     private int _resultIdx;
 
     private readonly Random rnd;
 
-    public SurveyTakeViewModel(IClientRequest client, Action<string, object> changeViewCommand)
+    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand)
     {
         _client = client;
         rnd = new Random();
@@ -51,13 +50,12 @@ public class SurveyTakeViewModel : ViewModelBase
             if (result)
             {
                 // Do the quit
-                Console.WriteLine("Quitting survey");
                 _changeViewCommand.Invoke("PauseMenu", _wrapper);
             }
         });
     }
 
-    public SurveyTakeViewModel(IClientRequest client, Action<string, object> changeViewCommand, IReadOnlySurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, IReadOnlySurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
     {
         StartNewSurvey(wrapper, userId);
     }
@@ -68,7 +66,7 @@ public class SurveyTakeViewModel : ViewModelBase
         _wrapper = surveyWrapper;
         _survey = ChooseSurvey(surveyWrapper);
         _results.Clear();
-        _results.Add(new List<IResult>());
+        _results.Add(new List<Result>());
         _resultIdx = 0;
 
         // Load first page of questions
@@ -118,7 +116,7 @@ public class SurveyTakeViewModel : ViewModelBase
         IsFirstQuestion = false;
         IsLastPage = !_survey.NextQuestionExist();
 
-        FillSavedAnswerToQuestions();
+        FillSavedResultToQuestions();
     }
 
     private void PreviousQuestions()
@@ -135,7 +133,7 @@ public class SurveyTakeViewModel : ViewModelBase
         IsFirstQuestion = !_survey.PreviousQuestionExist();
         IsLastPage = false;
 
-        FillSavedAnswerToQuestions();
+        FillSavedResultToQuestions();
     }
 
     private static void FillQuestions(ICollection<QuestionBaseViewModel> target, IEnumerable<IReadOnlyQuestion> questions)
@@ -156,44 +154,43 @@ public class SurveyTakeViewModel : ViewModelBase
         }
     }
 
-    private void SaveQuestionAnswers()
+    private void SaveQuestionResults()
     {
-        var currentAnswerList = _results[_resultIdx];
-        // Clear any possible old answers as we are about to overwrite anyway
-        currentAnswerList.Clear();
+        var currentResultList = _results[_resultIdx];
+        // Clear any possible old results as we are about to overwrite anyway
+        currentResultList.Clear();
         foreach (var question in Questions)
         {
-            var answer = new Answer(
-                question.GetQuestionType(),
-                question.GetAnswer(),
-                _userId,
+            var result = new Result(
+                _survey.SurveyId,
                 question.GetId(),
-                _survey.SurveyId
-                );
-            currentAnswerList.Add(answer);
+                question.GetQuestionType(),
+                _userId,
+                question.GetAnswer());
+            currentResultList.Add(result);
 
-            // currently we send in the answers each time
-            _client.StoreResultFromQuestion(answer);
+            // currently we send in the results each time
+            _client.StoreResultFromQuestion(result);
         }
     }
 
-    private void FillSavedAnswerToQuestions()
+    private void FillSavedResultToQuestions()
     {
-        var answers = _results[_resultIdx];
+        var results = _results[_resultIdx];
         // Check if we actually have anything saved here
-        if (answers.Count <= 0) return;
+        if (results.Count <= 0) return;
 
-        Debug.Assert(answers.Count == Questions.Count);
+        Debug.Assert(results.Count == Questions.Count);
 
         for (var i = 0; i < Questions.Count; i++)
         {
-            var answer = answers[i];
+            var result = results[i];
             var question = Questions[i];
 
             // If we have a saved result
-            if (answer.QuestionResult != string.Empty)
+            if (result.QuestionResult != string.Empty)
             {
-                question.SetResult(answer.QuestionResult);
+                question.SetResult(result.QuestionResult);
             }
         }
     }
@@ -201,11 +198,11 @@ public class SurveyTakeViewModel : ViewModelBase
     public void DoNext()
     {
         // Save any questions we have
-        SaveQuestionAnswers();
+        SaveQuestionResults();
         _resultIdx++;
 
         // Make room for the new page of questions results
-        if (_resultIdx >= _results.Count) _results.Add(new List<IResult>());
+        if (_resultIdx >= _results.Count) _results.Add(new List<Result>());
 
         // Change to next set of questions
         NextQuestions();
@@ -213,7 +210,7 @@ public class SurveyTakeViewModel : ViewModelBase
 
     public void DoPrevious()
     {
-        SaveQuestionAnswers();
+        SaveQuestionResults();
         if (_resultIdx >= 0) _resultIdx--;
 
         // Change to the previous set of questions

@@ -1,3 +1,5 @@
+using Model.Factory;
+
 namespace Tests.Frontend;
 
 using System.Collections.Generic;
@@ -77,7 +79,7 @@ public class TestSurveyTakeViewModel
     [Test]
     public void TestSwitchPages()
     {
-        var client = new ClientRequestMock();
+        var client = FrontEndFactory.CreateExperimenterMenu();
         var survey = new ReadOnlySurveyMock()
         {
             Questions = new List<List<IReadOnlyQuestion>> {_page1, _page2}

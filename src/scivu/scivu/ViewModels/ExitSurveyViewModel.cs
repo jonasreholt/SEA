@@ -13,12 +13,10 @@ public class ExitSurveyViewModel
     {
         YesCommand = ReactiveCommand.Create(() =>
         {
-            Console.WriteLine("Hej from yesh");
             return (object?)true;
         });
         NoCommand = ReactiveCommand.Create(() =>
         {
-            Console.WriteLine("Hej from no");
             return (object?)false;
         });
     }
