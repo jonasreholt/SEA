@@ -40,7 +40,7 @@ public static class ExampleSurvey
     {
         var q1 = GetScaleQuestion(
             "Caption1",
-            "/home/jonas/Pictures/Screenshots/hej.png",
+            string.Empty,
             "Question1",
             1,
             8);
