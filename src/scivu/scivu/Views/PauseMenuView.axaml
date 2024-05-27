@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:scivu.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.PauseMenuView"
+             x:DataType="vm:PauseMenuViewModel">
+
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="25">
+
+          <!-- Actual menu items -->
+        <Button IsVisible="{Binding IsLoggedIn}"
+                Command="{Binding ChangeView}"
+            CommandParameter="ExperimenterMenu">
+            End Experiment
+        </Button>
+
+        <Button IsVisible="{Binding IsLoggedIn}"
+                Command="{Binding ChangeView}"
+                CommandParameter="TakeSurvey">
+            Next Participant
+        </Button>
+
+        <!-- Tell them they can't remember anything -->
+        <TextBlock IsVisible="{Binding !IsLoggedIn}"
+                   Foreground="Firebrick"
+                   Text="{Binding ErrorMessage}"/>
+
+        <Grid IsVisible="{Binding !IsLoggedIn}"
+              ColumnDefinitions="*,10,4*"> <!-- a middle column for spacing -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                PIN
+            </TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="2"
+                     PasswordChar="*"
+                     Text="{Binding Pincode, Mode=TwoWay}"
+                     Watermark="6 digit code"/>
+        </Grid>
+
+        <Button Command="{Binding DoLogin}"
+                IsEnabled="{Binding IsLoginEnabled}"
+                IsVisible="{Binding !IsLoggedIn}">
+            Continue
+        </Button>
+
+    </StackPanel>
+</UserControl>
