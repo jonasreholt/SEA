@@ -65,6 +65,7 @@ public class SurveyTakeViewModel : ViewModelBase
         _userId = userId;
         _wrapper = surveyWrapper;
         _survey = ChooseSurvey(surveyWrapper);
+        _survey.ResetCounter();
         _results.Clear();
         _results.Add(new List<Result>());
         _resultIdx = 0;

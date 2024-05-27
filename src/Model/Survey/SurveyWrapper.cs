@@ -5,16 +5,16 @@ namespace Model.Survey;
 public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
 
     private int surveyWrapperId;
-    
+
     private string surveyWrapperName;
 
     private string[] surveyAssests;
-    
+
     public int SurveyWrapperId { get => surveyWrapperId;}
     public string SurveyWrapperName { get => surveyWrapperName; set => surveyWrapperName = value;}
 
     private int current = 0;
-    private List<Survey> surveyVersions = new List<Survey>(); 
+    private List<Survey> surveyVersions = new List<Survey>();
 
     public SurveyWrapper (int id) {
         surveyWrapperId = id;
@@ -26,6 +26,14 @@ public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
     public void CopyVersion(int index) {
         // var copiedVersion = surveyVersions[index];
         // surveyVersions.Add(copiedVersion);
+    }
+
+    public IModifySurvey AddNewVersion()
+    {
+        var id = surveyVersions.Count;
+        var survey = new Survey(id);
+        surveyVersions.Add(survey);
+        return survey;
     }
 
     public void DeleteVersion(int index) {
@@ -42,7 +50,7 @@ public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
 
     public IModifySurvey TryGetModifySurveyVersion(int index)
     {
-        if(0 <= index && index < (surveyVersions.Count() - 1)) { 
+        if(0 <= index && index < surveyVersions.Count) {
             current = index;
             return surveyVersions[index];
         } else {
@@ -52,7 +60,7 @@ public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
 
     public IReadOnlySurvey TryGetReadOnlySurveyVersion(int index)
     {
-        if(0 <= index && index < (surveyVersions.Count() - 1)) { 
+        if(0 <= index && index < surveyVersions.Count) {
             current = index;
             return surveyVersions[index];
         } else {
