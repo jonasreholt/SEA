@@ -10,8 +10,9 @@ using scivu.Model;
 
 namespace scivu.ViewModels;
 
-public class ScaleQuestionViewModel : ViewModelBase
+public class ScaleQuestionViewModel : QuestionBaseViewModel
 {
+    private readonly int _id;
     private static int _groupName;
 
     private bool _foundImage = true;
@@ -31,6 +32,7 @@ public class ScaleQuestionViewModel : ViewModelBase
 
     public ScaleQuestionViewModel(IReadOnlyQuestion question)
     {
+        _id = question.QuestionId;
         if (!string.IsNullOrEmpty(question.ReadOnlyPicture))
         {
             if (File.Exists(question.ReadOnlyPicture))
@@ -78,5 +80,36 @@ public class ScaleQuestionViewModel : ViewModelBase
             var svm = new ScaleViewModel(_groupName.ToString(), min.ToString());
             Buttons.Add(svm);
         }
+    }
+
+    public override string GetAnswer()
+    {
+        foreach (var button in Buttons)
+        {
+            if (button.IsChecked)
+            {
+                return button.Text;
+            }
+        }
+
+        return string.Empty;
+    }
+
+    public override AnswerType GetQuestionType() => AnswerType.Scale;
+    public override int GetId() => _id;
+
+    public override void SetResult(string result)
+    {
+        // Find the correct radiobutton to check
+        foreach (var button in Buttons)
+        {
+            if (button.Text.Equals(result))
+            {
+                button.IsChecked = true;
+                return;
+            }
+        }
+
+        throw new ArgumentException($"The Given result `{result}` does not match the scale");
     }
 }
