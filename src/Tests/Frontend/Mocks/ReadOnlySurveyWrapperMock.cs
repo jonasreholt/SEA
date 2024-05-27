@@ -9,7 +9,10 @@ public class ReadOnlySurveyWrapperMock : IReadOnlySurveyWrapper
 
     public int GetVersionCount() => _survey.Count;
 
-    public string SurveyWrapperName{get;}
+    public string SurveyWrapperName { get; }
+
+    public int SurveyWrapperId { get; }
+
 
     public ReadOnlySurveyWrapperMock(IReadOnlySurvey survey)
     {
