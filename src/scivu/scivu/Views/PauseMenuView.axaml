@@ -21,9 +21,6 @@
         <Button IsVisible="{Binding IsLoggedIn}"
                 Command="{Binding ChangeView}"
                 CommandParameter="TakeSurvey">
-            <!-- <Button.CommandParameter>
-                <sys:Boolean>false</sys:Boolean>
-            </Button.CommandParameter> -->
             Next Participant
         </Button>
 
