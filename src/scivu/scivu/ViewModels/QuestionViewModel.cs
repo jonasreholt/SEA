@@ -62,18 +62,13 @@ public class QuestionViewModel : ViewModelBase
 
     private void FillContent(IReadOnlyAnswer answer)
     {
-        switch (answer.ReadOnlyAnswerType)
+        Content = answer.ReadOnlyAnswerType switch
         {
-            case AnswerType.Scale:
-                Content = new ScaleQuestionViewModel(answer.ReadOnlyAnswers);
-                break;
-            case AnswerType.Text:
-                break;
-            case AnswerType.MultipleChoice:
-                break;
-            default:
-                throw new ArgumentException($"'{answer.ReadOnlyAnswerType}' is not implemented");
-        }
+            AnswerType.Scale => new ScaleQuestionViewModel(answer.ReadOnlyAnswers),
+            AnswerType.Text => throw new NotImplementedException(),
+            AnswerType.MultipleChoice => throw new NotImplementedException(),
+            _ => throw new ArgumentException($"'{answer.ReadOnlyAnswerType}' is not implemented")
+        };
     }
 
     public string GetResult()
