@@ -8,7 +8,5 @@ namespace scivu.ViewModels;
 public abstract class QuestionBaseViewModel : ViewModelBase
 {
     public abstract string GetAnswer();
-    public abstract AnswerType GetQuestionType();
-    public abstract int GetId();
     public abstract void SetResult(string result);
 }
