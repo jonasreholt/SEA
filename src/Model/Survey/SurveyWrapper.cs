@@ -10,6 +10,7 @@ public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
 
     private string[] surveyAssests;
     
+    public int SurveyWrapperId { get => surveyWrapperId;}
     public string SurveyWrapperName { get => surveyWrapperName; set => surveyWrapperName = value;}
 
     private int current = 0;
