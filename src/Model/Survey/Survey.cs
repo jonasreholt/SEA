@@ -12,37 +12,37 @@ internal class Survey : IReadOnlySurvey, IModifySurvey {
 
     private List<List<Question>> surveyQuestions = new List<List<Question>>();
 
-    private int current = 0;
+    private int current = -1;
 
     public Survey(int surveyId) {
         SurveyId = surveyId;
         SurveyName = string.Empty;
     }
 
-    public bool PreviousQuestionExist() => throw new NotImplementedException();
-    public bool NextQuestionExist() => throw new NotImplementedException();
+    public bool PreviousQuestionExist() => current > 0;
+    public bool NextQuestionExist() => current + 1 < surveyQuestions.Count;
 
-    public IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion() {
-        if(0 <= current && current < (surveyQuestions.Count() - 1)) {
-            current++;
-            return surveyQuestions[current];
-        } else {
-            return null;
-        }
+    public IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion()
+    {
+        return NextQuestionExist()
+            ? surveyQuestions[++current]
+            : null;
     }
 
     public IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion()
     {
-        if(0 < current && current < (surveyQuestions.Count())) {
-            current--;
-            return surveyQuestions[current];
-        } else {
-            return null;
-        }
+        return PreviousQuestionExist()
+            ? surveyQuestions[--current]
+            : null;
+    }
+
+    public void ResetCounter()
+    {
+        current = -1;
     }
 
     public IEnumerable<IModifyQuestion>? TryGetModifyQuestion(int index) {
-        if(0 <= index && index < (surveyQuestions.Count() - 1)) {
+        if(0 <= index && index < surveyQuestions.Count) {
             current = index;
             return surveyQuestions[index];
         } else {
@@ -51,7 +51,7 @@ internal class Survey : IReadOnlySurvey, IModifySurvey {
     }
     public IEnumerable<IModifyQuestion>? TryGetNextModifyQuestion()
     {
-        if(0 <= current && current < (surveyQuestions.Count() - 1)) {
+        if(0 <= current && NextQuestionExist()) {
             current++;
             return surveyQuestions[current];
         } else {
@@ -60,7 +60,7 @@ internal class Survey : IReadOnlySurvey, IModifySurvey {
     }
 
     public IEnumerable<IModifyQuestion>? TryGetPreviousModifyQuestion() {
-        if(0 < current && current < (surveyQuestions.Count())) {
+        if(PreviousQuestionExist() && current < surveyQuestions.Count) {
             current--;
             return surveyQuestions[current];
         } else {
@@ -69,7 +69,7 @@ internal class Survey : IReadOnlySurvey, IModifySurvey {
     }
 
     public void DeleteQuestion(int index) {
-        if(0 < current && current < (surveyQuestions.Count())) {
+        if(0 < current && current < surveyQuestions.Count) {
             surveyQuestions.RemoveAt(index);
         }
     }

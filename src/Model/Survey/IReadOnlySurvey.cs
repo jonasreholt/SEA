@@ -10,4 +10,5 @@ public interface IReadOnlySurvey {
     bool NextQuestionExist();
     IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion();
     IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion();
+    void ResetCounter();
 }

@@ -1,9 +1,9 @@
-
 namespace Model.Database;
 using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using FrontEndAPI;
 using SurveyWrapper = Model.Survey.SurveyWrapper;
 using Survey = Model.Survey.Survey;
 using Result = Model.Result.Result;
@@ -25,7 +25,7 @@ internal class DatabaseServices : IDatabase {
         if (!File.Exists(resultsPath)) {
             File.Create(resultsPath).Dispose();
         }
-        
+
     }
 
     public bool StoreSurvey(Survey survey) {
@@ -36,14 +36,14 @@ internal class DatabaseServices : IDatabase {
     }
 
     public void StorePictureOverwrite(string src, int surveyId) {
-        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId);
         string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
         Directory.CreateDirectory(surveyAssetsPath);
         File.Copy(src, dest, true); //true -> overwrites automatically if dest already exists
     }
 
     public bool TryStorePicture(string src, int surveyId) {
-        string surveyAssetsPath = GetSurveyAssetsPath(surveyId); 
+        string surveyAssetsPath = GetSurveyAssetsPath(surveyId);
         string dest = Path.Combine(surveyAssetsPath, Path.GetFileName(src));
         Directory.CreateDirectory(surveyAssetsPath);
         if (!File.Exists(dest)) {
@@ -74,7 +74,7 @@ internal class DatabaseServices : IDatabase {
     // }
 
     // Tmp int used to increment to get unique IDs, must be received from db.
-    private int tmpId = 0; 
+    private int tmpId = 0;
     public int GetNextSurveyID() {
         return tmpId++;
     }
@@ -125,7 +125,9 @@ internal class DatabaseServices : IDatabase {
     }
 
     public SurveyWrapper GetSurveyWrapper(int surveyId) {
-        return new SurveyWrapper(surveyId);
+        return surveyId == 123456
+            ? ExampleSurvey.GetSurvey()
+            : new SurveyWrapper(surveyId);
     }
 
     public List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username){
