@@ -65,8 +65,9 @@ public class MainWindowViewModel : ViewModelBase
             case "MainMenu":
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
                 break;
-            case "PauseMenu" when arg is IReadOnlySurveyWrapper _:
-                throw new NotImplementedException("PauseMenu Viewmodel");
+            case "PauseMenu" when arg is IReadOnlySurveyWrapper survey:
+                ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
+                break;
             case "SuperUserMenu":
                 throw new NotImplementedException("Changing to super user menu");
             default:

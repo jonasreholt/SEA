@@ -19,7 +19,7 @@ public class PauseMenuViewModel : ViewModelBase
 
     private string _errorMessage = string.Empty;
 
-    public PauseMenuViewModel(IReadOnlySurveyWrapper survey, Action<string, object> changeViewCommand)
+    public PauseMenuViewModel(Action<string, object> changeViewCommand, IReadOnlySurveyWrapper survey)
     {
         Survey = survey;
         _isLoggedIn = false;

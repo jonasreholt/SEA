@@ -10,6 +10,7 @@ public class ExperimenterMenuViewModel : ViewModelBase
     private readonly Action<string, object> _changeViewCommand;
     // The following are placeholder, should be dynamically pulled from the survey object.
     public string SurveyName { get; }
+    public int SurveyId { get; }
     public int StartedSurveys { get; }
     public int FinishedSurveys { get; }
     public int CompletionRate { get; }
@@ -19,7 +20,8 @@ public class ExperimenterMenuViewModel : ViewModelBase
     {
         _survey = survey;
         _changeViewCommand = changeViewCommand;
-        SurveyName = "Survey 1"; // placeholder
+        SurveyName = survey.SurveyWrapperName; // placeholder
+        SurveyId = survey.SurveyWrapperId; // placeholder
         StartedSurveys = 20; // placeholder
         FinishedSurveys = 15; // placeholder
         CompletionRate = 75; // placeholder
@@ -29,7 +31,8 @@ public class ExperimenterMenuViewModel : ViewModelBase
 
     public void ChangeView(string view)
     {
-        _changeViewCommand(view, null!);
+        _changeViewCommand(view, view == "MainMenu" ? null! : _survey);
+
     }
 
     public void StartSurveyCommand()
