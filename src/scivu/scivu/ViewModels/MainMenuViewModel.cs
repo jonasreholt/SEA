@@ -11,6 +11,7 @@ public class MainMenuViewModel : ViewModelBase
     private const int PinCodeLength = 6;
 
     private readonly Action<string, object> _changeViewCommand;
+    private readonly IFrontEndMainMenu _client;
 
     private string? _username;
     private string? _password;
@@ -23,13 +24,14 @@ public class MainMenuViewModel : ViewModelBase
 
     private bool _isLoginEnabled;
 
-    public MainMenuViewModel(Action<string, object> changeViewCommand)
+    public MainMenuViewModel(Action<string, object> changeViewCommand, IFrontEndMainMenu client)
     {
         _isFirstTry = true;
         _isExperimenterLogin = false;
         _isSuperLogin = false;
 
         _changeViewCommand = changeViewCommand;
+        _client = client;
     }
 
     public bool IsLoginEnabled
@@ -118,8 +120,8 @@ public class MainMenuViewModel : ViewModelBase
     {
         Debug.Assert(IsSuperLogin);
 
-        var result = FrontEndMainMenu.ValidateSuperUser(Username!, Password!);
-        if (result)
+        var result = _client.ValidateSuperUser(Username!, Password!);
+        if (result != null)
         {
             _changeViewCommand.Invoke("SuperUserMenu", null!);
             return;
@@ -155,7 +157,7 @@ public class MainMenuViewModel : ViewModelBase
 
         if (Int32.TryParse(Password, out var pin))
         {
-            var survey = FrontEndMainMenu.GetSurvey(pin);
+            var survey = _client.GetSurvey(pin);
             if (survey != null)
             {
                 _changeViewCommand.Invoke("ExperimenterMenu", survey!);

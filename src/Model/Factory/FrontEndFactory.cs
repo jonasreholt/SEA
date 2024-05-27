@@ -1,4 +1,4 @@
-namespace FrontEndFactory;
+namespace Model.Factory;
 
 using Model.Database;
 using Model.FrontEndAPI;
