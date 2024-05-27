@@ -20,7 +20,7 @@ public static class FileExplorer
 
     public static async Task<IStorageFile?> OpenSurveyAsync()
     {
-        if (FileExplorerAvailable(out var provider))
+        if (!FileExplorerAvailable(out var provider))
             throw new NullReferenceException("Missing StorageProvider instance.");
 
         var file = await provider.OpenFilePickerAsync(new FilePickerOpenOptions()
@@ -34,7 +34,7 @@ public static class FileExplorer
 
     public static async Task<IStorageFile?> OpenImageAsync()
     {
-        if (FileExplorerAvailable(out var provider))
+        if (!FileExplorerAvailable(out var provider))
             throw new NullReferenceException("Missing StorageProvider instance.");
 
         var file = await provider.OpenFilePickerAsync(new FilePickerOpenOptions()
