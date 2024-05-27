@@ -88,7 +88,7 @@ internal class DatabaseServices : IDatabase {
     }
 
     public bool ImportSurvey(string path) {
-        return true;
+        return false;
     }
 
     public List<Result> GetResults(int id) {

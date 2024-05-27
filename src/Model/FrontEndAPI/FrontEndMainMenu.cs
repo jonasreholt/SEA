@@ -28,8 +28,8 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
             return false;
         } 
     }
-    public IReadOnlySurvey GetSurvey(int surveyId) {
-        return db.GetSurvey(surveyId);
+    public IReadOnlySurveyWrapper GetSurvey(int surveyId) {
+        return db.GetSurveyWrapper(surveyId);
     }
 
     public bool ImportSurvey(string filePath) {
