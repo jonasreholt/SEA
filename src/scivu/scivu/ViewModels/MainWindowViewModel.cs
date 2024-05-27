@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using ReactiveUI;
 using Model.FrontEndAPI;
 using Model.Survey;
 using Model.Factory;
+using Model.Question;
+using Model.Answer;
 
 
 namespace scivu.ViewModels;
@@ -12,7 +16,7 @@ public class MainWindowViewModel : ViewModelBase
 {
     internal ViewModelBase _contentViewModel;
     internal SurveyTakeViewModel _surveyTaker;
-    private readonly IClientRequest _client;
+    private readonly IFrontEndExperimenter _experimenterClient;
 
     private readonly IFrontEndMainMenu _mainMenuClient;
 
@@ -22,11 +26,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _client = new ClientRequest();
+        _mainMenuClient = FrontEndFactory.CreateMainMenu();
+        _experimenterClient = FrontEndFactory.CreateExperimenterMenu();
+
         // We cache our survey taker both to avoid creating a new version
         // at each survey start, but also for the workaround with opening
         // a dialog option
-        _surveyTaker = new SurveyTakeViewModel(_client, ChangeViewTo);
+        _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
 
         Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
@@ -57,7 +63,7 @@ public class MainWindowViewModel : ViewModelBase
                 ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
-                ContentViewModel = new MainMenuViewModel(ChangeViewTo);
+                ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
                 break;
             case "PauseMenu" when arg is IReadOnlySurveyWrapper _:
                 throw new NotImplementedException("PauseMenu Viewmodel");
