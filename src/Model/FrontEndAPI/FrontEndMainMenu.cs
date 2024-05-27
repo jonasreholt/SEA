@@ -29,7 +29,7 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
         } 
     }
     public IReadOnlySurveyWrapper GetSurvey(int surveyId) {
-        return db.GetSurvey(surveyId);
+        return db.GetSurveyWrapper(surveyId);
     }
 
     public bool ImportSurvey(string filePath) {

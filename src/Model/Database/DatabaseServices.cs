@@ -79,8 +79,8 @@ internal class DatabaseServices : IDatabase {
         return tmpId++;
     }
 
-    public SurveyWrapper GetSurvey(int surveyId) {
-        return (new SurveyWrapper(surveyId));
+    public Survey GetSurvey(int surveyId) {
+        return (new Survey(surveyId));
     }
 
     public bool ExportSurvey(int id, string path) {

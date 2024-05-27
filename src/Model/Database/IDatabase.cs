@@ -16,7 +16,7 @@ using Model.Survey;
 internal interface IDatabase {
     int GetNextSurveyID();
     bool StoreSurvey(Survey survey);
-    SurveyWrapper GetSurvey(int surveyId);
+    Survey GetSurvey(int surveyId);
     SurveyWrapper GetSurveyWrapper(int surveyId);
     List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username);
     bool ExportSurvey(int id,string path);
