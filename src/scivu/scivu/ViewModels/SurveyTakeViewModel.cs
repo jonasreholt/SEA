@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,11 +9,10 @@ using Model.FrontEndAPI;
 using Model.Question;
 using Model.Result;
 using Model.Survey;
+using ReactiveUI;
 
 namespace scivu.ViewModels;
 
-using System.Collections.ObjectModel;
-using ReactiveUI;
 
 public class SurveyTakeViewModel : ViewModelBase
 {
