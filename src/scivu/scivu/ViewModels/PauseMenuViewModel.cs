@@ -11,18 +11,19 @@ namespace scivu.ViewModels;
 public class PauseMenuViewModel : ViewModelBase
 {
 
-    private readonly IReadOnlySurveyWrapper _survey;
     private readonly Action<string, object> _changeViewCommand;
     private string? _pincode;
     private bool _isLoginEnabled;
     private bool _isLoggedIn;
+    public IReadOnlySurveyWrapper Survey { get; }
 
     private string _errorMessage = string.Empty;
 
     public PauseMenuViewModel(IReadOnlySurveyWrapper survey, Action<string, object> changeViewCommand)
     {
-        _survey = survey;
+        Survey = survey;
         _isLoggedIn = false;
+        _changeViewCommand = changeViewCommand;
     }
 
     public bool IsLoggedIn
@@ -30,7 +31,6 @@ public class PauseMenuViewModel : ViewModelBase
         get => _isLoggedIn;
         set => this.RaiseAndSetIfChanged(ref _isLoggedIn, value);
     }
-
 
     public bool IsLoginEnabled
     {
@@ -56,7 +56,7 @@ public class PauseMenuViewModel : ViewModelBase
 
     public void ChangeView(string view)
     {
-        _changeViewCommand(view, null!);
+        _changeViewCommand(view, Survey);
     }
 
     private bool EnableLoginButton()
@@ -67,17 +67,14 @@ public class PauseMenuViewModel : ViewModelBase
                && Int32.TryParse(Pincode, out _);
     }
 
-    private async void DoLogin()
+    public async void DoLogin()
     {
-        Debug.Assert(!_isLoggedIn);
-
+        Debug.Assert(!IsLoggedIn);
         if (Int32.TryParse(Pincode, out var pin))
         {
-            // Should manually check the pin of the survey rather than trying to get a new one and see if it exists.
-            var survey = FrontEndMainMenu.GetSurvey(pin);
-            if (survey != null)
+            if (Survey.SurveyWrapperId == pin)
             {
-                _isLoggedIn = true;
+                IsLoggedIn = true;
                 return;
             }
 

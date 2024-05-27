@@ -13,15 +13,14 @@
 
           <!-- Actual menu items -->
         <Button IsVisible="{Binding IsLoggedIn}"
-                Command="{Binding ChangeView}">
-            <!-- <Button.CommandParameter>
-                <sys:Boolean>true</sys:Boolean>
-            </Button.CommandParameter> -->
+                Command="{Binding ChangeView}"
+            CommandParameter="ExperimenterMenu">
             End Experiment
         </Button>
 
         <Button IsVisible="{Binding IsLoggedIn}"
-                Command="{Binding ChangeView}">
+                Command="{Binding ChangeView}"
+                CommandParameter="TakeSurvey">
             <!-- <Button.CommandParameter>
                 <sys:Boolean>false</sys:Boolean>
             </Button.CommandParameter> -->
