@@ -32,7 +32,11 @@ public class Result : IResult {
         foreach (var item in lst)
         {
             // We escape all ';' char to as not confuse with our
-            // separator
+            // separator, meaning we also escape all escape char ('\')
+            // to handle answer ending in such a char i.e. avoiding
+            // answer1\;answer2
+            // but creating
+            // answer1\\;answer2
             var cleanItem = EscapeSpecials(item);
             sb.Append(cleanItem).Append(';');
         }
@@ -56,6 +60,9 @@ public class Result : IResult {
             {
                 case ';':
                     sb.Append(@"\;");
+                    break;
+                case '\\':
+                    sb.Append(@"\\");
                     break;
                 default:
                     sb.Append(c);
