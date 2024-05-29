@@ -68,7 +68,7 @@ public class QuestionViewModel : ViewModelBase
         {
             AnswerType.Scale => new ScaleQuestionViewModel(_text, answer.ReadOnlyAnswers),
             AnswerType.Text => new TextQuestionViewModel(_text),
-            AnswerType.MultipleChoice => throw new NotImplementedException(),
+            AnswerType.MultipleChoice => new MultiQuestionViewModel(_text, answer.ReadOnlyAnswers),
             _ => throw new ArgumentException($"'{answer.ReadOnlyAnswerType}' is not implemented")
         };
     }

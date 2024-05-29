@@ -4,6 +4,7 @@
     <option name="projectPerEditor">
       <map>
         <entry key="scivu/App.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/ViewModels/MultiChoiceViewModel.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/AurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ExitSurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ExitSurveyWindow.axaml" value="scivu/scivu.csproj" />
@@ -12,6 +13,7 @@
         <entry key="scivu/Views/LoginView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MainMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MainWindow.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/MultiQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/MultipleChoiceView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/QuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ScaleQuestionView.axaml" value="scivu/scivu.csproj" />

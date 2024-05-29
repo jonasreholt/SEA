@@ -40,7 +40,7 @@ public class TestScaleViewModel
             Assert.That(content.FoundImage, Is.True);
             Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
-            Assert.That(content.Text, Is.EqualTo(text));
+            Assert.That(((ScaleQuestionViewModel)content.Content).Text, Is.EqualTo(text));
         });
     }
 
@@ -60,7 +60,7 @@ public class TestScaleViewModel
             Assert.That(content.FoundImage, Is.False);
             Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
-            Assert.That(content.Text, Is.EqualTo(text));
+            Assert.That(((ScaleQuestionViewModel)content.Content).Text, Is.EqualTo(text));
         });
     }
 
