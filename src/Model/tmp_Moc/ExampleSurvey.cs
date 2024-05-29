@@ -1,6 +1,5 @@
 using Model.Answer;
 using Model.Survey;
-using Model.Question;
 
 namespace Model.FrontEndAPI;
 
@@ -35,8 +34,19 @@ public static class ExampleSurvey
         answer.ModifyAnswerType = AnswerType.MultipleChoice;
         return question;
     }
+    
+    private static Question GetTextQuestion(string caption, string image, string text)
+    {
+        var question = new Question(_questionId++);
+        question.ModifyCaption = caption;
+        question.ModifyPicture = image;
+        question.ModifyText = text;
+        var answer = question.ModifyAnswer;
+        answer.ModifyAnswerType = AnswerType.Text;
+        return question;
+    }
 
-    public static SurveyWrapper GetSurvey()
+    internal static SurveyWrapper GetSurvey()
     {
         var q1 = GetScaleQuestion(
             "Caption1",
@@ -54,6 +64,10 @@ public static class ExampleSurvey
             string.Empty,
             "Question3",
             ["This", "that", "Naah"]);
+        var q4 = GetTextQuestion(
+            "Text Caption",
+            string.Empty,
+            "What do you think?");
 
 
 
@@ -65,6 +79,7 @@ public static class ExampleSurvey
 
         var page2 = survey.AddNewQuestion();
         ((List<Question>)page2).Add(q3);
+        ((List<Question>)page2).Add(q4);
 
         return surveyWrap;
     }
