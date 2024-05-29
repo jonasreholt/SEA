@@ -52,9 +52,15 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
     public override void SetResult(List<string> results)
     {
         // There can only be one result in a scale question
-        Debug.Assert(results.Count == 0);
+        Debug.Assert(results.Count == 1);
 
         var result = results[0];
+        // check if any result was given
+        if (result == string.Empty)
+        {
+            return;
+        }
+        
         // Find the correct radiobutton to check
         foreach (var button in Buttons)
         {

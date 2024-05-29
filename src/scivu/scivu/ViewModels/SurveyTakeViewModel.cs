@@ -180,11 +180,7 @@ public class SurveyTakeViewModel : ViewModelBase
             var result = results[i];
             var question = Questions[i];
 
-            // If we have a saved result
-            if (result.QuestionResult.Count > 0)
-            {
-                question.SetResult(result.QuestionResult);
-            }
+            question.SetResult(result.QuestionResult);
         }
     }
 
