@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using scivu.Model;
 
 namespace scivu.ViewModels;
@@ -34,21 +36,25 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
         }
     }
 
-    public override string GetAnswer()
+    public override List<string> GetAnswer()
     {
         foreach (var button in Buttons)
         {
             if (button.IsChecked)
             {
-                return button.Text;
+                return new List<string> { button.Text };
             }
         }
 
-        return string.Empty;
+        return new List<string> { string.Empty };
     }
 
-    public override void SetResult(string result)
+    public override void SetResult(List<string> results)
     {
+        // There can only be one result in a scale question
+        Debug.Assert(results.Count == 0);
+
+        var result = results[0];
         // Find the correct radiobutton to check
         foreach (var button in Buttons)
         {

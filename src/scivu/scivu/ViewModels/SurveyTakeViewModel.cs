@@ -4,7 +4,6 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
-using Model.Answer;
 using Model.FrontEndAPI;
 using Model.Question;
 using Model.Result;
@@ -182,7 +181,7 @@ public class SurveyTakeViewModel : ViewModelBase
             var question = Questions[i];
 
             // If we have a saved result
-            if (result.QuestionResult != string.Empty)
+            if (result.QuestionResult.Count > 0)
             {
                 question.SetResult(result.QuestionResult);
             }
