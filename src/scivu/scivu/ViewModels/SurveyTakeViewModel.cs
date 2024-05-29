@@ -4,6 +4,7 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
+using Model.Factory;
 using Model.FrontEndAPI;
 using Model.Question;
 using Model.Result;
@@ -26,7 +27,7 @@ public class SurveyTakeViewModel : ViewModelBase
 
     public ObservableCollection<QuestionViewModel> Questions { get; } = new();
 
-    private readonly List<List<Result>> _results = new();
+    private readonly List<List<IResult>> _results = new();
     private int _resultIdx;
 
     private readonly Random rnd;
@@ -66,7 +67,7 @@ public class SurveyTakeViewModel : ViewModelBase
         _survey = ChooseSurvey(surveyWrapper);
         _survey.ResetCounter();
         _results.Clear();
-        _results.Add(new List<Result>());
+        _results.Add(new List<IResult>());
         _resultIdx = 0;
 
         // Load first page of questions
@@ -154,7 +155,7 @@ public class SurveyTakeViewModel : ViewModelBase
         currentResultList.Clear();
         foreach (var question in Questions)
         {
-            var result = new Result(
+            var result = FrontEndFactory.CreateResult(
                 _survey.SurveyId,
                 question.Id,
                 question.Type,
@@ -191,7 +192,7 @@ public class SurveyTakeViewModel : ViewModelBase
         _resultIdx++;
 
         // Make room for the new page of questions results
-        if (_resultIdx >= _results.Count) _results.Add(new List<Result>());
+        if (_resultIdx >= _results.Count) _results.Add(new List<IResult>());
 
         // Change to next set of questions
         NextQuestions();
