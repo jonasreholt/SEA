@@ -2,7 +2,7 @@ namespace Model.Survey;
 
 
 
-public class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
+internal class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
 
     private int surveyWrapperId;
 
