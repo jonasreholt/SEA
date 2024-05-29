@@ -6,6 +6,11 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.TextQuestionView"
              x:DataType="vm:TextQuestionViewModel">
-    <TextBox Text="{Binding Text}"
-             AcceptsReturn="True" />
+    <StackPanel>
+        <TextBlock Text="{Binding QuestionText}"
+                   HorizontalAlignment="Left"/>
+        
+        <TextBox Text="{Binding Text}"
+                 AcceptsReturn="True" />
+    </StackPanel>
 </UserControl>

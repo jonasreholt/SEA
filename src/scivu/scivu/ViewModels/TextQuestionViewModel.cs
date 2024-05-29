@@ -8,7 +8,14 @@ namespace scivu.ViewModels;
 public class TextQuestionViewModel : QuestionBaseViewModel
 {
     private string _text = String.Empty;
+    
 
+    public TextQuestionViewModel(string questionText)
+    {
+        QuestionText = questionText;
+    }
+
+    public string QuestionText { get; }
     public string Text
     {
         get => _text;

@@ -14,6 +14,8 @@ public class QuestionViewModel : ViewModelBase
     private bool _foundImage = true;
     private QuestionBaseViewModel _content;
 
+    private string _text;
+
     public bool FoundImage
     {
         get => _foundImage;
@@ -22,7 +24,6 @@ public class QuestionViewModel : ViewModelBase
     public int Id { get; }
     public Bitmap? Image { get; }
     public string Caption { get; }
-    public string Text { get; }
     public AnswerType Type { get; }
 
     public QuestionBaseViewModel Content
@@ -56,7 +57,7 @@ public class QuestionViewModel : ViewModelBase
         }
 
         Caption = question.ReadOnlyCaption;
-        Text = question.ReadOnlyText;
+        _text = question.ReadOnlyText;
 
         FillContent(question.ReadOnlyAnswer);
     }
@@ -65,8 +66,8 @@ public class QuestionViewModel : ViewModelBase
     {
         Content = answer.ReadOnlyAnswerType switch
         {
-            AnswerType.Scale => new ScaleQuestionViewModel(answer.ReadOnlyAnswers),
-            AnswerType.Text => new TextQuestionViewModel(),
+            AnswerType.Scale => new ScaleQuestionViewModel(_text, answer.ReadOnlyAnswers),
+            AnswerType.Text => new TextQuestionViewModel(_text),
             AnswerType.MultipleChoice => throw new NotImplementedException(),
             _ => throw new ArgumentException($"'{answer.ReadOnlyAnswerType}' is not implemented")
         };
