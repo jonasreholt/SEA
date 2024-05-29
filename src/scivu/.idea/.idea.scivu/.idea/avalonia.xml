@@ -18,6 +18,7 @@
         <entry key="scivu/Views/ScaleView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyTakeView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/TextQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/TextView.axaml" value="scivu/scivu.csproj" />
       </map>
     </option>

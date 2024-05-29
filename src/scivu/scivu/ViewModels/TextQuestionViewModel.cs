@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Net.Mime;
+using System.Collections.Generic;
+using System.Diagnostics;
 using ReactiveUI;
 
 namespace scivu.ViewModels;
@@ -22,13 +22,16 @@ public class TextQuestionViewModel : QuestionBaseViewModel
         set => this.RaiseAndSetIfChanged(ref _text, value);
     }
     
-    public override string GetAnswer()
+    public override List<string> GetAnswer()
     {
-        return Text;
+        return new List<string> { Text };
     }
 
-    public override void SetResult(string result)
+    public override void SetResult(List<string> result)
     {
-        Text = result;
+        // There can be only one answer for a free text question
+        Debug.Assert(result.Count == 1);
+        
+        Text = result[0];
     }
 }
