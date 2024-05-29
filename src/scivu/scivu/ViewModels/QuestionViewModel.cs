@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Avalonia.Media.Imaging;
@@ -71,12 +72,12 @@ public class QuestionViewModel : ViewModelBase
         };
     }
 
-    public string GetResult()
+    public List<string> GetResult()
     {
         return Content.GetAnswer();
     }
 
-    public void SetResult(string result)
+    public void SetResult(List<string> result)
     {
         Content.SetResult(result);
     }

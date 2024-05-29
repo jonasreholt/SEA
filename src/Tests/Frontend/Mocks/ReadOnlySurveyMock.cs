@@ -27,4 +27,9 @@ public class ReadOnlySurveyMock : IReadOnlySurvey
 
         return i - 1 >= 0 ? Questions[--i] : null;
     }
+
+    public void ResetCounter()
+    {
+        i = -1;
+    }
 }

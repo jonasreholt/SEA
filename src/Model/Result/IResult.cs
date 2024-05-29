@@ -3,7 +3,7 @@ using Model.Answer;
 public interface IResult
 {
     AnswerType AnswerType {get;}
-    string QuestionResult {get; set;}
+    List<string> QuestionResult {get; set;}
     int UserId {get;}
     int QuestionId {get;}
     int SurveyId {get;}

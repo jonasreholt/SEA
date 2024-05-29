@@ -8,7 +8,7 @@ using scivu.ViewModels;
 
 public class TestScaleViewModel
 {
-    private ScaleQuestionViewModel SetupVars(string[] arr, string caption, string text, string imagePath)
+    private QuestionViewModel SetupVars(string[] arr, string caption, string text, string imagePath)
     {
         var answer = new ReadOnlyAnswerMock()
         {
@@ -23,7 +23,7 @@ public class TestScaleViewModel
             ReadOnlyText = text,
             ReadOnlyAnswer = answer
         };
-        return new ScaleQuestionViewModel(question);
+        return new QuestionViewModel(question);
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class TestScaleViewModel
         {
             Assert.That(content.Image, Is.Null);
             Assert.That(content.FoundImage, Is.True);
-            Assert.That(content.Buttons.Count, Is.EqualTo(5));
+            Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
             Assert.That(content.Text, Is.EqualTo(text));
         });
@@ -58,7 +58,7 @@ public class TestScaleViewModel
         {
             Assert.That(content.Image, Is.Null);
             Assert.That(content.FoundImage, Is.False);
-            Assert.That(content.Buttons.Count, Is.EqualTo(5));
+            Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
             Assert.That(content.Text, Is.EqualTo(text));
         });
