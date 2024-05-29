@@ -24,19 +24,9 @@
                 </Panel>
             </Panel>
         </Border>
-
-        <Grid ColumnDefinitions="*,*"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center">
-            <TextBlock VerticalAlignment="Bottom"
-                       HorizontalAlignment="Left"
-                       Margin="0 0 0 7"
-                       Text="{Binding Text}"
-                       Grid.Column="0" />
-
-            <!-- Add the list of elements -->
-            <ContentControl Content="{Binding Content}"
-                            Grid.Column="1"/>
-        </Grid>
+        
+        <ContentControl VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Content="{Binding Content}" />
     </StackPanel>
 </UserControl>

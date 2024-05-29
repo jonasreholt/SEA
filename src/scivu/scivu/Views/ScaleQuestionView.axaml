@@ -7,22 +7,29 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.ScaleQuestionView"
              x:DataType="vm:ScaleQuestionViewModel">
-    <Panel Margin="10 0 10 0">
-            <!-- Add the toggle button using RadioButton -->
-            <ItemsControl Margin="0 0 0 0"
-                          ItemsSource="{Binding Buttons}"
-                          Grid.Column="1">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+    <Grid Margin="10 0 10 0"
+          ColumnDefinitions="*,*">
+        <TextBlock VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left"
+                   Margin="0 0 0 7"
+                   Text="{Binding Text}"
+                   Grid.Column="0" />
+        
+        <!-- Add the toggle button using RadioButton -->
+        <ItemsControl Margin="0 0 0 0"
+                      ItemsSource="{Binding Buttons}"
+                      Grid.Column="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <views:ScaleView />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-    </Panel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <views:ScaleView />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

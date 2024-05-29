@@ -11,9 +11,12 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
     private static int _groupName;
 
     public ObservableCollection<ScaleViewModel> Buttons { get; } = new();
+    public string Text { get; }
 
-    public ScaleQuestionViewModel(ReadOnlyCollection<string> answers)
+    public ScaleQuestionViewModel(string questionText, ReadOnlyCollection<string> answers)
     {
+        Text = questionText;
+        
         if (answers.Count != 2)
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
