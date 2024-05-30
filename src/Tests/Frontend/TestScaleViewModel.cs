@@ -3,25 +3,20 @@ using scivu.Model;
 namespace Tests.Frontend;
 
 using Mocks;
-using Model.Answer;
+using Model.Structures;
 using scivu.ViewModels;
 
 public class TestScaleViewModel
 {
     private QuestionViewModel SetupVars(string[] arr, string caption, string text, string imagePath)
     {
-        var answer = new ReadOnlyAnswerMock()
+        var answer = new Answer(AnswerType.Scale, arr);
+        var question = new Question()
         {
-            ReadOnlyAnswerType = AnswerType.Scale,
-            ReadOnlyAnswers = arr.AsReadOnly()
-        };
-        var question = new ReadOnlyQuestionMock()
-        {
-            QuestionId = 42,
-            ReadOnlyCaption = caption,
-            ReadOnlyPicture = imagePath,
-            ReadOnlyText = text,
-            ReadOnlyAnswer = answer
+            Caption = caption,
+            PicturePath = imagePath,
+            QuestionText = text,
+            Answer = answer
         };
         return new QuestionViewModel(question);
     }

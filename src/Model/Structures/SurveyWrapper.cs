@@ -1,8 +1,8 @@
-namespace Model.Survey;
+namespace Model.Structures;
 
 
 
-internal class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
+public class SurveyWrapper {
 
     private int surveyWrapperId;
 
@@ -28,16 +28,19 @@ internal class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
         // surveyVersions.Add(copiedVersion);
     }
 
-    public IModifySurvey AddNewVersion()
+    public void Add(Survey survey)
     {
-        var id = surveyVersions.Count;
-        var survey = new Survey(id);
         surveyVersions.Add(survey);
-        return survey;
     }
 
-    public void DeleteVersion(int index) {
+    public void RemoveAt(int index)
+    {
         surveyVersions.RemoveAt(index);
+    }
+
+    public void Remove(Survey survey)
+    {
+        surveyVersions.Remove(survey);
     }
 
     public string[] GetSurveyAssets() {
@@ -48,7 +51,7 @@ internal class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
         return surveyVersions.Count();
     }
 
-    public IModifySurvey TryGetModifySurveyVersion(int index)
+    public Survey TryGetModifySurveyVersion(int index)
     {
         if(0 <= index && index < surveyVersions.Count) {
             current = index;
@@ -58,7 +61,7 @@ internal class SurveyWrapper : IReadOnlySurveyWrapper, IModifySurveyWrapper {
         }
     }
 
-    public IReadOnlySurvey TryGetReadOnlySurveyVersion(int index)
+    public Survey TryGetReadOnlySurveyVersion(int index)
     {
         if(0 <= index && index < surveyVersions.Count) {
             current = index;

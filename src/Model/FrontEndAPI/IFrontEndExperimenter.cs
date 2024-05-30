@@ -1,8 +1,7 @@
 namespace Model.FrontEndAPI;
-using Model.Survey;
-using Model.Result;
+using Model.Structures;
 
 public interface IFrontEndExperimenter {
     
-    void StoreResultFromQuestion(IResult answer);
+    void StoreResultFromQuestion(Result answer);
 }

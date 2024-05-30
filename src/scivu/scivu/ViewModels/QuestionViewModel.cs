@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Avalonia.Media.Imaging;
-using Model.Answer;
-using Model.Question;
+using Model.Structures;
 using ReactiveUI;
 
 namespace scivu.ViewModels;
@@ -32,18 +31,17 @@ public class QuestionViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _content, value);
     }
 
-    public QuestionViewModel(IReadOnlyQuestion question)
+    public QuestionViewModel(Question question)
     {
-        Id = question.QuestionId;
-        if (!string.IsNullOrEmpty(question.ReadOnlyPicture))
+        if (!string.IsNullOrEmpty(question.PicturePath))
         {
-            if (File.Exists(question.ReadOnlyPicture))
+            if (File.Exists(question.PicturePath))
             {
-                Image = new Bitmap(question.ReadOnlyPicture);
+                Image = new Bitmap(question.PicturePath);
             }
             else
             {
-                Debug.WriteLine($"Could not find file `{question.ReadOnlyPicture}`");
+                Debug.WriteLine($"Could not find file `{question.PicturePath}`");
 
                 // Display Debug image
                 FoundImage = false;
@@ -56,13 +54,14 @@ public class QuestionViewModel : ViewModelBase
             Image = null;
         }
 
-        Caption = question.ReadOnlyCaption;
-        _text = question.ReadOnlyText;
+        Caption = question.Caption;
+        _text = question.QuestionText;
+        
 
-        FillContent(question.ReadOnlyAnswer);
+        FillContent(question.Answer);
     }
 
-    private void FillContent(IReadOnlyAnswer answer)
+    private void FillContent(Answer answer)
     {
         Content = answer.ReadOnlyAnswerType switch
         {

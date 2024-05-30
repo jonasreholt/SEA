@@ -5,56 +5,39 @@ namespace Tests.Frontend;
 using System.Collections.Generic;
 using Mocks;
 using scivu.ViewModels;
-using Model.Question;
-using Model.Answer;
-using Model.Survey;
+using Model.Structures;
 
 [TestFixture]
 public class TestSurveyTakeViewModel
 {
-    private List<IReadOnlyQuestion> _page1 = new()
+    private Page _page1 = new(new List<Question>
     {
-        new ReadOnlyQuestionMock()
+        new Question
         {
-            QuestionId = 1,
-            ReadOnlyCaption = "Caption1",
-            ReadOnlyText = "Question1",
-            ReadOnlyPicture = string.Empty,
-            ReadOnlyAnswer = new ReadOnlyAnswerMock()
-            {
-                ReadOnlyAnswerType = AnswerType.Scale,
-                ReadOnlyAnswers = (new List<string> {"1", "8"}).AsReadOnly()
-            }
+            Caption = "Caption1",
+            QuestionText = "Question1",
+            PicturePath = string.Empty,
+            Answer = new Answer(AnswerType.Scale, new string[] { "1", "8" })
         },
-        new ReadOnlyQuestionMock()
+        new Question()
         {
-            QuestionId = 2,
-            ReadOnlyCaption = string.Empty,
-            ReadOnlyText = "Question2",
-            ReadOnlyPicture = string.Empty,
-            ReadOnlyAnswer = new ReadOnlyAnswerMock()
-            {
-                ReadOnlyAnswerType = AnswerType.Scale,
-                ReadOnlyAnswers = new List<string> {"1","3"}.AsReadOnly()
-            }
+            Caption = string.Empty,
+            QuestionText = "Question2",
+            PicturePath = string.Empty,
+            Answer = new Answer(AnswerType.Scale, new string[] { "1", "3" })
         }
-    };
+    });
 
-    private List<IReadOnlyQuestion> _page2 = new()
+    private Page _page2 = new(new List<Question>
     {
-        new ReadOnlyQuestionMock()
+        new Question()
         {
-            QuestionId = 3,
-            ReadOnlyCaption = "Caption2",
-            ReadOnlyText = "Question3",
-            ReadOnlyPicture = string.Empty,
-            ReadOnlyAnswer = new ReadOnlyAnswerMock()
-            {
-                ReadOnlyAnswerType = AnswerType.Scale,
-                ReadOnlyAnswers = new List<string> {"22", "25"}.AsReadOnly()
-            }
+            Caption = "Caption2",
+            QuestionText = "Question3",
+            PicturePath = string.Empty,
+            Answer = new Answer(AnswerType.Scale, new string[] {"22", "25"})
         }
-    };
+    });
 
     private Action<string, object> dummy = (_, _) => { };
 
@@ -62,11 +45,11 @@ public class TestSurveyTakeViewModel
     [Test]
     public void TestInitialState()
     {
-        var survey = new ReadOnlySurveyMock()
-        {
-            Questions = new List<List<IReadOnlyQuestion>> {_page1, _page2}
-        };
-        var surveyWrap = new ReadOnlySurveyWrapperMock(survey);
+        var survey = new Survey();
+        survey.Add(_page1);
+        survey.Add(_page2);
+        var surveyWrap = new SurveyWrapper(42);
+        surveyWrap.Add(survey);
         var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
 
         Assert.Multiple(() =>
@@ -80,11 +63,11 @@ public class TestSurveyTakeViewModel
     public void TestSwitchPages()
     {
         var client = FrontEndFactory.CreateExperimenterMenu();
-        var survey = new ReadOnlySurveyMock()
-        {
-            Questions = new List<List<IReadOnlyQuestion>> {_page1, _page2}
-        };
-        var surveyWrap = new ReadOnlySurveyWrapperMock(survey);
+        var survey = new Survey();
+        survey.Add(_page1);
+        survey.Add(_page2);
+        var surveyWrap = new SurveyWrapper(42);
+        surveyWrap.Add(survey);
         var vm = new SurveyTakeViewModel(client, dummy, surveyWrap, 42);
 
         vm.DoNext();
@@ -105,11 +88,11 @@ public class TestSurveyTakeViewModel
     [Test]
     public void TestChooseSurvey1()
     {
-        var survey = new ReadOnlySurveyMock()
-        {
-            Questions = new List<List<IReadOnlyQuestion>> {_page1, _page2}
-        };
-        var surveyWrap = new ReadOnlySurveyWrapperMock(survey);
+        var survey = new Survey();
+        survey.Add(_page1);
+        survey.Add(_page2);
+        var surveyWrap = new SurveyWrapper(42);
+        surveyWrap.Add(survey);
         var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
 
         Assert.That(vm.ChooseSurvey(surveyWrap), Is.EqualTo(survey));
@@ -118,15 +101,15 @@ public class TestSurveyTakeViewModel
     [Test]
     public void TestChooseSurvey2()
     {
-        var survey1 = new ReadOnlySurveyMock()
-        {
-            Questions = new List<List<IReadOnlyQuestion>> {_page1, _page2}
-        };
-        var survey2 = new ReadOnlySurveyMock()
-        {
-            Questions = new List<List<IReadOnlyQuestion>> {_page2, _page1}
-        };
-        var surveyWrap = new ReadOnlySurveyWrapperMock(new List<IReadOnlySurvey> {survey1, survey2});
+        var survey1 = new Survey();
+        survey1.Add(_page1);
+        survey1.Add(_page2);
+        var survey2 = new Survey();
+        survey2.Add(_page2);
+        survey2.Add(_page1);
+        var surveyWrap = new SurveyWrapper(42);
+        surveyWrap.Add(survey1);
+        surveyWrap.Add(survey2);
 
         var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
 

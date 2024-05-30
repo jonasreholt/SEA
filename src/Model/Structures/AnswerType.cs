@@ -1,4 +1,4 @@
-namespace Model.Answer;
+namespace Model.Structures;
 
 public enum AnswerType {
     Text,

@@ -1,6 +1,8 @@
 namespace Model.FrontEndAPI;
-using Model.Survey;
+
 using Model.Database;
+using Structures;
+
 internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
 
     private  IDatabase db = new DatabaseServices();
@@ -9,7 +11,7 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
         this.db = databaseServices;
     }
 
-    public IModifySurveyWrapper CreateSurvey() {
+    public SurveyWrapper CreateSurvey() {
         int surveyId = db.GetNextSurveyID();
         return new SurveyWrapper(surveyId);
     }
@@ -22,7 +24,7 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
         }
     }
 
-    public IModifySurveyWrapper ModifySurvey(int surveyId) {
+    public SurveyWrapper ModifySurvey(int surveyId) {
         return db.GetSurveyWrapper(surveyId);
     }
 
@@ -34,7 +36,7 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
         //To be implemented
     }
 
-    public void StoreSurveyInDatabase(IModifySurvey survey) {
+    public void StoreSurveyInDatabase(Survey survey) {
         
     }
 

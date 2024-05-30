@@ -1,11 +1,10 @@
 namespace Tests.Frontend.Mocks;
 
-using Model.Survey;
-using Model.Question;
+using Model.Structures;
 
-public class ReadOnlySurveyMock : IReadOnlySurvey
+public class ReadOnlySurveyMock
 {
-    public List<List<IReadOnlyQuestion>> Questions;
+    public List<List<Question>> Questions;
     private int i = -1;
     public int SurveyId {get; set; }
     public string SurveyName {get; set; }
@@ -14,10 +13,10 @@ public class ReadOnlySurveyMock : IReadOnlySurvey
 
     public bool NextQuestionExist() => i + 1 < Questions.Count;
 
-    public IEnumerable<IReadOnlyQuestion>? TryGetNextReadOnlyQuestion()
+    public IEnumerable<Question>? TryGetNextReadOnlyQuestion()
         => i + 1 < Questions.Count ? Questions[++i] : null;
 
-    public IEnumerable<IReadOnlyQuestion>? TryGetPreviousReadOnlyQuestion()
+    public IEnumerable<Question>? TryGetPreviousReadOnlyQuestion()
     {
         if (i == Questions.Count)
         {

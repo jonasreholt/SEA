@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Reactive;
 using ReactiveUI;
 using Model.FrontEndAPI;
-using Model.Survey;
 using Model.Factory;
-using Model.Question;
-using Model.Answer;
+using Model.Structures;
 
 
 namespace scivu.ViewModels;
@@ -55,17 +51,17 @@ public class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"Going to view `{vm}`");
         switch (vm)
         {
-            case "TakeSurvey" when arg is IReadOnlySurveyWrapper survey:
+            case "TakeSurvey" when arg is SurveyWrapper survey:
                 _surveyTaker.StartNewSurvey(survey, 42);
                 ContentViewModel = _surveyTaker;
                 break;
-            case "ExperimenterMenu" when arg is IReadOnlySurveyWrapper survey:
+            case "ExperimenterMenu" when arg is SurveyWrapper survey:
                 ContentViewModel = new ExperimenterMenuViewModel(survey, ChangeViewTo);
                 break;
             case "MainMenu":
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
                 break;
-            case "PauseMenu" when arg is IReadOnlySurveyWrapper survey:
+            case "PauseMenu" when arg is SurveyWrapper survey:
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
             case "SuperUserMenu":

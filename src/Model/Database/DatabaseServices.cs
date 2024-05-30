@@ -4,11 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using FrontEndAPI;
-using SurveyWrapper = Model.Survey.SurveyWrapper;
-using Survey = Model.Survey.Survey;
-using Result = Model.Result.Result;
-using Model.Result;
-using Model.Answer;
+using Structures;
 using System.Collections.Generic;
 
 internal class DatabaseServices : IDatabase {
@@ -28,12 +24,12 @@ internal class DatabaseServices : IDatabase {
 
     }
 
-    public bool StoreSurvey(Survey survey) {
-        string surveyPath = GetSurveyPath(survey.SurveyId);
-        Directory.CreateDirectory(surveyPath);
-        SaveSurveyToFile(surveyPath, survey);
-        return true;
-    }
+    //public bool StoreSurvey(Survey survey) {
+    //    string surveyPath = GetSurveyPath(survey.SurveyId);
+    //    Directory.CreateDirectory(surveyPath);
+    //    SaveSurveyToFile(surveyPath, survey);
+    //    return true;
+    //}
 
     public void StorePictureOverwrite(string src, int surveyId) {
         string surveyAssetsPath = GetSurveyAssetsPath(surveyId);
@@ -79,9 +75,9 @@ internal class DatabaseServices : IDatabase {
         return tmpId++;
     }
 
-    public Survey GetSurvey(int surveyId) {
-        return (new Survey(surveyId));
-    }
+    //public Survey GetSurvey(int surveyId) {
+    //    return (new Survey(surveyId));
+    //}
 
     public bool ExportSurvey(int id, string path) {
         return true;
@@ -96,7 +92,7 @@ internal class DatabaseServices : IDatabase {
     }
 
 
-    public bool StoreResult (IResult result) {
+    public bool StoreResult (Result result) {
         try {
             using (StreamWriter writer = new StreamWriter(resultsPath, true, Encoding.UTF8)) {
                     writer.WriteLine(result.ToString());

@@ -1,11 +1,11 @@
 namespace Tests.Frontend.Mocks;
 
-using Model.Survey;
+using Model.Structures;
 
-public class ReadOnlySurveyWrapperMock : IReadOnlySurveyWrapper
+public class ReadOnlySurveyWrapperMock
 {
-    private List<IReadOnlySurvey> _survey;
-    public IReadOnlySurvey TryGetReadOnlySurveyVersion(int index) => _survey[index];
+    private List<Survey> _survey;
+    public Survey TryGetReadOnlySurveyVersion(int index) => _survey[index];
 
     public int GetVersionCount() => _survey.Count;
 
@@ -14,12 +14,12 @@ public class ReadOnlySurveyWrapperMock : IReadOnlySurveyWrapper
     public int SurveyWrapperId { get; }
 
 
-    public ReadOnlySurveyWrapperMock(IReadOnlySurvey survey)
+    public ReadOnlySurveyWrapperMock(Survey survey)
     {
-        _survey = new List<IReadOnlySurvey> { survey };
+        _survey = new List<Survey> { survey };
     }
 
-    public ReadOnlySurveyWrapperMock(List<IReadOnlySurvey> surveys)
+    public ReadOnlySurveyWrapperMock(List<Survey> surveys)
     {
         _survey = surveys;
     }

@@ -4,11 +4,9 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
-using Model.Factory;
 using Model.FrontEndAPI;
-using Model.Question;
-using Model.Result;
-using Model.Survey;
+using Model.Structures;
+using Model.Structures;
 using ReactiveUI;
 
 namespace scivu.ViewModels;
@@ -18,8 +16,8 @@ public class SurveyTakeViewModel : ViewModelBase
 {
     private readonly IFrontEndExperimenter _client;
     private readonly Action<string, object> _changeViewCommand;
-    private IReadOnlySurveyWrapper _wrapper;
-    private IReadOnlySurvey _survey;
+    private SurveyWrapper _wrapper;
+    private Survey _survey;
     private int _userId;
 
     private bool _isFirstPage;
@@ -27,7 +25,7 @@ public class SurveyTakeViewModel : ViewModelBase
 
     public ObservableCollection<QuestionViewModel> Questions { get; } = new();
 
-    private readonly List<List<IResult>> _results = new();
+    private readonly List<List<Result>> _results = new();
     private int _resultIdx;
 
     private readonly Random rnd;
@@ -55,19 +53,19 @@ public class SurveyTakeViewModel : ViewModelBase
         });
     }
 
-    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, IReadOnlySurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
     {
         StartNewSurvey(wrapper, userId);
     }
 
-    public void StartNewSurvey(IReadOnlySurveyWrapper surveyWrapper, int userId)
+    public void StartNewSurvey(SurveyWrapper surveyWrapper, int userId)
     {
         _userId = userId;
         _wrapper = surveyWrapper;
         _survey = ChooseSurvey(surveyWrapper);
         _survey.ResetCounter();
         _results.Clear();
-        _results.Add(new List<IResult>());
+        _results.Add(new List<Result>());
         _resultIdx = 0;
 
         // Load first page of questions
@@ -75,7 +73,7 @@ public class SurveyTakeViewModel : ViewModelBase
         IsFirstQuestion = true;
     }
 
-    internal IReadOnlySurvey ChooseSurvey(IReadOnlySurveyWrapper surveyWrapper)
+    internal Survey ChooseSurvey(SurveyWrapper surveyWrapper)
     {
         var count = surveyWrapper.GetVersionCount();
         var idx = rnd.Next(0, count);
@@ -109,7 +107,7 @@ public class SurveyTakeViewModel : ViewModelBase
         }
 
 
-        var questions = _survey.TryGetNextReadOnlyQuestion();
+        var questions = _survey.GetNextPage();
         Debug.Assert(questions != null);
 
         FillQuestions(Questions, questions);
@@ -127,7 +125,7 @@ public class SurveyTakeViewModel : ViewModelBase
             throw new InvalidOperationException();
         }
 
-        var questions = _survey.TryGetPreviousReadOnlyQuestion();
+        var questions = _survey.GetPreviousPage();
         Debug.Assert(questions != null);
         FillQuestions(Questions, questions);
 
@@ -137,13 +135,11 @@ public class SurveyTakeViewModel : ViewModelBase
         FillSavedResultToQuestions();
     }
 
-    private static void FillQuestions(ICollection<QuestionViewModel> target, IEnumerable<IReadOnlyQuestion> questions)
+    private static void FillQuestions(ICollection<QuestionViewModel> target, IEnumerable<Question> questions)
     {
         target.Clear();
         foreach (var question in questions)
         {
-            var answer = question.ReadOnlyAnswer;
-            var t = answer.ReadOnlyAnswerType;
             target.Add(new QuestionViewModel(question));
         }
     }
@@ -155,16 +151,10 @@ public class SurveyTakeViewModel : ViewModelBase
         currentResultList.Clear();
         foreach (var question in Questions)
         {
-            var result = FrontEndFactory.CreateResult(
-                _survey.SurveyId,
-                question.Id,
-                question.Type,
+            var result = new Result(
                 _userId,
                 question.GetResult());
             currentResultList.Add(result);
-
-            // currently we send in the results each time
-            _client.StoreResultFromQuestion(result);
         }
     }
 
@@ -192,7 +182,7 @@ public class SurveyTakeViewModel : ViewModelBase
         _resultIdx++;
 
         // Make room for the new page of questions results
-        if (_resultIdx >= _results.Count) _results.Add(new List<IResult>());
+        if (_resultIdx >= _results.Count) _results.Add(new List<Result>());
 
         // Change to next set of questions
         NextQuestions();

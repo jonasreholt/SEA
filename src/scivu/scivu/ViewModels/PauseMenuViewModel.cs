@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using Model.FrontEndAPI;
 using ReactiveUI;
 using scivu.Model;
-using Model.Survey;
-using scivu.ViewModels;
+using Model.Structures;
 
 namespace scivu.ViewModels;
 
@@ -15,11 +13,11 @@ public class PauseMenuViewModel : ViewModelBase
     private string? _pincode;
     private bool _isLoginEnabled;
     private bool _isLoggedIn;
-    public IReadOnlySurveyWrapper Survey { get; }
+    public SurveyWrapper Survey { get; }
 
     private string _errorMessage = string.Empty;
 
-    public PauseMenuViewModel(Action<string, object> changeViewCommand, IReadOnlySurveyWrapper survey)
+    public PauseMenuViewModel(Action<string, object> changeViewCommand, SurveyWrapper survey)
     {
         Survey = survey;
         _isLoggedIn = false;

@@ -1,7 +1,6 @@
 namespace Model.FrontEndAPI;
-using Model.Database;
-using Model.Result;
-using Model.Survey;
+using Database;
+using Structures;
 using System.Text;
 using System.IO;
 
@@ -28,7 +27,7 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
             return false;
         } 
     }
-    public IReadOnlySurveyWrapper GetSurvey(int surveyId) {
+    public SurveyWrapper GetSurvey(int surveyId) {
         return db.GetSurveyWrapper(surveyId);
     }
 
@@ -36,11 +35,10 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
         return db.ImportSurvey(filePath);        
     }
 
-    public     List<IModifySurveyWrapper>? ValidateSuperUser(string username, string password) {
+    public     List<SurveyWrapper>? ValidateSuperUser(string username, string password) {
         //Validate superuser against Hashfunction first. If true, then return the list of surveys
-        List<SurveyWrapper> surveyWrappers = db.GetSurveyWrapperForSuperUser(username);
-        List<IModifySurveyWrapper> result = new List<IModifySurveyWrapper>(surveyWrappers.Cast<IModifySurveyWrapper>().ToList());
-        return result;
+        var surveyWrappers = db.GetSurveyWrapperForSuperUser(username);
+        return surveyWrappers;
 
     }
 }  

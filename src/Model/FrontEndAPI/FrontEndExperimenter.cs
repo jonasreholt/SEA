@@ -1,4 +1,4 @@
-using Model.Result;
+using Model.Structures;
 using Model.Database;
 namespace Model.FrontEndAPI;
 internal class FrontEndExperimenter : IFrontEndExperimenter {
@@ -8,7 +8,7 @@ internal class FrontEndExperimenter : IFrontEndExperimenter {
         databaseService = database;
     }
     
-    public void StoreResultFromQuestion(IResult answer) {
+    public void StoreResultFromQuestion(Result answer) {
         databaseService.StoreResult(answer);   
     }
 }

@@ -1,10 +1,10 @@
-namespace Model.Answer;
+namespace Model.Structures;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 // Answer is the given options to a question, by the survey creater.
 // When an experimentee takes the survey, they will give a Result
-public class Answer : IModifyAnswer, IReadOnlyAnswer {
+public class Answer {
     private List<string> modifyAnswers = new List<string>();
     private AnswerType answerType = AnswerType.Text;
     
@@ -16,7 +16,23 @@ public class Answer : IModifyAnswer, IReadOnlyAnswer {
 
     public ReadOnlyCollection<string> ReadOnlyAnswers => modifyAnswers.AsReadOnly();
 
-    public Answer() { }
+    public Answer(AnswerType type)
+    {
+        answerType = type;
+    }
+
+    public Answer(AnswerType type, string option) : this(type)
+    {
+        AddAnswerOption(option);
+    }
+
+    public Answer(AnswerType type, string[] options) : this(type)
+    {
+        foreach (var option in options)
+        {
+            AddAnswerOption(option);
+        }
+    }
 
     public void AddAnswerOption(string answer) {
         modifyAnswers.Add(answer);

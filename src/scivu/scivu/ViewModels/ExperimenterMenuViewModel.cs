@@ -1,12 +1,12 @@
 using System;
 using Model.FrontEndAPI;
-using Model.Survey;
+using Model.Structures;
 
 namespace scivu.ViewModels;
 
 public class ExperimenterMenuViewModel : ViewModelBase
 {
-    private readonly IReadOnlySurveyWrapper _survey;
+    private readonly SurveyWrapper _survey;
     private readonly Action<string, object> _changeViewCommand;
     // The following are placeholder, should be dynamically pulled from the survey object.
     public string SurveyName { get; }
@@ -16,7 +16,7 @@ public class ExperimenterMenuViewModel : ViewModelBase
     public int CompletionRate { get; }
     public int AverageCompletionRate { get; }
 
-    public ExperimenterMenuViewModel(IReadOnlySurveyWrapper survey, Action<string, object> changeViewCommand)
+    public ExperimenterMenuViewModel(SurveyWrapper survey, Action<string, object> changeViewCommand)
     {
         _survey = survey;
         _changeViewCommand = changeViewCommand;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Model.Question;
+using Model.Structures;
 using scivu.Model;
 
 
@@ -16,9 +16,9 @@ public class SurveyModifyViewModel : ViewModelBase
         throw new NotImplementedException();
     }
 
-    public async void AddPicture(IModifyQuestion question)
+    public async void AddPicture(Question question)
     {
         var file = await FileExplorer.OpenImageAsync();
-        question.ModifyPicture = file?.Path.ToString() ?? string.Empty;
+        question.PicturePath = file?.Path.ToString() ?? string.Empty;
     }
 }

@@ -1,12 +1,13 @@
+using Model.Structures;
+
 namespace Model.FrontEndAPI;
-using Model.Survey;
 
 public interface IFrontEndSuperUser {
     
-    IModifySurveyWrapper CreateSurvey();
-    IModifySurveyWrapper ModifySurvey(int surveyId); // Possibly (SuperUserId, SurveyId)?
+    SurveyWrapper CreateSurvey();
+    SurveyWrapper ModifySurvey(int surveyId); // Possibly (SuperUserId, SurveyId)?
 
-    void StoreSurveyInDatabase (IModifySurvey survey);
+    void StoreSurveyInDatabase (Structures.Survey survey);
 
     bool ExportSurveyFromDatabase(int surveyId, string folderPath);
 

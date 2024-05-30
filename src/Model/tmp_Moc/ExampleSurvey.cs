@@ -1,48 +1,29 @@
-using Model.Answer;
-using Model.Survey;
+using Model.Structures;
 
 namespace Model.FrontEndAPI;
 
-using Question = Model.Question.Question;
 public static class ExampleSurvey
 {
     private static int _questionId = 0;
     private static Question GetScaleQuestion(string caption, string image, string text, int min, int max)
     {
-        var question = new Question(_questionId++);
-        question.ModifyCaption = caption;
-        question.ModifyPicture = image;
-        question.ModifyText = text;
-        var answer = question.ModifyAnswer;
-        answer.AddAnswerOption(min.ToString());
-        answer.AddAnswerOption(max.ToString());
-        answer.ModifyAnswerType = AnswerType.Scale;
+        string[] arr = [min.ToString(), max.ToString()];
+        var answer = new Answer(AnswerType.Scale, arr);
+        var question = new Question(caption, image, text, answer);
         return question;
     }
 
     private static Question GetMultiQuestion(string caption, string image, string text, string[] options)
     {
-        var question = new Question(_questionId++);
-        question.ModifyCaption = caption;
-        question.ModifyPicture = image;
-        question.ModifyText = text;
-        var answer = question.ModifyAnswer;
-        foreach (var option in options)
-        {
-            answer.AddAnswerOption(option);
-        }
-        answer.ModifyAnswerType = AnswerType.MultipleChoice;
+        var answer = new Answer(AnswerType.MultipleChoice, options);
+        var question = new Question(caption, image, text, answer);
         return question;
     }
     
     private static Question GetTextQuestion(string caption, string image, string text)
     {
-        var question = new Question(_questionId++);
-        question.ModifyCaption = caption;
-        question.ModifyPicture = image;
-        question.ModifyText = text;
-        var answer = question.ModifyAnswer;
-        answer.ModifyAnswerType = AnswerType.Text;
+        var answer = new Answer(AnswerType.Text);
+        var question = new Question(caption, image, text, answer);
         return question;
     }
 
@@ -69,17 +50,15 @@ public static class ExampleSurvey
             string.Empty,
             "What do you think?");
 
+        var page1 = new Page([q1, q2]);
+        var page2 = new Page([q3, q4]);
 
+        var survey = new Survey();
+        survey.Add(page1);
+        survey.Add(page2);
 
         var surveyWrap = new SurveyWrapper(123456);
-        var survey = surveyWrap.AddNewVersion();
-        var page1 = survey.AddNewQuestion();
-        ((List<Question>)page1).Add(q1);
-        ((List<Question>)page1).Add(q2);
-
-        var page2 = survey.AddNewQuestion();
-        ((List<Question>)page2).Add(q3);
-        ((List<Question>)page2).Add(q4);
+        surveyWrap.Add(survey);
 
         return surveyWrap;
     }
