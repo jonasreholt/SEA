@@ -3,7 +3,7 @@ using Model.Structures;
 using scivu.Model;
 
 
-namespace scivu.ViewModels;
+namespace scivu.ViewModels.SuperUser;
 public class SurveyModifyViewModel : ViewModelBase
 {
 

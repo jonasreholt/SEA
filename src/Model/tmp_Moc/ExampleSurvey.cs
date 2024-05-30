@@ -58,6 +58,7 @@ public static class ExampleSurvey
         survey.Add(page2);
 
         var surveyWrap = new SurveyWrapper(123456);
+        surveyWrap.SurveyWrapperName = "Example Survey";
         surveyWrap.Add(survey);
 
         return surveyWrap;

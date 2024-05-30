@@ -1,0 +1,24 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels.SuperUser"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.SuperUser.SurveyView"
+             x:DataType="vm:SurveyViewModel">
+    <DockPanel>
+        <Button Content="Delete"
+                Command="{Binding Delete}" 
+                DockPanel.Dock="Right"/>
+        
+        <Button Content="Modify"
+                Command="{Binding Modify}" 
+                DockPanel.Dock="Right"/>
+        
+        <Button Content="Export"
+                Command="{Binding Export}"
+                DockPanel.Dock="Right"/>
+        
+        <TextBlock Text="{Binding Name}" />
+    </DockPanel>
+</UserControl>

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive;
 using ReactiveUI;
 using Model.FrontEndAPI;
 using Model.Factory;
 using Model.Structures;
 using scivu.Model;
+using scivu.ViewModels.SuperUser;
 
 
 namespace scivu.ViewModels;
@@ -62,8 +64,9 @@ public class MainWindowViewModel : ViewModelBase
             case SharedConstants.PaueMenuName when arg is SurveyWrapper survey:
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
-            case SharedConstants.SuperUserMenuName:
-                throw new NotImplementedException("Changing to super user menu");
+            case SharedConstants.SuperUserMenuName when arg is List<SurveyWrapper> surveys:
+                ContentViewModel = new SuperUserMenuViewModel(surveys);
+                break;
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");
         }
