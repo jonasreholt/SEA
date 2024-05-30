@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Windows.Input;
 using Model.FrontEndAPI;
 using Model.Structures;
-using Model.Structures;
 using ReactiveUI;
 
 namespace scivu.ViewModels;
@@ -78,7 +77,12 @@ public class SurveyTakeViewModel : ViewModelBase
         var count = surveyWrapper.GetVersionCount();
         var idx = rnd.Next(0, count);
 
-        return surveyWrapper.TryGetReadOnlySurveyVersion(idx);
+        if (!surveyWrapper.TryGetSurveyVersion(idx, out var survey))
+        {
+            throw new UnreachableException();
+        }
+
+        return survey;
     }
 
     public ICommand QuitCommand { get; }
@@ -101,7 +105,7 @@ public class SurveyTakeViewModel : ViewModelBase
     /// </summary>
     private void NextQuestions()
     {
-        if (!_survey.NextQuestionExist())
+        if (!_survey.NextPageExist())
         {
             throw new InvalidOperationException();
         }
@@ -113,14 +117,12 @@ public class SurveyTakeViewModel : ViewModelBase
         FillQuestions(Questions, questions);
 
         IsFirstQuestion = false;
-        IsLastPage = !_survey.NextQuestionExist();
-
-        FillSavedResultToQuestions();
+        IsLastPage = !_survey.NextPageExist();
     }
 
     private void PreviousQuestions()
     {
-        if (!_survey.PreviousQuestionExist())
+        if (!_survey.PreviousPageExist())
         {
             throw new InvalidOperationException();
         }
@@ -129,49 +131,24 @@ public class SurveyTakeViewModel : ViewModelBase
         Debug.Assert(questions != null);
         FillQuestions(Questions, questions);
 
-        IsFirstQuestion = !_survey.PreviousQuestionExist();
+        IsFirstQuestion = !_survey.PreviousPageExist();
         IsLastPage = false;
-
-        FillSavedResultToQuestions();
     }
 
-    private static void FillQuestions(ICollection<QuestionViewModel> target, IEnumerable<Question> questions)
+    private void FillQuestions(ICollection<QuestionViewModel> target, IEnumerable<Question> questions)
     {
         target.Clear();
         foreach (var question in questions)
         {
-            target.Add(new QuestionViewModel(question));
+            target.Add(new QuestionViewModel(_userId, question));
         }
     }
 
     private void SaveQuestionResults()
     {
-        var currentResultList = _results[_resultIdx];
-        // Clear any possible old results as we are about to overwrite anyway
-        currentResultList.Clear();
         foreach (var question in Questions)
         {
-            var result = new Result(
-                _userId,
-                question.GetResult());
-            currentResultList.Add(result);
-        }
-    }
-
-    private void FillSavedResultToQuestions()
-    {
-        var results = _results[_resultIdx];
-        // Check if we actually have anything saved here
-        if (results.Count <= 0) return;
-
-        Debug.Assert(results.Count == Questions.Count);
-
-        for (var i = 0; i < Questions.Count; i++)
-        {
-            var result = results[i];
-            var question = Questions[i];
-
-            question.SetResult(result.QuestionResult);
+            question.SaveResult();
         }
     }
 

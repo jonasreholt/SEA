@@ -52,9 +52,14 @@ public class PauseMenuViewModel : ViewModelBase
         }
     }
 
-    public void ChangeView(string view)
+    public void EndExperiment()
     {
-        _changeViewCommand(view, Survey);
+        _changeViewCommand(SharedConstants.ExperimenterMenuName, Survey);
+    }
+
+    public void NextParticipant()
+    {
+        _changeViewCommand(SharedConstants.TakeSurveyName, Survey);
     }
 
     private bool EnableLoginButton()

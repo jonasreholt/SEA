@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using Structures;
 
 
-internal interface IDatabase {
+internal interface IDatabase
+{
+    int GetUserId();
     int GetNextSurveyID();
     SurveyWrapper GetSurveyWrapper(int surveyId);
     List<SurveyWrapper> GetSurveyWrappersForSuperUser(string username, string password);

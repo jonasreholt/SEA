@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using ReactiveUI;
+using Model.Structures;
 
 namespace scivu.ViewModels;
 
 public class TextQuestionViewModel : QuestionBaseViewModel
 {
+    private readonly SubQuestion _question;
+    
     private string _text = String.Empty;
     
 
-    public TextQuestionViewModel(string questionText)
+    public TextQuestionViewModel(SubQuestion question, Result? result)
     {
-        QuestionText = questionText;
+        _question = question;
+        
+        QuestionText = question.QuestionText;
+        
+        SetResult(result);
     }
 
     public string QuestionText { get; }
@@ -22,16 +29,27 @@ public class TextQuestionViewModel : QuestionBaseViewModel
         set => this.RaiseAndSetIfChanged(ref _text, value);
     }
     
-    public override List<string> GetAnswer()
+    public override void SaveResult(int userId)
     {
-        return new List<string> { Text };
+        var answer = new List<string> { Text };
+        if (_question.Results.TryGetValue(userId, out var result))
+        {
+            result.QuestionResult = answer;
+        }
+        else
+        {
+            result = new Result(answer);
+            _question.Results.Add(userId, result);
+        }
     }
 
-    public override void SetResult(List<string> result)
+    private void SetResult(Result? result)
     {
-        // There can be only one answer for a free text question
-        Debug.Assert(result.Count == 1);
+        if (result == null) return;
         
-        Text = result[0];
+        // There can be only one answer for a free text question
+        Debug.Assert(result.QuestionResult.Count == 1);
+        
+        Text = result.QuestionResult[0];
     }
 }

@@ -13,14 +13,12 @@
 
           <!-- Actual menu items -->
         <Button IsVisible="{Binding IsLoggedIn}"
-                Command="{Binding ChangeView}"
-            CommandParameter="ExperimenterMenu">
+                Command="{Binding EndExperiment}">
             End Experiment
         </Button>
 
         <Button IsVisible="{Binding IsLoggedIn}"
-                Command="{Binding ChangeView}"
-                CommandParameter="TakeSurvey">
+                Command="{Binding NextParticipant}">
             Next Participant
         </Button>
 

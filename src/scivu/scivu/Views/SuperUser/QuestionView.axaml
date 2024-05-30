@@ -1,0 +1,50 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels.SuperUser"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.SuperUser.QuestionView"
+             x:DataType="vm:QuestionViewModel">
+    <StackPanel Spacing="5" Margin="10 0 10 0">
+        <TextBox HorizontalAlignment="Center" Text="{Binding Caption}" />
+        <Border CornerRadius="10" ClipToBounds="True">
+            <DockPanel>
+                <!-- Part of image view when image is chosen -->
+                <Button DockPanel.Dock="Top"
+                        HorizontalAlignment="Left"
+                        Content="Delete"
+                        IsVisible="{Binding ImageChosen}"/>
+                
+                <Image Width="500" Stretch="Uniform" Source="{Binding Image}"
+                       IsVisible="{Binding ImageChosen}"/>
+
+                <Panel Height="200"
+                       Width="200"
+                       Background="#7FFF22DD">
+                    <!-- IsVisible="{Binding !FoundImage}" -->
+                    <Panel.IsVisible>
+                        <MultiBinding Converter="{x:Static BoolConverters.And}">
+                            <Binding Path="ImageChosen"/>
+                            <Binding Path="Image"
+                                     Converter="{x:Static ObjectConverters.IsNull}"/>
+                        </MultiBinding>
+                    </Panel.IsVisible>
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="Image not found" />
+                </Panel>
+                
+                <!-- Part of image view when no image is chosen -->
+                <Button Content="Add Image"
+                        IsVisible="{Binding !ImageChosen}">
+                </Button>
+            </DockPanel>
+        </Border>
+       <!-- 
+        <ContentControl VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Content="{Binding Content}" />
+                        -->
+    </StackPanel>
+</UserControl>

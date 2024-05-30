@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using Avalonia.Media.Imaging;
@@ -10,29 +11,25 @@ namespace scivu.ViewModels;
 
 public class QuestionViewModel : ViewModelBase
 {
+    private readonly int _userId;
     private bool _foundImage = true;
     private QuestionBaseViewModel _content;
-
-    private string _text;
 
     public bool FoundImage
     {
         get => _foundImage;
         private set => this.RaiseAndSetIfChanged(ref _foundImage, value);
     }
-    public int Id { get; }
     public Bitmap? Image { get; }
     public string Caption { get; }
     public AnswerType Type { get; }
 
-    public QuestionBaseViewModel Content
-    {
-        get => _content;
-        private set => this.RaiseAndSetIfChanged(ref _content, value);
-    }
+    public ObservableCollection<QuestionBaseViewModel> Content { get; } = new();
 
-    public QuestionViewModel(Question question)
+    public QuestionViewModel(int userId, Question question)
     {
+        _userId = userId;
+        
         if (!string.IsNullOrEmpty(question.PicturePath))
         {
             if (File.Exists(question.PicturePath))
@@ -55,30 +52,31 @@ public class QuestionViewModel : ViewModelBase
         }
 
         Caption = question.Caption;
-        _text = question.QuestionText;
         
 
-        FillContent(question.Answer);
+        FillContent(question.SubQuestions);
     }
 
-    private void FillContent(Answer answer)
+    private void FillContent(List<SubQuestion> qs)
     {
-        Content = answer.ReadOnlyAnswerType switch
+        foreach (var q in qs)
         {
-            AnswerType.Scale => new ScaleQuestionViewModel(_text, answer.ReadOnlyAnswers),
-            AnswerType.Text => new TextQuestionViewModel(_text),
-            AnswerType.MultipleChoice => new MultiQuestionViewModel(_text, answer.ReadOnlyAnswers),
-            _ => throw new ArgumentException($"'{answer.ReadOnlyAnswerType}' is not implemented")
-        };
+            var result = q.Results.GetValueOrDefault(_userId);
+            Content.Add(q.Answer.ReadOnlyAnswerType switch
+            {
+                AnswerType.Scale => new ScaleQuestionViewModel(q, result),
+                AnswerType.Text => new TextQuestionViewModel(q, result),
+                AnswerType.MultipleChoice => new MultiQuestionViewModel(q, result),
+                _ => throw new ArgumentException($"'{q.Answer.ReadOnlyAnswerType}' is not implemented")
+            });
+        }
     }
 
-    public List<string> GetResult()
+    public void SaveResult()
     {
-        return Content.GetAnswer();
-    }
-
-    public void SetResult(List<string> result)
-    {
-        Content.SetResult(result);
+        foreach (var vm in Content)
+        {
+            vm.SaveResult(_userId);
+        }
     }
 }

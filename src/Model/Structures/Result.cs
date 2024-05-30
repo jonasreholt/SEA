@@ -6,15 +6,12 @@ public class Result
 {
     public List<string> QuestionResult {get; set;}
 
-    public int UserId {get; private set;}
-
-    public Result (int userId, List<string> questionResult) {
+    public Result(List<string> questionResult) {
         QuestionResult = questionResult;
-        UserId = userId;
     }
 
     public override string ToString() {
-        return $"{UserId},{Pretty(QuestionResult)}";
+        return $"{Pretty(QuestionResult)}";
     }
 
     private static string Pretty(List<string> lst)
@@ -64,5 +61,3 @@ public class Result
         return sb.ToString();
     }
 }
-
-//     void StoreResultFromQuestion(int surveyID, int questionsID, int userID, Result result);

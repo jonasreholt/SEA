@@ -52,7 +52,7 @@ public class MainWindowViewModel : ViewModelBase
         switch (vm)
         {
             case SharedConstants.TakeSurveyName when arg is SurveyWrapper survey:
-                _surveyTaker.StartNewSurvey(survey, 42);
+                _surveyTaker.StartNewSurvey(survey, _experimenterClient.GetUserId());
                 ContentViewModel = _surveyTaker;
                 break;
             case SharedConstants.ExperimenterMenuName when arg is SurveyWrapper survey:
@@ -65,7 +65,15 @@ public class MainWindowViewModel : ViewModelBase
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
             case SharedConstants.SuperUserMenuName when arg is List<SurveyWrapper> surveys:
-                ContentViewModel = new SuperUserMenuViewModel(surveys);
+                ContentViewModel = new SuperUserMenuViewModel(ChangeViewTo, surveys);
+                break;
+            case SharedConstants.ModifySurveyName when arg is SurveyWrapper surveyWrapper:
+                // TODO: This needs to be fixed big time!!
+                if (!surveyWrapper.TryGetSurveyVersion(0, out var s))
+                {
+                    throw new UnhandledErrorException();
+                }
+                ContentViewModel = new SurveyModifyViewModel(s);
                 break;
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");

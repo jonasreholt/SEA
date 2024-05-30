@@ -51,23 +51,14 @@ public class SurveyWrapper {
         return surveyVersions.Count();
     }
 
-    public Survey TryGetModifySurveyVersion(int index)
+    public bool TryGetSurveyVersion(int index, out Survey survey)
     {
         if(0 <= index && index < surveyVersions.Count) {
             current = index;
-            return surveyVersions[index];
-        } else {
-            return null;
+            survey = surveyVersions[index];
+            return true;
         }
-    }
-
-    public Survey TryGetReadOnlySurveyVersion(int index)
-    {
-        if(0 <= index && index < surveyVersions.Count) {
-            current = index;
-            return surveyVersions[index];
-        } else {
-            return null;
-        }
+        survey = default;
+        return false;
     }
 }

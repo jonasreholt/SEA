@@ -1,10 +1,49 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:scivu.ViewModels.SuperUser"
+             xmlns:views="clr-namespace:scivu.Views.SuperUser"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="scivu.Views.SuperUser.SurveyModifyView"
              x:DataType="vm:SurveyModifyViewModel">
-
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Content="Previous Page"
+                    Command="{Binding PreviousPage}"/>
+            
+            <Button Content="Next Page"
+                    Command="{Binding NextPage}"/>
+            <Button Content="Create Page"
+                    Command="{Binding CreatePage}"/>
+            
+            <Button Content="Finish"
+                    Command="{Binding Finish}"/>
+        </StackPanel>
+            <Border Margin="10"
+                    CornerRadius="5"
+                    BorderBrush="Gray" BorderThickness="1"
+                    Padding="5">
+                    <StackPanel HorizontalAlignment="Center">
+                            <ScrollViewer>
+                                    <ItemsControl ItemsSource="{Binding Questions}">
+                                            <ItemsControl.ItemTemplate>
+                                                   <DataTemplate>
+                                                           <Border Margin="10"
+                                                                   CornerRadius="5"
+                                                                   BorderBrush="Gray" BorderThickness="1"
+                                                                   Padding="5">
+                                                                 <views:QuestionView />  
+                                                           </Border>
+                                                   </DataTemplate> 
+                                            </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                            </ScrollViewer>
+                            
+                            <Button Content="Add new question" />
+                    </StackPanel>
+            </Border>
+    </DockPanel>
 </UserControl>

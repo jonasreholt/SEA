@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using scivu.Model;
+using Model.Structures;
 
 namespace scivu.ViewModels;
 
@@ -10,13 +11,18 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
 {
     private static int _groupName;
 
+    private SubQuestion _question;
+
     public ObservableCollection<ScaleViewModel> Buttons { get; } = new();
     public string Text { get; }
 
-    public ScaleQuestionViewModel(string questionText, ReadOnlyCollection<string> answers)
+    public ScaleQuestionViewModel(SubQuestion question, Result? result)
     {
-        Text = questionText;
+        _question = question;
         
+        Text = question.QuestionText;
+
+        var answers = question.Answer.ReadOnlyAnswers;
         if (answers.Count != 2)
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
@@ -37,32 +43,41 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
             var svm = new ScaleViewModel(_groupName.ToString(), min.ToString());
             Buttons.Add(svm);
         }
+        
+        SetResult(result);
     }
 
-    public override List<string> GetAnswer()
+    public override void SaveResult(int userId)
     {
         foreach (var button in Buttons)
         {
             if (button.IsChecked)
             {
-                return new List<string> { button.Text };
+                var answer = new List<string> { button.Text };
+                if (_question.Results.TryGetValue(userId, out var result))
+                {
+                    result.QuestionResult = answer;
+                }
+                else
+                {
+                    result = new Result(answer);
+                    _question.Results.Add(userId, result);
+                }
+
+                return;
             }
         }
-
-        return new List<string> { string.Empty };
     }
 
-    public override void SetResult(List<string> results)
+    private void SetResult(Result? results)
     {
+        if (results == null) return;
+        
         // There can only be one result in a scale question
-        Debug.Assert(results.Count == 1);
-
-        var result = results[0];
-        // check if any result was given
-        if (result == string.Empty)
-        {
-            return;
-        }
+        Debug.Assert(results.QuestionResult.Count == 1);
+        
+        var result = results.QuestionResult[0];
+        if (result == string.Empty) return;
         
         // Find the correct radiobutton to check
         foreach (var button in Buttons)

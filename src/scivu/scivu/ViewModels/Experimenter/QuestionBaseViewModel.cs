@@ -7,6 +7,5 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class QuestionBaseViewModel : ViewModelBase
 {
-    public abstract List<string> GetAnswer();
-    public abstract void SetResult(List<string> result);
+    public abstract void SaveResult(int userId);
 }

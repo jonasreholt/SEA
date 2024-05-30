@@ -2,27 +2,34 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Avalonia.Controls.Primitives;
+using Model.Structures;
 
 namespace scivu.ViewModels;
 
 public class MultiQuestionViewModel : QuestionBaseViewModel
 {
+    private readonly SubQuestion _question;
+    
     public ObservableCollection<ToggleButton> Toggles { get; } = new();
     public string QuestionText { get; }
 
-    public MultiQuestionViewModel(string questionText, ReadOnlyCollection<string> answers)
+    public MultiQuestionViewModel(SubQuestion question, Result? result)
     {
-        QuestionText = questionText;
+        _question = question;
         
-        foreach (var answer in answers)
+        QuestionText = question.QuestionText;
+        
+        foreach (var answer in question.Answer.ReadOnlyAnswers)
         {
             Toggles.Add(new ToggleButton
             {
                 Content = answer
             });
         }
+        
+        SetResult(result);
     }
-    public override List<string> GetAnswer()
+    public override void SaveResult(int userId)
     {
         var retLst = new List<string>();
         foreach (var toggle in Toggles)
@@ -34,11 +41,22 @@ public class MultiQuestionViewModel : QuestionBaseViewModel
             }
         }
 
-        return retLst;
+        if (_question.Results.TryGetValue(userId, out var result))
+        {
+            result.QuestionResult = retLst;
+        }
+        else
+        {
+            result = new Result(retLst);
+            _question.Results.Add(userId, result);
+        }
     }
 
-    public override void SetResult(List<string> results)
+    private void SetResult(Result? result)
     {
+        if (result == null) return;
+
+        var results = result.QuestionResult;
         var i = 0;
         var j = 0;
         for (; i < results.Count && j < Toggles.Count;)

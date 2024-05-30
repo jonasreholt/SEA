@@ -53,10 +53,6 @@
         <DependentUpon>SurveyTakeView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Views\SuperUser\SurveyModifyView.axaml.cs">
-        <DependentUpon>SurveyModifyView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Experimenter\MultiQuestionView.axaml.cs">
         <DependentUpon>MultiQuestionView.axaml</DependentUpon>
         <SubType>Code</SubType>

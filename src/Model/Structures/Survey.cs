@@ -13,19 +13,19 @@ public class Survey {
         SurveyName = string.Empty;
     }
 
-    public bool PreviousQuestionExist() => current > 0;
-    public bool NextQuestionExist() => current + 1 < surveyPages.Count;
+    public bool PreviousPageExist() => current > 0;
+    public bool NextPageExist() => current + 1 < surveyPages.Count;
 
     public Page? GetNextPage()
     {
-        return NextQuestionExist()
+        return NextPageExist()
             ? surveyPages[++current]
             : null;
     }
 
     public Page? GetPreviousPage()
     {
-        return PreviousQuestionExist()
+        return PreviousPageExist()
             ? surveyPages[--current]
             : null;
     }

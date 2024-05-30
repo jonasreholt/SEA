@@ -56,6 +56,11 @@ internal class DatabaseServices : IDatabase {
         File.WriteAllText(surveyPath, jsonString);
     }
 
+    private int userId = 0;
+    public int GetUserId()
+    {
+        return userId++;
+    }
 
     // Tmp int used to increment to get unique IDs, must be received from db.
     private int tmpId = 0;

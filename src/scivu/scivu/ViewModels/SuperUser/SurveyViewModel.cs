@@ -6,15 +6,23 @@ namespace scivu.ViewModels.SuperUser;
 public class SurveyViewModel : ViewModelBase
 {
     private readonly Action<SurveyViewModel> _deleteCallback;
+    private readonly Action<SurveyViewModel> _modifyCallback;
+    
     private readonly SurveyWrapper _surveyWrapper;
     
-    public SurveyViewModel(Action<SurveyViewModel> deleteCallback, SurveyWrapper survey)
+    public SurveyViewModel(
+        Action<SurveyViewModel> deleteCallback, 
+        Action<SurveyViewModel> modifyCallback, 
+        SurveyWrapper survey)
     {
         _deleteCallback = deleteCallback;
+        _modifyCallback = modifyCallback;
+        
         _surveyWrapper = survey;
     }
     
     public string Name => _surveyWrapper.SurveyWrapperName;
+    public SurveyWrapper SurveyWrapper => _surveyWrapper;
 
     public void Export()
     {
@@ -23,7 +31,7 @@ public class SurveyViewModel : ViewModelBase
 
     public void Modify()
     {
-        throw new NotImplementedException();
+        _modifyCallback.Invoke(this);
     }
 
     public void Delete()
