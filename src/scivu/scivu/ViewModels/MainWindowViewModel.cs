@@ -16,8 +16,6 @@ public class MainWindowViewModel : ViewModelBase
 
     private readonly IFrontEndMainMenu _mainMenuClient;
 
-    public SurveyViewModel Surveys { get; }
-
     public ReactiveCommand<string, Unit> Change { get; }
 
     public MainWindowViewModel()
@@ -30,7 +28,6 @@ public class MainWindowViewModel : ViewModelBase
         // a dialog option
         _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
 
-        Surveys = new SurveyViewModel();
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
         _mainMenuClient = FrontEndFactory.CreateMainMenu();

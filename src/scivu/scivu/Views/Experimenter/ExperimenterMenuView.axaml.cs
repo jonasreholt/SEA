@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace scivu.Views;
 
-public partial class SurveyView : UserControl
+public partial class ExperimenterMenuView : UserControl
 {
-    public SurveyView()
+    public ExperimenterMenuView()
     {
         InitializeComponent();
     }

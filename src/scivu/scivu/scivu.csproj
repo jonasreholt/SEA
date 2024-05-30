@@ -31,4 +31,51 @@
             <_Parameter1>tests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Experimenter\ExitSurveyView.axaml.cs">
+        <DependentUpon>ExitSurveyView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\ExitSurveyWindow.axaml.cs">
+        <DependentUpon>ExitSurveyWindow.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\ExperimenterMenuView.axaml.cs">
+        <DependentUpon>ExperimenterMenuView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\PauseMenuView.axaml.cs">
+        <DependentUpon>PauseMenuView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\SurveyTakeView.axaml.cs">
+        <DependentUpon>SurveyTakeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\SuperUser\SurveyModifyView.axaml.cs">
+        <DependentUpon>SurveyModifyView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\MultiQuestionView.axaml.cs">
+        <DependentUpon>MultiQuestionView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\QuestionView.axaml.cs">
+        <DependentUpon>QuestionView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\ScaleQuestionView.axaml.cs">
+        <DependentUpon>ScaleQuestionView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\ScaleView.axaml.cs">
+        <DependentUpon>ScaleView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Experimenter\TextQuestionView.axaml.cs">
+        <DependentUpon>TextQuestionView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>
