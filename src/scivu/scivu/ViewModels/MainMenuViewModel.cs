@@ -134,7 +134,7 @@ public class MainMenuViewModel : ViewModelBase
         var result = _client.ValidateSuperUser(Username!, Password!);
         if (result != null)
         {
-            _changeViewCommand.Invoke("SuperUserMenu", null!);
+            _changeViewCommand.Invoke(SharedConstants.SuperUserMenuName, null!);
             return;
         }
 
@@ -169,7 +169,7 @@ public class MainMenuViewModel : ViewModelBase
             var survey = _client.GetSurvey(pin);
             if (survey != null)
             {
-                _changeViewCommand.Invoke("ExperimenterMenu", survey!);
+                _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, survey!);
                 return;
             }
 

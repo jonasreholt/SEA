@@ -1,6 +1,7 @@
 using System;
 using Model.FrontEndAPI;
 using Model.Structures;
+using scivu.Model;
 
 namespace scivu.ViewModels;
 
@@ -34,7 +35,7 @@ public class ExperimenterMenuViewModel : ViewModelBase
 
     public void ChangeView(string view)
     {
-        _changeViewCommand(view, view == "MainMenu" ? null! : _survey);
+        _changeViewCommand(view, view == SharedConstants.MainMenuName ? null! : _survey);
 
     }
 

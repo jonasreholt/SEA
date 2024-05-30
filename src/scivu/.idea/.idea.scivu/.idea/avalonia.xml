@@ -18,6 +18,7 @@
         <entry key="scivu/Views/QuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ScaleQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ScaleView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SuperUserMenu.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyTakeView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/TextQuestionView.axaml" value="scivu/scivu.csproj" />

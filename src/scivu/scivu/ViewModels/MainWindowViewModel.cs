@@ -4,6 +4,7 @@ using ReactiveUI;
 using Model.FrontEndAPI;
 using Model.Factory;
 using Model.Structures;
+using scivu.Model;
 
 
 namespace scivu.ViewModels;
@@ -48,20 +49,20 @@ public class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"Going to view `{vm}`");
         switch (vm)
         {
-            case "TakeSurvey" when arg is SurveyWrapper survey:
+            case SharedConstants.TakeSurveyName when arg is SurveyWrapper survey:
                 _surveyTaker.StartNewSurvey(survey, 42);
                 ContentViewModel = _surveyTaker;
                 break;
-            case "ExperimenterMenu" when arg is SurveyWrapper survey:
+            case SharedConstants.ExperimenterMenuName when arg is SurveyWrapper survey:
                 ContentViewModel = new ExperimenterMenuViewModel(_experimenterClient, ChangeViewTo, survey);
                 break;
-            case "MainMenu":
+            case SharedConstants.MainMenuName:
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
                 break;
-            case "PauseMenu" when arg is SurveyWrapper survey:
+            case SharedConstants.PaueMenuName when arg is SurveyWrapper survey:
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
-            case "SuperUserMenu":
+            case SharedConstants.SuperUserMenuName:
                 throw new NotImplementedException("Changing to super user menu");
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");
