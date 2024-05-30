@@ -9,7 +9,7 @@ using Structures;
 internal interface IDatabase {
     int GetNextSurveyID();
     SurveyWrapper GetSurveyWrapper(int surveyId);
-    List<SurveyWrapper> GetSurveyWrapperForSuperUser(string username);
+    List<SurveyWrapper> GetSurveyWrappersForSuperUser(string username, string password);
     bool ExportSurvey(int id,string path);
     bool ImportSurvey(string path);
     bool TryStorePicture(string path, int surveyId);

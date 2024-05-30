@@ -35,10 +35,9 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
         return db.ImportSurvey(filePath);        
     }
 
-    public     List<SurveyWrapper>? ValidateSuperUser(string username, string password) {
-        //Validate superuser against Hashfunction first. If true, then return the list of surveys
-        var surveyWrappers = db.GetSurveyWrapperForSuperUser(username);
+    public List<SurveyWrapper>? ValidateSuperUser(string username, string password) 
+    {
+        var surveyWrappers = db.GetSurveyWrappersForSuperUser(username, password);
         return surveyWrappers;
-
     }
 }  
