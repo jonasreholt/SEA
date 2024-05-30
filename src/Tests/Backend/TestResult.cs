@@ -12,26 +12,26 @@ public class TestResult
     public void TestSingleAnswerToStringSimple()
     {
         var answ = new List<string> { "answer" };
-        var res = new Result(uid, answ);
+        var res = new Result(answ);
 
-        Assert.That(res.ToString(), Is.EqualTo($"{uid},answer"));
+        Assert.That(res.ToString(), Is.EqualTo($"answer"));
     }
 
     [Test]
     public void TestSingleAnswerToString()
     {
         var answ = new List<string> { @"answer\" };
-        var res = new Result(uid, answ);
+        var res = new Result(answ);
 
-        Assert.That(res.ToString(), Is.EqualTo($"{uid},answer\\\\"));
+        Assert.That(res.ToString(), Is.EqualTo($"answer\\\\"));
     }
     
     [Test]
     public void TestMultiAnswerToString()
     {
         var answ = new List<string> { @"answer\", "answer2" };
-        var res = new Result(uid, answ);
+        var res = new Result(answ);
 
-        Assert.That(res.ToString(), Is.EqualTo($"{uid},answer\\\\;answer2"));
+        Assert.That(res.ToString(), Is.EqualTo($"answer\\\\;answer2"));
     }
 }

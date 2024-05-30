@@ -15,10 +15,12 @@ public class TestScaleViewModel
         {
             Caption = caption,
             PicturePath = imagePath,
-            QuestionText = text,
-            Answer = answer
+            SubQuestions = new List<SubQuestion>
+            {
+                new SubQuestion(text, answer)
+            }
         };
-        return new QuestionViewModel(question);
+        return new QuestionViewModel(42, question);
     }
 
     [Test]
@@ -33,9 +35,9 @@ public class TestScaleViewModel
         {
             Assert.That(content.Image, Is.Null);
             Assert.That(content.FoundImage, Is.True);
-            Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
+            Assert.That(((ScaleQuestionViewModel)content.Content[0]).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
-            Assert.That(((ScaleQuestionViewModel)content.Content).Text, Is.EqualTo(text));
+            Assert.That(((ScaleQuestionViewModel)content.Content[0]).Text, Is.EqualTo(text));
         });
     }
 
@@ -53,9 +55,9 @@ public class TestScaleViewModel
         {
             Assert.That(content.Image, Is.Null);
             Assert.That(content.FoundImage, Is.False);
-            Assert.That(((ScaleQuestionViewModel)content.Content).Buttons.Count, Is.EqualTo(5));
+            Assert.That(((ScaleQuestionViewModel)content.Content[0]).Buttons.Count, Is.EqualTo(5));
             Assert.That(content.Caption, Is.EqualTo(caption));
-            Assert.That(((ScaleQuestionViewModel)content.Content).Text, Is.EqualTo(text));
+            Assert.That(((ScaleQuestionViewModel)content.Content[0]).Text, Is.EqualTo(text));
         });
     }
 

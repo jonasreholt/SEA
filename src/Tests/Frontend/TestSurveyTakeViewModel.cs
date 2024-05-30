@@ -15,16 +15,20 @@ public class TestSurveyTakeViewModel
         new Question
         {
             Caption = "Caption1",
-            QuestionText = "Question1",
             PicturePath = string.Empty,
-            Answer = new Answer(AnswerType.Scale, new string[] { "1", "8" })
+            SubQuestions = new List<SubQuestion>
+            {
+                new SubQuestion("Question1", new Answer(AnswerType.Scale, new string[] { "1", "8" }))
+            }
         },
         new Question()
         {
             Caption = string.Empty,
-            QuestionText = "Question2",
             PicturePath = string.Empty,
-            Answer = new Answer(AnswerType.Scale, new string[] { "1", "3" })
+            SubQuestions =  new List<SubQuestion>
+            {
+                new SubQuestion("Question2", new Answer(AnswerType.Scale, new string[] { "1", "3" }))
+            }
         }
     });
 
@@ -33,9 +37,11 @@ public class TestSurveyTakeViewModel
         new Question()
         {
             Caption = "Caption2",
-            QuestionText = "Question3",
             PicturePath = string.Empty,
-            Answer = new Answer(AnswerType.Scale, new string[] {"22", "25"})
+            SubQuestions = new List<SubQuestion>
+            {
+                new SubQuestion("Question3", new Answer(AnswerType.Scale, new string[] {"22", "25"}))
+            }
         }
     });
 
