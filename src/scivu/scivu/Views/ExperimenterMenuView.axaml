@@ -18,7 +18,7 @@
                 CommandParameter="TakeSurvey">
             Start Survey
         </Button>
-        <Button Grid.Column="4" Margin="10">
+        <Button Grid.Column="4" Margin="10" Command="{Binding ExportData}">
             Export Data
         </Button>
       </Grid>

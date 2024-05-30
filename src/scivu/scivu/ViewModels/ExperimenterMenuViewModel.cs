@@ -6,6 +6,8 @@ namespace scivu.ViewModels;
 
 public class ExperimenterMenuViewModel : ViewModelBase
 {
+    private readonly IFrontEndExperimenter _client;
+    
     private readonly SurveyWrapper _survey;
     private readonly Action<string, object> _changeViewCommand;
     // The following are placeholder, should be dynamically pulled from the survey object.
@@ -16,8 +18,9 @@ public class ExperimenterMenuViewModel : ViewModelBase
     public int CompletionRate { get; }
     public int AverageCompletionRate { get; }
 
-    public ExperimenterMenuViewModel(SurveyWrapper survey, Action<string, object> changeViewCommand)
+    public ExperimenterMenuViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, SurveyWrapper survey)
     {
+        _client = client;
         _survey = survey;
         _changeViewCommand = changeViewCommand;
         SurveyName = survey.SurveyWrapperName; // placeholder
@@ -35,15 +38,8 @@ public class ExperimenterMenuViewModel : ViewModelBase
 
     }
 
-    public void StartSurveyCommand()
+    public void ExportData()
     {
-        _changeViewCommand("TakeSurvey", _survey);
+        throw new NotImplementedException();
     }
-
-
-
-
-
-
-
 }
