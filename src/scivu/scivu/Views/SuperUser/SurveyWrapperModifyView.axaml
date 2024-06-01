@@ -1,0 +1,37 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels.SuperUser"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.SuperUser.SurveyWrapperModifyView"
+             x:DataType="vm:SurveyWrapperModifyViewModel">
+    <DockPanel>
+        <TextBlock Text="{Binding Name, StringFormat='Modifying {0}'}"
+                   HorizontalAlignment="Center"
+                   DockPanel.Dock="Top"/>
+        
+        <Button Content="Finish"
+                Command="{Binding Finish}"
+                HorizontalAlignment="Center"
+                DockPanel.Dock="Bottom"/>
+        
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Text="Survey Versions"/>
+            <Border Margin="10"
+                    CornerRadius="5"
+                    BorderBrush="Gray" BorderThickness="1"
+                    Padding="5">
+                <ScrollViewer>
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding Versions}"/>
+                        
+                        <Button Content="+" 
+                                HorizontalAlignment="Center"
+                                Command="{Binding AddVersion}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

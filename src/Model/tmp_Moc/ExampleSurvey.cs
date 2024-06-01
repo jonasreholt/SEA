@@ -68,6 +68,7 @@ public static class ExampleSurvey
         var page2 = new Page([q2]);
 
         var survey = new Survey();
+        survey.SurveyName = "A";
         survey.Add(page1);
         survey.Add(page2);
 

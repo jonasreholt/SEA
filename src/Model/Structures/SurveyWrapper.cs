@@ -14,7 +14,7 @@ public class SurveyWrapper {
     public string SurveyWrapperName { get => surveyWrapperName; set => surveyWrapperName = value;}
 
     private int current = 0;
-    private List<Survey> surveyVersions = new List<Survey>();
+    public List<Survey> SurveyVersions = new List<Survey>();
 
     public SurveyWrapper (int id) {
         surveyWrapperId = id;
@@ -30,17 +30,17 @@ public class SurveyWrapper {
 
     public void Add(Survey survey)
     {
-        surveyVersions.Add(survey);
+        SurveyVersions.Add(survey);
     }
 
     public void RemoveAt(int index)
     {
-        surveyVersions.RemoveAt(index);
+        SurveyVersions.RemoveAt(index);
     }
 
     public void Remove(Survey survey)
     {
-        surveyVersions.Remove(survey);
+        SurveyVersions.Remove(survey);
     }
 
     public string[] GetSurveyAssets() {
@@ -48,14 +48,14 @@ public class SurveyWrapper {
     }
 
     public int GetVersionCount() {
-        return surveyVersions.Count();
+        return SurveyVersions.Count();
     }
 
     public bool TryGetSurveyVersion(int index, out Survey survey)
     {
-        if(0 <= index && index < surveyVersions.Count) {
+        if(0 <= index && index < SurveyVersions.Count) {
             current = index;
-            survey = surveyVersions[index];
+            survey = SurveyVersions[index];
             return true;
         }
         survey = default;

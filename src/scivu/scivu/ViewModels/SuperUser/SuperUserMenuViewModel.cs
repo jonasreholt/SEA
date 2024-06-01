@@ -31,6 +31,6 @@ public class SuperUserMenuViewModel : ViewModelBase
 
     private void ModifyCallback(SurveyViewModel surveyToModify)
     {
-        _changeViewCommand(SharedConstants.ModifySurveyName, surveyToModify.SurveyWrapper);
+        _changeViewCommand(SharedConstants.ModifySurveyWrapperName, surveyToModify.SurveyWrapper);
     }
 }

@@ -72,8 +72,7 @@ public class SurveyModifyViewModel : ViewModelBase
     public void Finish()
     {
         Save();
-        // TODO: Also it needs to switch to a view handling a specific SurveyWrapper!!
-        _changeViewCommand(SharedConstants.SuperUserMenuName, null);
+        _changeViewCommand(SharedConstants.ModifySurveyWrapperName, null);
     }
 
     public void CreatePage()
@@ -112,8 +111,16 @@ public class SurveyModifyViewModel : ViewModelBase
         var question = new Question(string.Empty, String.Empty, new List<SubQuestion>());
         var questionVm = new QuestionViewModel(Remove, question);
         Questions.Add(questionVm);
+
+        var current = _survey.GetCurrent();
+        if (current == null)
+        {
+            current = new Page(new List<Question>());
+            _survey.Add(current);
+            _survey.GetNextPage();
+        }
         
-        _survey.GetCurrent()!.Add(question);
+        current.Add(question);
     }
 
     private void Remove(QuestionViewModel question)

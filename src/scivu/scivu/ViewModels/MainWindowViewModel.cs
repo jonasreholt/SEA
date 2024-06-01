@@ -16,6 +16,7 @@ public class MainWindowViewModel : ViewModelBase
     internal ViewModelBase _contentViewModel;
     internal SurveyTakeViewModel _surveyTaker;
     private SuperUserMenuViewModel _superUser;
+    private SurveyWrapperModifyViewModel _surveyWrapperModifier;
     
     private readonly IFrontEndExperimenter _experimenterClient;
 
@@ -33,6 +34,7 @@ public class MainWindowViewModel : ViewModelBase
         // a dialog option
         _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
         _superUser = new SuperUserMenuViewModel(ChangeViewTo);
+        _surveyWrapperModifier = new SurveyWrapperModifyViewModel(ChangeViewTo);
 
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
@@ -74,13 +76,15 @@ public class MainWindowViewModel : ViewModelBase
                 }
                 ContentViewModel = _superUser;
                 break;
-            case SharedConstants.ModifySurveyName when arg is SurveyWrapper surveyWrapper:
-                // TODO: This needs to be fixed big time!!
-                if (!surveyWrapper.TryGetSurveyVersion(0, out var s))
+            case SharedConstants.ModifySurveyWrapperName:
+                if (arg is SurveyWrapper surveyWrapper)
                 {
-                    throw new UnhandledErrorException();
+                    _surveyWrapperModifier.Setup(surveyWrapper);
                 }
-                ContentViewModel = new SurveyModifyViewModel(ChangeViewTo, s);
+                ContentViewModel = _surveyWrapperModifier;
+                break;
+            case SharedConstants.ModifySurveyName when arg is Survey survey:
+                ContentViewModel = new SurveyModifyViewModel(ChangeViewTo, survey);
                 break;
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");

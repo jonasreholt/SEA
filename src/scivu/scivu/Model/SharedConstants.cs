@@ -13,4 +13,5 @@ public static class SharedConstants
     public const string PaueMenuName = "PauseMenu";
     public const string SuperUserMenuName = "SuperUserMenu";
     public const string ModifySurveyName = "ModifySurvey";
+    public const string ModifySurveyWrapperName = "ModifySurveyWrapper";
 }

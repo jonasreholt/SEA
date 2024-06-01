@@ -35,6 +35,8 @@
         <entry key="scivu/Views/SuperUser/SuperUserMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/SurveyModifyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/SurveyView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SurveyWrapperModifyView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SurveyWrapperView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyTakeView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/TextQuestionView.axaml" value="scivu/scivu.csproj" />
