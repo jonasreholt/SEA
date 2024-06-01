@@ -11,10 +11,13 @@ public class SuperUserMenuViewModel : ViewModelBase
     private Action<string, object> _changeViewCommand;
     public ObservableCollection<SurveyViewModel> Surveys { get; } = new();
     
-    public SuperUserMenuViewModel(Action<string, object> changeViewCommand, List<SurveyWrapper> surveys)
+    public SuperUserMenuViewModel(Action<string, object> changeViewCommand)
     {
         _changeViewCommand = changeViewCommand;
-        
+    }
+
+    public void Setup(List<SurveyWrapper> surveys)
+    {
         foreach (var survey in surveys)
         {
             Surveys.Add(new SurveyViewModel(DeleteCallback, ModifyCallback, survey));

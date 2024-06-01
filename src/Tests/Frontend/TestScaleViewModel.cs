@@ -11,15 +11,7 @@ public class TestScaleViewModel
     private QuestionViewModel SetupVars(string[] arr, string caption, string text, string imagePath)
     {
         var answer = new Answer(AnswerType.Scale, arr);
-        var question = new Question()
-        {
-            Caption = caption,
-            PicturePath = imagePath,
-            SubQuestions = new List<SubQuestion>
-            {
-                new SubQuestion(text, answer)
-            }
-        };
+        var question = new Question(caption, imagePath, new List<SubQuestion> { new SubQuestion(text, answer) });
         return new QuestionViewModel(42, question);
     }
 

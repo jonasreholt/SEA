@@ -30,6 +30,13 @@ public class Survey {
             : null;
     }
 
+    public Page? GetCurrent()
+    {
+        return current != -1
+            ? surveyPages[current]
+            : null;
+    }
+
     public void ResetCounter()
     {
         current = -1;

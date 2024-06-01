@@ -15,6 +15,8 @@ public class MainWindowViewModel : ViewModelBase
 {
     internal ViewModelBase _contentViewModel;
     internal SurveyTakeViewModel _surveyTaker;
+    private SuperUserMenuViewModel _superUser;
+    
     private readonly IFrontEndExperimenter _experimenterClient;
 
     private readonly IFrontEndMainMenu _mainMenuClient;
@@ -30,6 +32,7 @@ public class MainWindowViewModel : ViewModelBase
         // at each survey start, but also for the workaround with opening
         // a dialog option
         _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
+        _superUser = new SuperUserMenuViewModel(ChangeViewTo);
 
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
@@ -64,8 +67,12 @@ public class MainWindowViewModel : ViewModelBase
             case SharedConstants.PaueMenuName when arg is SurveyWrapper survey:
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
-            case SharedConstants.SuperUserMenuName when arg is List<SurveyWrapper> surveys:
-                ContentViewModel = new SuperUserMenuViewModel(ChangeViewTo, surveys);
+            case SharedConstants.SuperUserMenuName:
+                if (arg is List<SurveyWrapper> surveys)
+                {
+                    _superUser.Setup(surveys);
+                }
+                ContentViewModel = _superUser;
                 break;
             case SharedConstants.ModifySurveyName when arg is SurveyWrapper surveyWrapper:
                 // TODO: This needs to be fixed big time!!
@@ -73,7 +80,7 @@ public class MainWindowViewModel : ViewModelBase
                 {
                     throw new UnhandledErrorException();
                 }
-                ContentViewModel = new SurveyModifyViewModel(s);
+                ContentViewModel = new SurveyModifyViewModel(ChangeViewTo, s);
                 break;
             default:
                 throw new ArgumentException($"Invalid view model `{vm}` with invalid argument `{arg}`");

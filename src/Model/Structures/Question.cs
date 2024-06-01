@@ -1,13 +1,13 @@
 namespace Model.Structures;
 
-public struct Question(string caption, string picturePath, List<SubQuestion> subQuestions)
+public class Question(string caption, string picturePath, List<SubQuestion> subQuestions)
 {
     public string Caption = caption;
     public string PicturePath = picturePath;
     public List<SubQuestion> SubQuestions = subQuestions;
 }
 
-public struct SubQuestion(string questionText, Answer answer)
+public class SubQuestion(string questionText, Answer answer)
 {
     public string QuestionText = questionText;
     public Answer Answer = answer;

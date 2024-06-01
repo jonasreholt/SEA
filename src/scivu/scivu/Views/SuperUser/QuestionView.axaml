@@ -7,14 +7,19 @@
              x:Class="scivu.Views.SuperUser.QuestionView"
              x:DataType="vm:QuestionViewModel">
     <StackPanel Spacing="5" Margin="10 0 10 0">
+        <Button Content="-"
+                HorizontalAlignment="Left"
+                Command="{Binding DeleteQuestion}"/>
+        
         <TextBox HorizontalAlignment="Center" Text="{Binding Caption}" />
         <Border CornerRadius="10" ClipToBounds="True">
             <DockPanel>
                 <!-- Part of image view when image is chosen -->
                 <Button DockPanel.Dock="Top"
                         HorizontalAlignment="Left"
-                        Content="Delete"
-                        IsVisible="{Binding ImageChosen}"/>
+                        Content="-"
+                        IsVisible="{Binding ImageChosen}"
+                        Command="{Binding DeleteImage}"/>
                 
                 <Image Width="500" Stretch="Uniform" Source="{Binding Image}"
                        IsVisible="{Binding ImageChosen}"/>
@@ -37,14 +42,24 @@
                 
                 <!-- Part of image view when no image is chosen -->
                 <Button Content="Add Image"
-                        IsVisible="{Binding !ImageChosen}">
-                </Button>
+                        IsVisible="{Binding !ImageChosen}"
+                        Command="{Binding AddImage}"/>
             </DockPanel>
         </Border>
-       <!-- 
-        <ContentControl VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Content="{Binding Content}" />
-                        -->
+        
+        <ItemsControl ItemsSource="{Binding SubQuestions}" />
+        
+        <!-- Buttons for adding new subquestions -->
+        <StackPanel Orientation="Horizontal">
+            <Button Content="+ scale" 
+                    Command="{Binding AddSubQuestion}"
+                    CommandParameter="scale"/>
+            <Button Content="+ multi"
+                    Command="{Binding AddSubQuestion}"
+                    CommandParameter="multi"/>
+            <Button Content="+ text" 
+                    Command="{Binding AddSubQuestion}"
+                    CommandParameter="text"/>
+        </StackPanel>
     </StackPanel>
 </UserControl>

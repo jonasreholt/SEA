@@ -1,0 +1,35 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:scivu.ViewModels.SuperUser"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="scivu.Views.SuperUser.SubQuestionMultiView"
+             x:DataType="vm:SubQuestionMultiViewModel">
+    
+    <Grid Margin="10 0 10 0"
+          ColumnDefinitions="*,*,*,*">
+        <TextBox VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left"
+                   Margin="0 0 0 7"
+                   Text="{Binding QuestionText}"
+                   Grid.Column="0" />
+        
+        <ItemsControl Margin="0 0 0 0"
+                      ItemsSource="{Binding Toggles}"
+                      Grid.Column="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        
+        <Button Content="+"
+                Command="{Binding AddToggle}"
+                Grid.Column="2"/>
+        <Button Content="-"
+                Command="{Binding DeleteToggle}"
+                Grid.Column="3"/>
+    </Grid>
+</UserControl>

@@ -8,7 +8,7 @@ public class Answer {
     private List<string> modifyAnswers = new List<string>();
     private AnswerType answerType = AnswerType.Text;
     
-    public ReadOnlyCollection<string> ModifyAnswers => modifyAnswers.AsReadOnly();
+    public List<string> ModifyAnswers => modifyAnswers;
 
     public AnswerType ModifyAnswerType { get => answerType; set => answerType = value; }
 

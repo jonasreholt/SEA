@@ -2,6 +2,8 @@ using Avalonia.ReactiveUI;
 using scivu.ViewModels;
 using ReactiveUI;
 using System.Threading.Tasks;
+using scivu.ViewModels.SuperUser;
+using Model.Structures;
 
 namespace scivu.Views;
 

@@ -2,7 +2,7 @@
 
 namespace Model.Structures;
 
-public struct Page : IEnumerable<Question>
+public class Page : IEnumerable<Question>
 {
     private List<Question> _questions = new();
 

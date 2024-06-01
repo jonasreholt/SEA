@@ -8,6 +8,8 @@
         <entry key="scivu/Views/AurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ExitSurveyView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ExitSurveyWindow.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/Experimenter/ExitSurveyWindow.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/Experimenter/MultiQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/Experimenter/PauseMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/Experimenter/QuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/Experimenter/ScaleQuestionView.axaml" value="scivu/scivu.csproj" />
@@ -25,6 +27,10 @@
         <entry key="scivu/Views/ScaleQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/ScaleView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/QuestionView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/ScaleView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SubQuestionScaleView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SubQuestionTextView.axaml" value="scivu/scivu.csproj" />
+        <entry key="scivu/Views/SuperUser/SubQuestionView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/SuperUserMenu.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/SuperUserMenuView.axaml" value="scivu/scivu.csproj" />
         <entry key="scivu/Views/SuperUser/SurveyModifyView.axaml" value="scivu/scivu.csproj" />

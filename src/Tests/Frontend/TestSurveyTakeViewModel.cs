@@ -12,37 +12,22 @@ public class TestSurveyTakeViewModel
 {
     private Page _page1 = new(new List<Question>
     {
-        new Question
+        new Question("Caption1", string.Empty, new List<SubQuestion>
         {
-            Caption = "Caption1",
-            PicturePath = string.Empty,
-            SubQuestions = new List<SubQuestion>
-            {
-                new SubQuestion("Question1", new Answer(AnswerType.Scale, new string[] { "1", "8" }))
-            }
-        },
-        new Question()
+            new SubQuestion("Question1", new Answer(AnswerType.Scale, new string[] { "1", "8" }))
+        }),
+        new Question(String.Empty, string.Empty, new List<SubQuestion>
         {
-            Caption = string.Empty,
-            PicturePath = string.Empty,
-            SubQuestions =  new List<SubQuestion>
-            {
-                new SubQuestion("Question2", new Answer(AnswerType.Scale, new string[] { "1", "3" }))
-            }
-        }
+            new SubQuestion("Question2", new Answer(AnswerType.Scale, new string[] { "1", "3" }))
+        }),
     });
 
     private Page _page2 = new(new List<Question>
     {
-        new Question()
+        new Question("Caption2", String.Empty, new List<SubQuestion>
         {
-            Caption = "Caption2",
-            PicturePath = string.Empty,
-            SubQuestions = new List<SubQuestion>
-            {
-                new SubQuestion("Question3", new Answer(AnswerType.Scale, new string[] {"22", "25"}))
-            }
-        }
+            new SubQuestion("Question3", new Answer(AnswerType.Scale, new string[] {"22", "25"}))
+        }),
     });
 
     private Action<string, object> dummy = (_, _) => { };
