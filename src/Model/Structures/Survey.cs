@@ -57,4 +57,17 @@ public class Survey {
     {
         surveyPages.Insert(index, page);
     }
+
+    public Survey Copy()
+    {
+        var copy = new Survey();
+        copy.SurveyName = SurveyName;
+
+        copy.surveyPages.Capacity = surveyPages.Count;
+        foreach (var p in surveyPages)
+        {
+            copy.surveyPages.Add(p.Copy());
+        }
+        return copy;
+    }
 }

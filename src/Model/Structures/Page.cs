@@ -35,4 +35,15 @@ public class Page : IEnumerable<Question>
     {
         return GetEnumerator();
     }
+
+    public Page Copy()
+    {
+        var questionCopy = new List<Question>(_questions.Count);
+        foreach (var q in _questions)
+        {
+            questionCopy.Add(q.Copy());
+        }
+
+        return new Page(questionCopy);
+    }
 }

@@ -49,4 +49,12 @@ public class Answer {
         }
         return false;
     }
+
+    public Answer Copy()
+    {
+        var optionsCopy = new string[modifyAnswers.Count];
+        modifyAnswers.CopyTo(optionsCopy);
+        var copy = new Answer(ModifyAnswerType, optionsCopy);
+        return copy;
+    }
 }
