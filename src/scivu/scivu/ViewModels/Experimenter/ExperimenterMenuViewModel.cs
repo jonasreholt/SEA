@@ -25,7 +25,7 @@ public class ExperimenterMenuViewModel : ViewModelBase
         _survey = survey;
         _changeViewCommand = changeViewCommand;
         SurveyName = survey.SurveyWrapperName; // placeholder
-        SurveyId = survey.SurveyWrapperId; // placeholder
+        SurveyId = survey.PinCode; // placeholder
         StartedSurveys = 20; // placeholder
         FinishedSurveys = 15; // placeholder
         CompletionRate = 75; // placeholder

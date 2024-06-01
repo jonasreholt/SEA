@@ -15,6 +15,8 @@ public static class ErrorDiagnostics
         Errors[ErrorDiagnosticsID.ERR_ScaleRangeInvalid] = $"Range must be [a,b] where {SharedConstants.ScaleMinimumValue}<a<b";
         Errors[ErrorDiagnosticsID.WAR_InvalidSurveyFileType] = $"Invalid file type for survey";
         Errors[ErrorDiagnosticsID.WAR_CouldNotImportSurvey] = "Survey could not be imported";
+        Errors[ErrorDiagnosticsID.ERR_InvalidPIN] = "Pin code must be a 6 digit number";
+        Errors[ErrorDiagnosticsID.ERR_DuplicatePIN] = "Pin code cannot be duplicated";
     }
 
     public static string GetErrorMessage(ErrorDiagnosticsID id)

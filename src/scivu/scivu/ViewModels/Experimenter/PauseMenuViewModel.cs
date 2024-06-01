@@ -75,7 +75,7 @@ public class PauseMenuViewModel : ViewModelBase
         Debug.Assert(!IsLoggedIn);
         if (Int32.TryParse(Pincode, out var pin))
         {
-            if (Survey.SurveyWrapperId == pin)
+            if (Survey.PinCode == pin)
             {
                 IsLoggedIn = true;
                 return;

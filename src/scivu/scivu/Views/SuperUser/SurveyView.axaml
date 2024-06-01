@@ -15,9 +15,16 @@
                 Command="{Binding Modify}" 
                 DockPanel.Dock="Right"/>
         
+        <Button Content="Copy"
+                Command="{Binding Copy}"
+                DockPanel.Dock="Right"/>
+        
         <Button Content="Export"
                 Command="{Binding Export}"
                 DockPanel.Dock="Right"/>
+        
+        <TextBox Text="{Binding  PinCode}" 
+                 DockPanel.Dock="Right"/>
         
         <TextBlock Text="{Binding Name}" />
     </DockPanel>

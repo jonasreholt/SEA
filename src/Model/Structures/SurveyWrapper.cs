@@ -4,20 +4,18 @@ namespace Model.Structures;
 
 public class SurveyWrapper {
 
-    private int surveyWrapperId;
-
     private string surveyWrapperName;
 
     private string[] surveyAssests;
 
-    public int SurveyWrapperId { get => surveyWrapperId;}
+    public int PinCode;
     public string SurveyWrapperName { get => surveyWrapperName; set => surveyWrapperName = value;}
 
     private int current = 0;
     public List<Survey> SurveyVersions = new List<Survey>();
 
-    public SurveyWrapper (int id) {
-        surveyWrapperId = id;
+    public SurveyWrapper (int pinCode) {
+        PinCode = pinCode;
         SurveyWrapperName = string.Empty;
         surveyAssests = new string[] {};
         surveyWrapperName = string.Empty;
@@ -60,5 +58,23 @@ public class SurveyWrapper {
         }
         survey = default;
         return false;
+    }
+
+    public SurveyWrapper Copy(int pinCode)
+    {
+        var copy = new SurveyWrapper(pinCode);
+        copy.SurveyWrapperName = surveyWrapperName;
+        
+        var copySurveyAssets = new string[surveyAssests.Length];
+        surveyAssests.CopyTo(copySurveyAssets.AsSpan());
+        
+        var copyVersions = new List<Survey>(SurveyVersions.Count);
+        foreach (var v in SurveyVersions)
+        {
+            copyVersions.Add(v.Copy());
+        }
+        copy.SurveyVersions = copyVersions;
+
+        return copy;
     }
 }
