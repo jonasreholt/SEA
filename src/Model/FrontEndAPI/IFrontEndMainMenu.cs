@@ -1,11 +1,11 @@
+using Model.Database;
+
 namespace Model.FrontEndAPI;
 using Model.Structures;
 
 public interface IFrontEndMainMenu {
-    List<SurveyWrapper>? ValidateSuperUser(string username, string password);
+    List<SurveyWrapper>? ValidateSuperUser(UserId userId);
     bool ImportSurvey(string filePath);
 
-    bool ExportResults(int surveyId, string folderPath);
     SurveyWrapper? GetSurvey(int pincode);
-
 }

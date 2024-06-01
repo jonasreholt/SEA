@@ -9,14 +9,10 @@ using Structures;
 internal interface IDatabase
 {
     int GetUserId();
-    int GetNextSurveyID();
     SurveyWrapper GetSurveyWrapper(int surveyId);
-    List<SurveyWrapper> GetSurveyWrappersForSuperUser(string username, string password);
-    bool ExportSurvey(int id,string path);
+    List<SurveyWrapper> GetSurveyWrappersForSuperUser(UserId userId);
     bool ImportSurvey(string path);
-    bool TryStorePicture(string path, int surveyId);
-    void StorePictureOverwrite(string path, int surveyId);
     List<Result> GetResults(int id);
-    bool StoreResults(List<Result> results);
-    bool StoreResult(Result result);
+
+    bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false);
 }

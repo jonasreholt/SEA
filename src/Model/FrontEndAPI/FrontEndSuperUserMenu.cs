@@ -3,7 +3,8 @@ namespace Model.FrontEndAPI;
 using Model.Database;
 using Structures;
 
-internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
+internal class FrontEndSuperUserMenu : IFrontEndSuperUser 
+{
 
     private  IDatabase db = new DatabaseServices();
 
@@ -11,33 +12,8 @@ internal class FrontEndSuperUserMenu : IFrontEndSuperUser {
         this.db = databaseServices;
     }
 
-    public SurveyWrapper CreateSurvey() {
-        int surveyId = db.GetNextSurveyID();
-        return new SurveyWrapper(surveyId);
+    public bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false)
+    {
+        return db.Store(surveyWrapper, userId, overwrite);
     }
-
-    public bool ExportSurveyFromDatabase(int surveyId, string folderPath) {
-        if (db.ExportSurvey(surveyId, folderPath)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public SurveyWrapper ModifySurvey(int surveyId) {
-        return db.GetSurveyWrapper(surveyId);
-    }
-
-    public void StorePicture(int surveyId, string filePath) {
-        //To be implemented
-    }
-
-    public void StorePicture(int surveyId, string filePath, string optionalPrefix) {
-        //To be implemented
-    }
-
-    public void StoreSurveyInDatabase(Survey survey) {
-        
-    }
-
 }

@@ -10,8 +10,4 @@ internal class FrontEndExperimenter : IFrontEndExperimenter
     }
 
     public int GetUserId() => databaseService.GetUserId();
-    
-    public void StoreResultFromQuestion(Result answer) {
-        databaseService.StoreResult(answer);   
-    }
 }

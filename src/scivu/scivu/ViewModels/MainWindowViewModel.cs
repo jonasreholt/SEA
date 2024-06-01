@@ -33,7 +33,7 @@ public class MainWindowViewModel : ViewModelBase
         // at each survey start, but also for the workaround with opening
         // a dialog option
         _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
-        _superUser = new SuperUserMenuViewModel(ChangeViewTo);
+        _superUser = new SuperUserMenuViewModel(ChangeViewTo, FrontEndFactory.CreateSuperUserMenu());
         _surveyWrapperModifier = new SurveyWrapperModifyViewModel(ChangeViewTo);
 
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
@@ -70,9 +70,9 @@ public class MainWindowViewModel : ViewModelBase
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
                 break;
             case SharedConstants.SuperUserMenuName:
-                if (arg is List<SurveyWrapper> surveys)
+                if (arg is (UserId userId, List<SurveyWrapper> surveys))
                 {
-                    _superUser.Setup(surveys);
+                    _superUser.Setup(userId, surveys);
                 }
                 ContentViewModel = _superUser;
                 break;

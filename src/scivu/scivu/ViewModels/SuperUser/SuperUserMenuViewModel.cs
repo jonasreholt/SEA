@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using Model.FrontEndAPI;
 using Model.Structures;
 using scivu.Model;
 
@@ -8,21 +10,26 @@ namespace scivu.ViewModels.SuperUser;
 
 public class SuperUserMenuViewModel : ViewModelBase
 {
-    private Action<string, object> _changeViewCommand;
+    private readonly IFrontEndSuperUser _client;
+    private readonly Action<string, object> _changeViewCommand;
+    private UserId _userId;
     public ObservableCollection<SurveyViewModel> Surveys { get; } = new();
     
-    public SuperUserMenuViewModel(Action<string, object> changeViewCommand)
+    public SuperUserMenuViewModel(Action<string, object> changeViewCommand, IFrontEndSuperUser client)
     {
         _changeViewCommand = changeViewCommand;
+        _client = client;
     }
 
-    public void Setup(List<SurveyWrapper> surveys)
+    public void Setup(UserId userId, List<SurveyWrapper> surveys)
     {
         Surveys.Clear();
         foreach (var survey in surveys)
         {
             Surveys.Add(new SurveyViewModel(DeleteCallback, ModifyCallback, CopyCallback, survey));
         }
+
+        _userId = userId;
     }
 
     private bool VerifyPinCodes()
@@ -71,6 +78,11 @@ public class SuperUserMenuViewModel : ViewModelBase
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_DuplicatePIN));
         }
         _changeViewCommand.Invoke(SharedConstants.MainMenuName, null!);
+
+        foreach (var sw in Surveys.Select(vm => vm.SurveyWrapper))
+        {
+            _client.Store(sw, _userId, true);
+        }
     }
 
     public void AddSurveyWrapper()

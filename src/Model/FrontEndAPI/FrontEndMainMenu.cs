@@ -4,7 +4,8 @@ using Structures;
 using System.Text;
 using System.IO;
 
-internal class FrontEndMainMenu : IFrontEndMainMenu {
+internal class FrontEndMainMenu : IFrontEndMainMenu 
+{
 
     private IDatabase db;
 
@@ -12,21 +13,6 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
         db = database;
     }
 
-    public bool ExportResults(int surveyId, string folderPath) {
-        List<Result> results = db.GetResults(surveyId);
-        string path = Path.Combine(folderPath, $"{surveyId}.csv");
-        try {
-            using (StreamWriter writer = new StreamWriter(path, false, Encoding.UTF8)) {
-                foreach (var result in results) {
-                    writer.WriteLine(result.ToString());
-                }
-            }
-            return true;
-        }
-        catch (Exception) {
-            return false;
-        } 
-    }
     public SurveyWrapper GetSurvey(int surveyId) {
         return db.GetSurveyWrapper(surveyId);
     }
@@ -35,9 +21,9 @@ internal class FrontEndMainMenu : IFrontEndMainMenu {
         return db.ImportSurvey(filePath);        
     }
 
-    public List<SurveyWrapper>? ValidateSuperUser(string username, string password) 
+    public List<SurveyWrapper>? ValidateSuperUser(UserId userId) 
     {
-        var surveyWrappers = db.GetSurveyWrappersForSuperUser(username, password);
+        var surveyWrappers = db.GetSurveyWrappersForSuperUser(userId);
         return surveyWrappers;
     }
 }  

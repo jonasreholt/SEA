@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Model.FrontEndAPI;
+using Model.Structures;
 using ReactiveUI;
 using scivu.Model;
 
@@ -131,10 +132,11 @@ public class MainMenuViewModel : ViewModelBase
     {
         Debug.Assert(IsSuperLogin);
 
-        var result = _client.ValidateSuperUser(Username!, Password!);
+        var userId = new UserId(Username!, Password!);
+        var result = _client.ValidateSuperUser(userId);
         if (result != null)
         {
-            _changeViewCommand.Invoke(SharedConstants.SuperUserMenuName, result);
+            _changeViewCommand.Invoke(SharedConstants.SuperUserMenuName, (userId, result));
             return;
         }
 
