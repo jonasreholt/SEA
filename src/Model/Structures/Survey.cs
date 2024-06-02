@@ -19,6 +19,23 @@ public class Survey
         SurveyName = string.Empty;
     }
 
+    public List<Dictionary<int, Result>> GetResults()
+    {
+        var results = new List<Dictionary<int, Result>>();
+        foreach (var page in surveyPages)
+        {
+            foreach (var question in page)
+            {
+                foreach (var subQuestion in question.SubQuestions)
+                {
+                    results.Add(subQuestion.Results);
+                }
+            }
+        }
+
+        return results;
+    }
+
     public bool PreviousPageExist() => current > 0;
     public bool NextPageExist() => current + 1 < surveyPages.Count;
 

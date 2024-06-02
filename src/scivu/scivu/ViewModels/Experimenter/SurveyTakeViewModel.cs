@@ -40,6 +40,8 @@ public class SurveyTakeViewModel : ViewModelBase
 
         QuitCommand = ReactiveCommand.CreateFromTask(async () =>
         {
+            SaveQuestionResults();
+            
             var dialog = new ExitSurveyViewModel();
 
             var result = await ShowDialog.Handle(dialog);

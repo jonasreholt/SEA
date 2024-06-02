@@ -60,4 +60,21 @@ public static class FileExplorer
 
         return folder.Count >= 1 ? folder[0] : null;
     }
+
+    public static async Task<IStorageFile?> SaveResultsAsync()
+    {
+        if (!FileExplorerAvailable(out var provider))
+            throw new NullReferenceException("Missing StorageProvider instance.");
+
+        var file = await provider.SaveFilePickerAsync(new FilePickerSaveOptions()
+        {
+            Title = "Save Survey Results to File",
+            FileTypeChoices = [new FilePickerFileType("csv")
+            {
+                Patterns = ["*.csv"]
+            }]
+        });
+
+        return file;
+    }
 }

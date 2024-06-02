@@ -39,8 +39,13 @@ public class ExperimenterMenuViewModel : ViewModelBase
 
     }
 
-    public void ExportData()
+    public async void ExportData()
     {
-        throw new NotImplementedException();
+        var file = await FileExplorer.SaveResultsAsync();
+
+        if (file != null)
+        {
+            _client.ExportResults(_survey, file.Path.LocalPath);
+        }
     }
 }

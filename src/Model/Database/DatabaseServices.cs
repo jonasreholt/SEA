@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 
 namespace Model.Database;
@@ -80,7 +81,19 @@ internal class DatabaseServices : IDatabase
 
     public void ExportResults(SurveyWrapper surveyWrapper, string path)
     {
-        throw new NotImplementedException();
+        var sb = new StringBuilder();
+        sb.AppendLine(surveyWrapper.SurveyWrapperName);
+        foreach (var survey in surveyWrapper.SurveyVersions)
+        {
+            var results = survey.GetResults();
+            
+            sb.AppendLine(survey.SurveyName);
+            sb.AppendQuestionHeader(results.Count);
+            sb.AppendResults(results);
+        }
+
+        using var file = new StreamWriter(path);
+        file.Write(sb.ToString());
     }
 
     public async void Serialize(SurveyWrapper surveyWrapper, string path)
@@ -143,6 +156,56 @@ internal class DatabaseServices : IDatabase
         return _userToSurveys.TryGetValue(userId, out var sws)
             ? sws
             : throw new AggregateException("Invalid user credentail");
+    }
+}
+
+public static class StringBuilderExtension
+{
+    public static StringBuilder AppendQuestionHeader(this StringBuilder sb, int count)
+    {
+        sb.Append(',').Append("UserID");
+        for (var i = 0; i < count; i++)
+        {
+            sb.Append(',').Append(i);
+        }
+
+        return sb.Append(Environment.NewLine);
+    }
+
+    public static StringBuilder AppendResults(this StringBuilder sb, List<Dictionary<int, Result>> results)
+    {
+        // [userId -> QuestionResult]
+        var userIds = results.Aggregate(new Dictionary<int, List<string>>(), (acc, d) =>
+        {
+            foreach (var kvp in d)
+            {
+                if (acc.TryGetValue(kvp.Key, out var res))
+                {
+                    res.Add(kvp.Value.ToString());
+                }
+                else
+                {
+                    acc[kvp.Key] = new List<string>() { kvp.Value.ToString() };
+                }
+            }
+            return acc;
+        });
+
+        foreach (var kvp in userIds)
+        {
+            var userId = kvp.Key;
+            var userResults = kvp.Value;
+
+            sb.Append(',').Append(userId);
+            foreach (var userResult in userResults)
+            {
+                sb.Append(',').Append('"').Append(userResult).Append('"');
+            }
+
+            sb.Append(Environment.NewLine);
+        }
+
+        return sb;
     }
 }
 
