@@ -88,7 +88,7 @@ public class MainMenuViewModel : ViewModelBase
 
             try
             {
-                var surveyWrapper = await _client.Deserialize(path);
+                var surveyWrapper = await _client.Deserialize<SurveyWrapper>(path);
                 _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, surveyWrapper);
             }
             catch (Exception _)

@@ -14,5 +14,5 @@ public interface IDatabase
     bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false);
 
     void Serialize(SurveyWrapper surveyWrapper, string path);
-    Task<SurveyWrapper> Deserialize(string path);
+    Task<T> Deserialize<T>(string path);
 }

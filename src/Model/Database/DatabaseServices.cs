@@ -6,37 +6,52 @@ using System.IO;
 using FrontEndAPI;
 using Structures;
 using System.Collections.Generic;
+using backend.JsonConverters;
 
 internal class DatabaseServices : IDatabase
 {
-    private readonly Dictionary<UserId, List<SurveyWrapper>> _userToSurveys = new();
+    private Dictionary<UserId, List<SurveyWrapper>> _userToSurveys = new();
     
     private int userId = 0;
 
-    private string databasePath = "./surveyDatabase/";
-    private string resultsPath;
+    private const string DatabasePath = "./surveyDatabase";
+    private readonly string CachePath = Path.Combine(DatabasePath, "cache");
     internal DatabaseServices() 
     {
-        Directory.CreateDirectory(databasePath); //is only created if not exists
-        resultsPath = Path.Combine(databasePath, "./results.csv");
-        CreateResultsFileIfNotExisting(resultsPath);
+        LoadCache();
         
-        // Add basic admin user with example survey
+        // Add basic admin user with example survey if not present
         var username = "admin";
         var password = "admin";
         var uid = new UserId(username, password);
+        if (_userToSurveys.ContainsKey(uid)) return;
+        
         var sws = new List<SurveyWrapper> { ExampleSurvey.GetSurvey() };
-
         _userToSurveys[uid] = sws;
     }
 
-    private static void CreateResultsFileIfNotExisting(string resultsPath) 
+    private async void LoadCache()
     {
-        if (!File.Exists(resultsPath)) 
+        if (!Directory.Exists(DatabasePath) || !File.Exists(CachePath))
         {
-            File.Create(resultsPath).Dispose();
+            return;
         }
+        
+        _userToSurveys = await Deserialize<Dictionary<UserId, List<SurveyWrapper>>>(CachePath);
+    }
 
+    private async void SaveCache()
+    {
+        if (!Directory.Exists(DatabasePath))
+        {
+            Directory.CreateDirectory(DatabasePath);
+        }
+        
+        await using var createStream = File.Create(CachePath);
+        await JsonSerializer.SerializeAsync(createStream, _userToSurveys, new JsonSerializerOptions
+        {
+            Converters = { new DatabaseConverter(), new PageConverter() }
+        });
     }
 
     public int GetUserId()
@@ -64,19 +79,15 @@ internal class DatabaseServices : IDatabase
                 if (idx != -1) sws.RemoveAt(idx);
             }
             sws.Add(surveyWrapper);
+            
+            SaveCache();
+            
             return true;
         }
 
         return false;
     }
 
-
-    private struct Serializer(List<string> imagePaths, SurveyWrapper surveyWrapper)
-    {
-        public List<string> ImagePaths = imagePaths;
-        public SurveyWrapper SurveyWrapper = surveyWrapper;
-    }
-    
     public async void Serialize(SurveyWrapper surveyWrapper, string path)
     {
         if (!Directory.Exists(path)) throw new ArgumentException($"'{path}' folder does not exists");
@@ -95,12 +106,12 @@ internal class DatabaseServices : IDatabase
         await JsonSerializer.SerializeAsync(createStream, surveyWrapper);
     }
 
-    public async Task<SurveyWrapper> Deserialize(string path)
+    public async Task<T> Deserialize<T>(string path)
     {
         using var openStream = File.OpenRead(path);
-        var retVal = await JsonSerializer.DeserializeAsync<SurveyWrapper>(openStream, new JsonSerializerOptions
+        var retVal = await JsonSerializer.DeserializeAsync<T>(openStream, new JsonSerializerOptions
         {
-            Converters = { new PageConverter() }
+            Converters = { new PageConverter(), new DatabaseConverter() }
         });
         if (retVal == null) throw new Exception("Could not deserialize the given path");
         return retVal;
