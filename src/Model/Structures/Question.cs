@@ -1,9 +1,16 @@
+using System.Text.Json.Serialization;
+
 namespace Model.Structures;
 
 public class Question(string caption, string picturePath, List<SubQuestion> subQuestions)
 {
+    [JsonInclude]
     public string Caption = caption;
+    
+    [JsonInclude]
     public string PicturePath = picturePath;
+    
+    [JsonInclude]
     public List<SubQuestion> SubQuestions = subQuestions;
 
     public Question Copy()
@@ -20,8 +27,12 @@ public class Question(string caption, string picturePath, List<SubQuestion> subQ
 
 public class SubQuestion(string questionText, Answer answer)
 {
+    [JsonInclude]
     public string QuestionText = questionText;
+    
+    [JsonInclude]
     public Answer Answer = answer;
+    
     /// <summary>
     /// UserId => Results
     /// </summary>

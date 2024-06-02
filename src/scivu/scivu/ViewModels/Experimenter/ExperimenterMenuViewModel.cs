@@ -1,5 +1,5 @@
 using System;
-using Model.FrontEndAPI;
+using Model.Database;
 using Model.Structures;
 using scivu.Model;
 
@@ -7,7 +7,7 @@ namespace scivu.ViewModels;
 
 public class ExperimenterMenuViewModel : ViewModelBase
 {
-    private readonly IFrontEndExperimenter _client;
+    private readonly IDatabase _client;
     
     private readonly SurveyWrapper _survey;
     private readonly Action<string, object> _changeViewCommand;
@@ -19,7 +19,7 @@ public class ExperimenterMenuViewModel : ViewModelBase
     public int CompletionRate { get; }
     public int AverageCompletionRate { get; }
 
-    public ExperimenterMenuViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, SurveyWrapper survey)
+    public ExperimenterMenuViewModel(IDatabase client, Action<string, object> changeViewCommand, SurveyWrapper survey)
     {
         _client = client;
         _survey = survey;

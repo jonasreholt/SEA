@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Input;
-using Model.FrontEndAPI;
+using Model.Database;
 using Model.Structures;
 using ReactiveUI;
 
@@ -13,7 +13,7 @@ namespace scivu.ViewModels;
 
 public class SurveyTakeViewModel : ViewModelBase
 {
-    private readonly IFrontEndExperimenter _client;
+    private readonly IDatabase _client;
     private readonly Action<string, object> _changeViewCommand;
     private SurveyWrapper _wrapper;
     private Survey _survey;
@@ -29,7 +29,7 @@ public class SurveyTakeViewModel : ViewModelBase
 
     private readonly Random rnd;
 
-    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand)
+    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand)
     {
         _client = client;
         rnd = new Random();
@@ -52,7 +52,7 @@ public class SurveyTakeViewModel : ViewModelBase
         });
     }
 
-    public SurveyTakeViewModel(IFrontEndExperimenter client, Action<string, object> changeViewCommand, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
     {
         StartNewSurvey(wrapper, userId);
     }

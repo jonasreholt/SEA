@@ -15,7 +15,7 @@ public class SubQuestionViewModel : ViewModelBase
         _deleteCallback = deleteCallback;
         SubQuestion = subQuestion;
 
-        switch (subQuestion.Answer.ModifyAnswerType)
+        switch (subQuestion.Answer.AnswerType)
         {
             case AnswerType.Scale:
                 Question = new SubQuestionScaleViewModel(subQuestion);
@@ -27,7 +27,7 @@ public class SubQuestionViewModel : ViewModelBase
                 Question = new SubQuestionMultiViewModel(subQuestion);
                 break;
             default:
-                throw new ArgumentException(nameof(subQuestion.Answer.ModifyAnswerType));
+                throw new ArgumentException(nameof(subQuestion.Answer.AnswerType));
         }
     }
 

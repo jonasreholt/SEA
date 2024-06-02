@@ -22,7 +22,7 @@ public class ScaleQuestionViewModel : QuestionBaseViewModel
         
         Text = question.QuestionText;
 
-        var answers = question.Answer.ReadOnlyAnswers;
+        var answers = question.Answer.AnswerOptions;
         if (answers.Count != 2)
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));

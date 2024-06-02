@@ -1,24 +1,23 @@
+using System.Text.Json.Serialization;
+
 namespace Model.Structures;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 // Answer is the given options to a question, by the survey creater.
 // When an experimentee takes the survey, they will give a Result
-public class Answer {
-    private List<string> modifyAnswers = new List<string>();
-    private AnswerType answerType = AnswerType.Text;
+public class Answer 
+{
+    private List<string> _answerOptions = new();
     
-    public List<string> ModifyAnswers => modifyAnswers;
+    private AnswerType _answerType = AnswerType.Text;
+    
+    public List<string> AnswerOptions => _answerOptions;
 
-    public AnswerType ModifyAnswerType { get => answerType; set => answerType = value; }
-
-    public AnswerType ReadOnlyAnswerType {get => answerType;}
-
-    public ReadOnlyCollection<string> ReadOnlyAnswers => modifyAnswers.AsReadOnly();
+    public AnswerType AnswerType { get => _answerType; set => _answerType = value; }
 
     public Answer(AnswerType type)
     {
-        answerType = type;
+        _answerType = type;
     }
 
     public Answer(AnswerType type, string option) : this(type)
@@ -26,25 +25,24 @@ public class Answer {
         AddAnswerOption(option);
     }
 
-    public Answer(AnswerType type, string[] options) : this(type)
+    [JsonConstructor]
+    public Answer(AnswerType answerType, List<string> answerOptions)
     {
-        foreach (var option in options)
-        {
-            AddAnswerOption(option);
-        }
+        _answerType = answerType;
+        _answerOptions = new List<string>(answerOptions);
     }
 
     public void AddAnswerOption(string answer) {
-        modifyAnswers.Add(answer);
+        _answerOptions.Add(answer);
     }
     
     public void AddAnswerOption(string answer, int index) {
-        modifyAnswers.Insert(index, answer);
+        _answerOptions.Insert(index, answer);
     }
     
     public bool TryDeleteAnswerOption(int index) {
-        if (0 <= index && index < modifyAnswers.Count()) {
-            modifyAnswers.RemoveAt(index);
+        if (0 <= index && index < _answerOptions.Count()) {
+            _answerOptions.RemoveAt(index);
             return true;
         }
         return false;
@@ -52,9 +50,8 @@ public class Answer {
 
     public Answer Copy()
     {
-        var optionsCopy = new string[modifyAnswers.Count];
-        modifyAnswers.CopyTo(optionsCopy);
-        var copy = new Answer(ModifyAnswerType, optionsCopy);
+        var optionsCopy = new List<string>(_answerOptions);
+        var copy = new Answer(AnswerType, optionsCopy);
         return copy;
     }
 }

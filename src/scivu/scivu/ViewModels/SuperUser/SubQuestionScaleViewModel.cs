@@ -19,7 +19,7 @@ public class SubQuestionScaleViewModel : SubQuestionBaseViewModel
         
         _text = question.QuestionText;
 
-        var answers = question.Answer.ReadOnlyAnswers;
+        var answers = question.Answer.AnswerOptions;
         if (answers.Count != 2)
         {
             throw new ArgumentException(ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_ScaleRangeInvalid));
@@ -76,7 +76,7 @@ public class SubQuestionScaleViewModel : SubQuestionBaseViewModel
         ValidateInput(Min, Max);
         
         _question.QuestionText = Text;
-        _question.Answer.ModifyAnswers.Clear();
+        _question.Answer.AnswerOptions.Clear();
         _question.Answer.AddAnswerOption(Min);
         _question.Answer.AddAnswerOption(Max);
     }

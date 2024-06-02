@@ -1,12 +1,9 @@
 namespace Model.Database;
-// using FrontEndAPI;
-// using Survey;
-// using Result;
 using System.Collections.Generic;
 using Structures;
 
 
-internal interface IDatabase
+public interface IDatabase
 {
     int GetUserId();
     SurveyWrapper GetSurveyWrapper(int surveyId);
@@ -15,4 +12,7 @@ internal interface IDatabase
     List<Result> GetResults(int id);
 
     bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false);
+
+    void Serialize(SurveyWrapper surveyWrapper, string path);
+    Task<SurveyWrapper> Deserialize(string path);
 }

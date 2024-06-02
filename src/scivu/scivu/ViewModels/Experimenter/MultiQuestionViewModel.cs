@@ -19,7 +19,7 @@ public class MultiQuestionViewModel : QuestionBaseViewModel
         
         QuestionText = question.QuestionText;
         
-        foreach (var answer in question.Answer.ReadOnlyAnswers)
+        foreach (var answer in question.Answer.AnswerOptions)
         {
             Toggles.Add(new ToggleButton
             {

@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 namespace Model.Database;
 using System;
 using System.IO;
@@ -68,6 +70,54 @@ internal class DatabaseServices : IDatabase
         return false;
     }
 
+
+    private struct Serializer(List<string> imagePaths, SurveyWrapper surveyWrapper)
+    {
+        public List<string> ImagePaths = imagePaths;
+        public SurveyWrapper SurveyWrapper = surveyWrapper;
+    }
+    
+    public async void Serialize(SurveyWrapper surveyWrapper, string path)
+    {
+        if (!Directory.Exists(path)) throw new ArgumentException($"'{path}' folder does not exists");
+
+        // Fix up all images to this new folder structure
+        foreach (var kvp in FixImagePaths(surveyWrapper, path))
+        {
+            var currentPath = kvp.Key;
+            var newPath = kvp.Value;
+            File.Copy(currentPath, newPath);
+        }
+        
+        // Serialize the surveyWrapper itself to the folder
+        var surveyPath = Path.Combine(path, surveyWrapper.SurveyWrapperName);
+        await using var createStream = File.Create(surveyPath);
+        await JsonSerializer.SerializeAsync(createStream, surveyWrapper);
+    }
+
+    public async Task<SurveyWrapper> Deserialize(string path)
+    {
+        using var openStream = File.OpenRead(path);
+        var retVal = await JsonSerializer.DeserializeAsync<SurveyWrapper>(openStream, new JsonSerializerOptions
+        {
+            Converters = { new PageConverter() }
+        });
+        if (retVal == null) throw new Exception("Could not deserialize the given path");
+        return retVal;
+    }
+
+    private static List<KeyValuePair<string, string>> FixImagePaths(SurveyWrapper surveyWrapper, string dirPath)
+    {
+        var imagePaths = new List<KeyValuePair<string, string>>();
+
+        foreach (var survey in surveyWrapper.SurveyVersions)
+        {
+            imagePaths.AddRange(survey.FixImagePaths(dirPath));
+        }
+        
+        return imagePaths;
+    }
+    
     public SurveyWrapper GetSurveyWrapper(int surveyId)
     {
         var swss = _userToSurveys.Values;

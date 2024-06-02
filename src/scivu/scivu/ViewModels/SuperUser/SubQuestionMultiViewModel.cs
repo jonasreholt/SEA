@@ -20,7 +20,7 @@ public class SubQuestionMultiViewModel : SubQuestionBaseViewModel
         
         _questionText = question.QuestionText;
         
-        foreach (var answer in question.Answer.ReadOnlyAnswers)
+        foreach (var answer in question.Answer.AnswerOptions)
         {
             Toggles.Add(new TextBox
             {
@@ -49,7 +49,7 @@ public class SubQuestionMultiViewModel : SubQuestionBaseViewModel
     {
         _question.QuestionText = QuestionText;
 
-        _question.Answer.ModifyAnswers.Clear();
+        _question.Answer.AnswerOptions.Clear();
         foreach (var toggle in Toggles)
         {
             _question.Answer.AddAnswerOption(toggle.Text!);

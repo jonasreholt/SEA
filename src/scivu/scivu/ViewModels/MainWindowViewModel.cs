@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive;
+using Model.Database;
 using ReactiveUI;
-using Model.FrontEndAPI;
 using Model.Factory;
 using Model.Structures;
 using scivu.Model;
@@ -17,30 +17,25 @@ public class MainWindowViewModel : ViewModelBase
     internal SurveyTakeViewModel _surveyTaker;
     private SuperUserMenuViewModel _superUser;
     private SurveyWrapperModifyViewModel _surveyWrapperModifier;
-    
-    private readonly IFrontEndExperimenter _experimenterClient;
 
-    private readonly IFrontEndMainMenu _mainMenuClient;
+    private readonly IDatabase _database;
 
     public ReactiveCommand<string, Unit> Change { get; }
 
     public MainWindowViewModel()
     {
-        _mainMenuClient = FrontEndFactory.CreateMainMenu();
-        _experimenterClient = FrontEndFactory.CreateExperimenterMenu();
+        _database = FrontEndFactory.CreateDatabase();
 
         // We cache our survey taker both to avoid creating a new version
         // at each survey start, but also for the workaround with opening
         // a dialog option
-        _surveyTaker = new SurveyTakeViewModel(_experimenterClient, ChangeViewTo);
-        _superUser = new SuperUserMenuViewModel(ChangeViewTo, FrontEndFactory.CreateSuperUserMenu());
+        _surveyTaker = new SurveyTakeViewModel(_database, ChangeViewTo);
+        _superUser = new SuperUserMenuViewModel(ChangeViewTo, _database);
         _surveyWrapperModifier = new SurveyWrapperModifyViewModel(ChangeViewTo);
 
         Change = ReactiveCommand.Create<string>(ChangeViewTo);
 
-        _mainMenuClient = FrontEndFactory.CreateMainMenu();
-
-        _contentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
+        _contentViewModel = new MainMenuViewModel(ChangeViewTo, _database);
     }
 
     public ViewModelBase ContentViewModel
@@ -57,14 +52,14 @@ public class MainWindowViewModel : ViewModelBase
         switch (vm)
         {
             case SharedConstants.TakeSurveyName when arg is SurveyWrapper survey:
-                _surveyTaker.StartNewSurvey(survey, _experimenterClient.GetUserId());
+                _surveyTaker.StartNewSurvey(survey, _database.GetUserId());
                 ContentViewModel = _surveyTaker;
                 break;
             case SharedConstants.ExperimenterMenuName when arg is SurveyWrapper survey:
-                ContentViewModel = new ExperimenterMenuViewModel(_experimenterClient, ChangeViewTo, survey);
+                ContentViewModel = new ExperimenterMenuViewModel(_database, ChangeViewTo, survey);
                 break;
             case SharedConstants.MainMenuName:
-                ContentViewModel = new MainMenuViewModel(ChangeViewTo, _mainMenuClient);
+                ContentViewModel = new MainMenuViewModel(ChangeViewTo, _database);
                 break;
             case SharedConstants.PaueMenuName when arg is SurveyWrapper survey:
                 ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);

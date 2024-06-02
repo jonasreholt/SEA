@@ -1,29 +1,25 @@
+using System.Text.Json.Serialization;
+
 namespace Model.Structures;
 
 
 
-public class SurveyWrapper {
-
+public class SurveyWrapper 
+{
+    [JsonInclude]
     private string surveyWrapperName;
 
-    private string[] surveyAssests;
-
+    [JsonInclude]
     public int PinCode;
     public string SurveyWrapperName { get => surveyWrapperName; set => surveyWrapperName = value;}
-
-    private int current = 0;
-    public List<Survey> SurveyVersions = new List<Survey>();
+    
+    [JsonInclude]
+    public List<Survey> SurveyVersions = new ();
 
     public SurveyWrapper (int pinCode) {
         PinCode = pinCode;
         SurveyWrapperName = string.Empty;
-        surveyAssests = new string[] {};
         surveyWrapperName = string.Empty;
-    }
-
-    public void CopyVersion(int index) {
-        // var copiedVersion = surveyVersions[index];
-        // surveyVersions.Add(copiedVersion);
     }
 
     public void Add(Survey survey)
@@ -41,10 +37,6 @@ public class SurveyWrapper {
         SurveyVersions.Remove(survey);
     }
 
-    public string[] GetSurveyAssets() {
-        return surveyAssests;
-    }
-
     public int GetVersionCount() {
         return SurveyVersions.Count();
     }
@@ -52,7 +44,6 @@ public class SurveyWrapper {
     public bool TryGetSurveyVersion(int index, out Survey survey)
     {
         if(0 <= index && index < SurveyVersions.Count) {
-            current = index;
             survey = SurveyVersions[index];
             return true;
         }
@@ -64,9 +55,6 @@ public class SurveyWrapper {
     {
         var copy = new SurveyWrapper(pinCode);
         copy.SurveyWrapperName = surveyWrapperName;
-        
-        var copySurveyAssets = new string[surveyAssests.Length];
-        surveyAssests.CopyTo(copySurveyAssets.AsSpan());
         
         var copyVersions = new List<Survey>(SurveyVersions.Count);
         foreach (var v in SurveyVersions)

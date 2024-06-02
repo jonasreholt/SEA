@@ -1,20 +1,59 @@
+using System.Text.Json.Serialization;
+
 namespace Model.Structures;
 
 using System.Collections.Generic;
 
-public class Survey {
+public class Survey 
+{
+    [JsonInclude]
     public string SurveyName {get; set;}
 
+    [JsonInclude]
     private List<Page> surveyPages = new();
 
     private int current = -1;
 
-    public Survey() {
+    public Survey() 
+    {
         SurveyName = string.Empty;
     }
 
     public bool PreviousPageExist() => current > 0;
     public bool NextPageExist() => current + 1 < surveyPages.Count;
+
+    public List<KeyValuePair<string, string>> FixImagePaths(string newDir)
+    {
+        var counter = 0;
+        var pathToNewPath = new Dictionary<string, string>();
+        var seenFileNames = new HashSet<string>();
+
+        foreach (var page in surveyPages)
+        {
+            foreach (var question in page)
+            {
+                var path = question.PicturePath;
+                if (string.IsNullOrEmpty(path)) continue;
+                
+                // This is a complete duplicate image, so it's already saved
+                if (pathToNewPath.ContainsKey(path)) continue;
+                var name = Path.GetFileName(path);
+                // we have a duplicate file name so fix it
+                if (seenFileNames.Contains(name))
+                {
+                    name = $"{counter++}_{name}";
+                }
+
+                var newPath = Path.Combine(newDir, name);
+                pathToNewPath[path] = newPath;
+                seenFileNames.Add(name);
+
+                question.PicturePath = newPath;
+            }
+        }
+
+        return pathToNewPath.ToList();
+    }
 
     public Page? GetNextPage()
     {

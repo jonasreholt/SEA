@@ -16,7 +16,7 @@ public static class ExampleSurvey
         var subqs = new List<SubQuestion>(qs.Length);
         foreach (var (q, min, max) in qs)
         {
-            string[] arr = [min.ToString(), max.ToString()];
+            List<string> arr = [min.ToString(), max.ToString()];
             var answer = new Answer(AnswerType.Scale, arr);
             subqs.Add(new SubQuestion(q, answer));
         }
@@ -24,7 +24,7 @@ public static class ExampleSurvey
         return new Question(caption, image, subqs);
     }
 
-    private static Question GetMultiQuestion(string caption, string image, (string, string[])[] qs)
+    private static Question GetMultiQuestion(string caption, string image, (string, List<string>)[] qs)
     {
         var subqs = new List<SubQuestion>(qs.Length);
         foreach (var (q, options) in qs)
@@ -53,14 +53,14 @@ public static class ExampleSurvey
         var q1 = new Question(
             "Caption1",
             @"C:\Users\StoreSpillemaskine\Pictures\Screenshots\Screenshot 2024-04-30 233442.png",
-            [ new SubQuestion("Question1", new Answer(AnswerType.Scale, new string[] {"1", "8"}))
-            , new SubQuestion("Question2", new Answer(AnswerType.Scale, new string[] {"1", "3"}))
+            [ new SubQuestion("Question1", new Answer(AnswerType.Scale, new List<string> {"1", "8"}))
+            , new SubQuestion("Question2", new Answer(AnswerType.Scale, new List<string> {"1", "3"}))
             ]);
 
         var q2 = new Question(
             "Multi Question example",
             string.Empty,
-            [ new SubQuestion("Question3", new Answer(AnswerType.MultipleChoice, new string[] {"this", "that", "nah"}))
+            [ new SubQuestion("Question3", new Answer(AnswerType.MultipleChoice, new List<string> {"this", "that", "nah"}))
             , new SubQuestion("What do you think?", new Answer(AnswerType.Text))
             ]);
         

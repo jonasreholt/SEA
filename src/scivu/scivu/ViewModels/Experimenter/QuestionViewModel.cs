@@ -62,12 +62,12 @@ public class QuestionViewModel : ViewModelBase
         foreach (var q in qs)
         {
             var result = q.Results.GetValueOrDefault(_userId);
-            Content.Add(q.Answer.ReadOnlyAnswerType switch
+            Content.Add(q.Answer.AnswerType switch
             {
                 AnswerType.Scale => new ScaleQuestionViewModel(q, result),
                 AnswerType.Text => new TextQuestionViewModel(q, result),
                 AnswerType.MultipleChoice => new MultiQuestionViewModel(q, result),
-                _ => throw new ArgumentException($"'{q.Answer.ReadOnlyAnswerType}' is not implemented")
+                _ => throw new ArgumentException($"'{q.Answer.AnswerType}' is not implemented")
             });
         }
     }

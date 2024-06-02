@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using Model.FrontEndAPI;
+using Model.Database;
 using Model.Structures;
 using ReactiveUI;
 using scivu.Model;
@@ -12,7 +12,7 @@ public class MainMenuViewModel : ViewModelBase
     private const int PinCodeLength = 6;
 
     private readonly Action<string, object> _changeViewCommand;
-    private readonly IFrontEndMainMenu _client;
+    private readonly IDatabase _client;
 
     private string? _username;
     private string? _password;
@@ -24,7 +24,7 @@ public class MainMenuViewModel : ViewModelBase
 
     private bool _isLoginEnabled;
 
-    public MainMenuViewModel(Action<string, object> changeViewCommand, IFrontEndMainMenu client)
+    public MainMenuViewModel(Action<string, object> changeViewCommand, IDatabase client)
     {
         _isExperimenterLogin = false;
         _isSuperLogin = false;
@@ -84,15 +84,18 @@ public class MainMenuViewModel : ViewModelBase
         var file = await FileExplorer.OpenSurveyAsync();
         if (file != null)
         {
-            var path = file.Path.ToString();
-            if (_client.ImportSurvey(path))
-            {
-                return;
-            }
+            var path = file.Path.LocalPath;
 
-            var stdmsg = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.WAR_CouldNotImportSurvey);
-            ErrorMessage = $"{stdmsg}: '{path}'";
-            return;
+            try
+            {
+                var surveyWrapper = await _client.Deserialize(path);
+                _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, surveyWrapper);
+            }
+            catch (Exception _)
+            {
+                var stdmsg = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.WAR_CouldNotImportSurvey);
+                ErrorMessage = $"{stdmsg}: '{path}'";
+            }
         }
 
         ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.WAR_InvalidSurveyFileType);
@@ -133,14 +136,15 @@ public class MainMenuViewModel : ViewModelBase
         Debug.Assert(IsSuperLogin);
 
         var userId = new UserId(Username!, Password!);
-        var result = _client.ValidateSuperUser(userId);
-        if (result != null)
+        try
         {
+            var result = _client.GetSurveyWrappersForSuperUser(userId);
             _changeViewCommand.Invoke(SharedConstants.SuperUserMenuName, (userId, result));
-            return;
         }
-
-        ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_InvalidLogin);
+        catch (Exception _)
+        {
+            ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_InvalidLogin);
+        }
     }
 
     private bool EnableLoginButton() => IsSuperLogin
@@ -168,14 +172,15 @@ public class MainMenuViewModel : ViewModelBase
 
         if (Int32.TryParse(Password, out var pin))
         {
-            var survey = _client.GetSurvey(pin);
-            if (survey != null)
+            try
             {
+                var survey = _client.GetSurveyWrapper(pin);
                 _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, survey!);
-                return;
             }
-
-            ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_PinCodeNotFound);
+            catch (Exception _)
+            {
+                ErrorMessage = ErrorDiagnostics.GetErrorMessage(ErrorDiagnosticsID.ERR_PinCodeNotFound);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Model.Database;
 using Model.Structures;
 using ReactiveUI;
 using scivu.Model;
@@ -7,6 +8,7 @@ namespace scivu.ViewModels.SuperUser;
 
 public class SurveyViewModel : ViewModelBase
 {
+    private readonly IDatabase _client;
     private readonly Action<SurveyViewModel> _deleteCallback;
     private readonly Action<SurveyViewModel> _modifyCallback;
     private readonly Action<SurveyViewModel> _copyCallback;
@@ -16,11 +18,13 @@ public class SurveyViewModel : ViewModelBase
     private string _pinCode;
     
     public SurveyViewModel(
+        IDatabase client,
         Action<SurveyViewModel> deleteCallback, 
         Action<SurveyViewModel> modifyCallback, 
         Action<SurveyViewModel> copyCallback,
         SurveyWrapper survey)
     {
+        _client = client;
         _deleteCallback = deleteCallback;
         _modifyCallback = modifyCallback;
         _copyCallback = copyCallback;
@@ -49,10 +53,15 @@ public class SurveyViewModel : ViewModelBase
         _surveyWrapper.PinCode = pin;
     }
 
-    public void Export()
+    public async void Export()
     {
         Save();
-        throw new NotImplementedException();
+        var folder = await FileExplorer.SaveSurveyAsync();
+
+        if (folder != null)
+        {
+            _client.Serialize(_surveyWrapper, folder.Path.AbsolutePath);
+        }
     }
 
     public void Modify()

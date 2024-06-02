@@ -22,7 +22,7 @@ public static class FileExplorer
     {
         if (!FileExplorerAvailable(out var provider))
             throw new NullReferenceException("Missing StorageProvider instance.");
-
+        
         var file = await provider.OpenFilePickerAsync(new FilePickerOpenOptions()
         {
             Title = "Import Survey",
@@ -45,5 +45,19 @@ public static class FileExplorer
         });
 
         return file.Count >= 1 ? file[0] : null;
+    }
+
+    public static async Task<IStorageFolder?> SaveSurveyAsync()
+    {
+        if (!FileExplorerAvailable(out var provider))
+            throw new NullReferenceException("Missing StorageProvider instance.");
+
+        var folder = await provider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        {
+            Title = "Save Survey to Folder",
+            AllowMultiple = false,
+        });
+
+        return folder.Count >= 1 ? folder[0] : null;
     }
 }
