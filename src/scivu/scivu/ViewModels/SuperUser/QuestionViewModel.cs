@@ -121,7 +121,7 @@ public class QuestionViewModel : ViewModelBase
         var file = await FileExplorer.OpenImageAsync();
         if (file != null)
         {
-            TrySetImage(file.Path.AbsolutePath);
+            TrySetImage(file.Path.LocalPath);
         }
     }
 

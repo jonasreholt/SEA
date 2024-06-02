@@ -39,11 +39,6 @@ public struct UserId
         return true;
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(UserName, PasswordHash);
-    }
-
     private const char Seperator = ':';
     public override string ToString()
     {

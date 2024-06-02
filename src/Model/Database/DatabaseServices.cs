@@ -59,16 +59,6 @@ internal class DatabaseServices : IDatabase
         return userId++;
     }
 
-    public bool ImportSurvey(string path) 
-    {
-        return false;
-    }
-
-    public List<Result> GetResults(int id) 
-    {
-        throw new NotImplementedException();
-    }
-
     public bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false)
     {
         if (_userToSurveys.TryGetValue(userId, out var sws))
@@ -86,6 +76,11 @@ internal class DatabaseServices : IDatabase
         }
 
         return false;
+    }
+
+    public void ExportResults(SurveyWrapper surveyWrapper, string path)
+    {
+        throw new NotImplementedException();
     }
 
     public async void Serialize(SurveyWrapper surveyWrapper, string path)

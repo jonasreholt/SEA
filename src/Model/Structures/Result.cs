@@ -6,11 +6,13 @@ public class Result
 {
     public List<string> QuestionResult {get; set;}
 
-    public Result(List<string> questionResult) {
+    public Result(List<string> questionResult) 
+    {
         QuestionResult = questionResult;
     }
 
-    public override string ToString() {
+    public override string ToString() 
+    {
         return $"{Pretty(QuestionResult)}";
     }
 

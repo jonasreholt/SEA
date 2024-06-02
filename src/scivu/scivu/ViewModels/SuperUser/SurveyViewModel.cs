@@ -60,7 +60,7 @@ public class SurveyViewModel : ViewModelBase
 
         if (folder != null)
         {
-            _client.Serialize(_surveyWrapper, folder.Path.AbsolutePath);
+            _client.Serialize(_surveyWrapper, folder.Path.LocalPath);
         }
     }
 
