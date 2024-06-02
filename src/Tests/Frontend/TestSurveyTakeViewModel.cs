@@ -14,11 +14,11 @@ public class TestSurveyTakeViewModel
     {
         new Question("Caption1", string.Empty, new List<SubQuestion>
         {
-            new SubQuestion("Question1", new Answer(AnswerType.Scale, new string[] { "1", "8" }))
+            new SubQuestion("Question1", new Answer(AnswerType.Scale, new List<string> { "1", "8" }))
         }),
         new Question(String.Empty, string.Empty, new List<SubQuestion>
         {
-            new SubQuestion("Question2", new Answer(AnswerType.Scale, new string[] { "1", "3" }))
+            new SubQuestion("Question2", new Answer(AnswerType.Scale, new List<string> { "1", "3" }))
         }),
     });
 
@@ -26,7 +26,7 @@ public class TestSurveyTakeViewModel
     {
         new Question("Caption2", String.Empty, new List<SubQuestion>
         {
-            new SubQuestion("Question3", new Answer(AnswerType.Scale, new string[] {"22", "25"}))
+            new SubQuestion("Question3", new Answer(AnswerType.Scale, new List<string> {"22", "25"}))
         }),
     });
 
@@ -53,7 +53,7 @@ public class TestSurveyTakeViewModel
     [Test]
     public void TestSwitchPages()
     {
-        var client = FrontEndFactory.CreateExperimenterMenu();
+        var client = FrontEndFactory.CreateDatabase();
         var survey = new Survey();
         survey.Add(_page1);
         survey.Add(_page2);

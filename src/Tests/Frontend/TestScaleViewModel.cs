@@ -8,7 +8,7 @@ using scivu.ViewModels;
 
 public class TestScaleViewModel
 {
-    private QuestionViewModel SetupVars(string[] arr, string caption, string text, string imagePath)
+    private QuestionViewModel SetupVars(List<string> arr, string caption, string text, string imagePath)
     {
         var answer = new Answer(AnswerType.Scale, arr);
         var question = new Question(caption, imagePath, new List<SubQuestion> { new SubQuestion(text, answer) });
@@ -18,7 +18,7 @@ public class TestScaleViewModel
     [Test]
     public void TestSetupNoPicture()
     {
-        string[] arr = ["1", "5"];
+        List<string> arr = ["1", "5"];
         var caption = "Title caption";
         var text = "This is a scale question?";
         var content = SetupVars(arr, caption, text, string.Empty);
@@ -36,7 +36,7 @@ public class TestScaleViewModel
     [Test]
     public void TestSetupInvalidPicture()
     {
-        string[] arr = ["1", "5"];
+        List<string> arr = ["1", "5"];
         var caption = "Title caption";
         var text = "This is a scale question?";
         var path = "Invalid path";
@@ -55,17 +55,17 @@ public class TestScaleViewModel
 
     public static object[] InvalidRangeProvider =
     {
-        new object[] { new [] {(SharedConstants.ScaleMinimumValue-1).ToString(), "5"} },
-        new object[] { new [] {"3", "3"} },
-        new object[] { new [] {"4", "3"} },
-        new object[] { new [] {"4g", "5"} },
-        new object[] { new [] {"2", "5g"} },
-        new object[] { new [] {"1", "5", "7"} },
-        new object[] { new [] {"1", (SharedConstants.ScaleMaxRange+1).ToString()} },
+        new object[] { new List<string> {(SharedConstants.ScaleMinimumValue-1).ToString(), "5"} },
+        new object[] { new List<string> {"3", "3"} },
+        new object[] { new List<string> {"4", "3"} },
+        new object[] { new List<string> {"4g", "5"} },
+        new object[] { new List<string> {"2", "5g"} },
+        new object[] { new List<string> {"1", "5", "7"} },
+        new object[] { new List<string> {"1", (SharedConstants.ScaleMaxRange+1).ToString()} },
     };
 
     [TestCaseSource(nameof(InvalidRangeProvider))]
-    public void TestSetupInvalidRange(string[] arr)
+    public void TestSetupInvalidRange(List<string> arr)
     {
         var caption = "Title caption";
         var text = "This is a scale question?";
