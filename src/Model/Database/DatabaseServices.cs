@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Model.Database;
 using System;
@@ -31,6 +32,14 @@ internal class DatabaseServices : IDatabase
         _userToSurveys[uid] = sws;
     }
 
+    private struct CacheManifest(Dictionary<UserId, List<SurveyWrapper>> wrappers, int count)
+    {
+        [JsonInclude]
+        public Dictionary<UserId, List<SurveyWrapper>> UserIdToWrappers = wrappers;
+        [JsonInclude]
+        public int UserIdCount = count;
+    }
+
     private async void LoadCache()
     {
         if (!Directory.Exists(DatabasePath) || !File.Exists(CachePath))
@@ -38,7 +47,9 @@ internal class DatabaseServices : IDatabase
             return;
         }
         
-        _userToSurveys = await Deserialize<Dictionary<UserId, List<SurveyWrapper>>>(CachePath);
+        var cacheManifest = await Deserialize<CacheManifest>(CachePath);
+        _userToSurveys = cacheManifest.UserIdToWrappers;
+        userId = cacheManifest.UserIdCount - 1; // minus one to let a crashed user start over
     }
 
     private async void SaveCache()
@@ -47,9 +58,11 @@ internal class DatabaseServices : IDatabase
         {
             Directory.CreateDirectory(DatabasePath);
         }
+
+        var cacheManifest = new CacheManifest(_userToSurveys, userId);
         
         await using var createStream = File.Create(CachePath);
-        await JsonSerializer.SerializeAsync(createStream, _userToSurveys, new JsonSerializerOptions
+        await JsonSerializer.SerializeAsync(createStream, cacheManifest, new JsonSerializerOptions
         {
             Converters = { new DatabaseConverter(), new PageConverter() }
         });
@@ -57,7 +70,7 @@ internal class DatabaseServices : IDatabase
 
     public int GetUserId()
     {
-        return userId++;
+        return ++userId;
     }
 
     public bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false)
@@ -137,17 +150,27 @@ internal class DatabaseServices : IDatabase
         return imagePaths;
     }
     
-    public SurveyWrapper GetSurveyWrapper(int surveyId)
+    public (UserId, SurveyWrapper) GetSurveyWrapper(int surveyId)
     {
-        var swss = _userToSurveys.Values;
-        foreach (var sws in swss)
+        foreach (var kvp in _userToSurveys)
         {
-            var sw = sws.Find(sw => sw.PinCode == surveyId);
+            var sw = kvp.Value.Find(sw => sw.PinCode == surveyId);
             if (sw != null)
             {
-                return sw;
+                return (kvp.Key, sw);
             }
         }
+        
+        
+        //var swss = _userToSurveys.Values;
+        //foreach (var sws in swss)
+        //{
+        //    var sw = sws.Find(sw => sw.PinCode == surveyId);
+        //    if (sw != null)
+        //    {
+        //        return sw;
+        //    }
+        //}
         throw new ArgumentException("Invalid pincode");
     }
 

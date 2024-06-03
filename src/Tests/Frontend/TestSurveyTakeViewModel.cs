@@ -41,7 +41,7 @@ public class TestSurveyTakeViewModel
         survey.Add(_page2);
         var surveyWrap = new SurveyWrapper(42);
         surveyWrap.Add(survey);
-        var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
+        var vm = new SurveyTakeViewModel(default, dummy, default, surveyWrap, 42);
 
         Assert.Multiple(() =>
         {
@@ -59,7 +59,7 @@ public class TestSurveyTakeViewModel
         survey.Add(_page2);
         var surveyWrap = new SurveyWrapper(42);
         surveyWrap.Add(survey);
-        var vm = new SurveyTakeViewModel(client, dummy, surveyWrap, 42);
+        var vm = new SurveyTakeViewModel(client, dummy, default, surveyWrap, 42);
 
         vm.DoNext();
         Assert.Multiple(() =>
@@ -84,7 +84,7 @@ public class TestSurveyTakeViewModel
         survey.Add(_page2);
         var surveyWrap = new SurveyWrapper(42);
         surveyWrap.Add(survey);
-        var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
+        var vm = new SurveyTakeViewModel(default, dummy, default, surveyWrap, 42);
 
         Assert.That(vm.ChooseSurvey(surveyWrap), Is.EqualTo(survey));
     }
@@ -102,7 +102,7 @@ public class TestSurveyTakeViewModel
         surveyWrap.Add(survey1);
         surveyWrap.Add(survey2);
 
-        var vm = new SurveyTakeViewModel(default, dummy, surveyWrap, 42);
+        var vm = new SurveyTakeViewModel(default, dummy, default, surveyWrap, 42);
 
         var found1 = false;
         var found2 = false;

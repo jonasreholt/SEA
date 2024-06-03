@@ -174,8 +174,8 @@ public class MainMenuViewModel : ViewModelBase
         {
             try
             {
-                var survey = _client.GetSurveyWrapper(pin);
-                _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, survey!);
+                var userIdSurvey = _client.GetSurveyWrapper(pin);
+                _changeViewCommand.Invoke(SharedConstants.ExperimenterMenuName, userIdSurvey!);
             }
             catch (Exception _)
             {

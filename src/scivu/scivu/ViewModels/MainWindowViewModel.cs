@@ -51,12 +51,12 @@ public class MainWindowViewModel : ViewModelBase
         Console.WriteLine($"Going to view `{vm}`");
         switch (vm)
         {
-            case SharedConstants.TakeSurveyName when arg is SurveyWrapper survey:
-                _surveyTaker.StartNewSurvey(survey, _database.GetUserId());
+            case SharedConstants.TakeSurveyName when arg is ValueTuple<UserId, SurveyWrapper> userIdSurvey:
+                _surveyTaker.StartNewSurvey(userIdSurvey.Item1, userIdSurvey.Item2, _database.GetUserId());
                 ContentViewModel = _surveyTaker;
                 break;
-            case SharedConstants.ExperimenterMenuName when arg is SurveyWrapper survey:
-                ContentViewModel = new ExperimenterMenuViewModel(_database, ChangeViewTo, survey);
+            case SharedConstants.ExperimenterMenuName when arg is ValueTuple<UserId, SurveyWrapper> userIdSurvey:
+                ContentViewModel = new ExperimenterMenuViewModel(_database, ChangeViewTo, userIdSurvey.Item2, userIdSurvey.Item1);
                 break;
             case SharedConstants.MainMenuName:
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo, _database);

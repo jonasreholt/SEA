@@ -13,6 +13,7 @@ namespace scivu.ViewModels;
 
 public class SurveyTakeViewModel : ViewModelBase
 {
+    private UserId _superUserId;
     private readonly IDatabase _client;
     private readonly Action<string, object> _changeViewCommand;
     private SurveyWrapper _wrapper;
@@ -54,13 +55,14 @@ public class SurveyTakeViewModel : ViewModelBase
         });
     }
 
-    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand, UserId superUserId, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
     {
-        StartNewSurvey(wrapper, userId);
+        StartNewSurvey(superUserId, wrapper, userId);
     }
 
-    public void StartNewSurvey(SurveyWrapper surveyWrapper, int userId)
+    public void StartNewSurvey(UserId superUserId, SurveyWrapper surveyWrapper, int userId)
     {
+        _superUserId = superUserId;
         _userId = userId;
         _wrapper = surveyWrapper;
         _survey = ChooseSurvey(surveyWrapper);
@@ -152,6 +154,7 @@ public class SurveyTakeViewModel : ViewModelBase
         {
             question.SaveResult();
         }
+        _client.Store(_wrapper, _superUserId, true);
     }
 
     public void DoNext()

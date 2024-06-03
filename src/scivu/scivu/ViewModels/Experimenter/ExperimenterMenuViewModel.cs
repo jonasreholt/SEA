@@ -8,7 +8,8 @@ namespace scivu.ViewModels;
 public class ExperimenterMenuViewModel : ViewModelBase
 {
     private readonly IDatabase _client;
-    
+
+    private readonly UserId _superUserId;
     private readonly SurveyWrapper _survey;
     private readonly Action<string, object> _changeViewCommand;
     // The following are placeholder, should be dynamically pulled from the survey object.
@@ -19,8 +20,9 @@ public class ExperimenterMenuViewModel : ViewModelBase
     public int CompletionRate { get; }
     public int AverageCompletionRate { get; }
 
-    public ExperimenterMenuViewModel(IDatabase client, Action<string, object> changeViewCommand, SurveyWrapper survey)
+    public ExperimenterMenuViewModel(IDatabase client, Action<string, object> changeViewCommand, SurveyWrapper survey, UserId superUserId)
     {
+        _superUserId = superUserId;
         _client = client;
         _survey = survey;
         _changeViewCommand = changeViewCommand;
@@ -35,8 +37,11 @@ public class ExperimenterMenuViewModel : ViewModelBase
 
     public void ChangeView(string view)
     {
-        _changeViewCommand(view, view == SharedConstants.MainMenuName ? null! : _survey);
-
+        object arg = view == SharedConstants.MainMenuName
+            ? null!
+            : (_superUserId, _survey);
+        
+        _changeViewCommand(view, arg);
     }
 
     public async void ExportData()

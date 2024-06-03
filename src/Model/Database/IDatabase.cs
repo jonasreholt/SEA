@@ -6,7 +6,7 @@ using Structures;
 public interface IDatabase
 {
     int GetUserId();
-    SurveyWrapper GetSurveyWrapper(int surveyId);
+    (UserId, SurveyWrapper) GetSurveyWrapper(int surveyId);
     List<SurveyWrapper> GetSurveyWrappersForSuperUser(UserId userId);
     bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false);
 

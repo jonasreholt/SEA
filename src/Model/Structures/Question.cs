@@ -36,6 +36,7 @@ public class SubQuestion(string questionText, Answer answer)
     /// <summary>
     /// UserId => Results
     /// </summary>
+    [JsonInclude]
     public Dictionary<int, Result> Results = new();
 
     public SubQuestion Copy()
