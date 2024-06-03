@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -15,6 +16,8 @@ internal class DatabaseServices : IDatabase
     private Dictionary<UserId, List<SurveyWrapper>> _userToSurveys = new();
     
     private int userId = 0;
+    private bool _surveyRunning = false;
+    private Survey? _runningSurvey;
 
     private const string DatabasePath = "./surveyDatabase";
     private readonly string CachePath = Path.Combine(DatabasePath, "cache");
@@ -32,12 +35,12 @@ internal class DatabaseServices : IDatabase
         _userToSurveys[uid] = sws;
     }
 
-    private struct CacheManifest(Dictionary<UserId, List<SurveyWrapper>> wrappers, int count)
+    private struct CacheManifest(Dictionary<UserId, List<SurveyWrapper>> wrappers, int count, bool surveyRunning, Survey runningSurvey)
     {
-        [JsonInclude]
-        public Dictionary<UserId, List<SurveyWrapper>> UserIdToWrappers = wrappers;
-        [JsonInclude]
-        public int UserIdCount = count;
+        [JsonInclude] public Dictionary<UserId, List<SurveyWrapper>> UserIdToWrappers = wrappers;
+        [JsonInclude] public int UserIdCount = count;
+        [JsonInclude] public bool SurveyRunning = surveyRunning;
+        [JsonInclude] public Survey RunningSurvey = runningSurvey;
     }
 
     private async void LoadCache()
@@ -49,7 +52,9 @@ internal class DatabaseServices : IDatabase
         
         var cacheManifest = await Deserialize<CacheManifest>(CachePath);
         _userToSurveys = cacheManifest.UserIdToWrappers;
-        userId = cacheManifest.UserIdCount - 1; // minus one to let a crashed user start over
+        userId = cacheManifest.UserIdCount;
+        _surveyRunning = cacheManifest.SurveyRunning;
+        _runningSurvey = cacheManifest.RunningSurvey;
     }
 
     private async void SaveCache()
@@ -59,7 +64,7 @@ internal class DatabaseServices : IDatabase
             Directory.CreateDirectory(DatabasePath);
         }
 
-        var cacheManifest = new CacheManifest(_userToSurveys, userId);
+        var cacheManifest = new CacheManifest(_userToSurveys, userId, _surveyRunning, _runningSurvey!);
         
         await using var createStream = File.Create(CachePath);
         await JsonSerializer.SerializeAsync(createStream, cacheManifest, new JsonSerializerOptions
@@ -71,6 +76,38 @@ internal class DatabaseServices : IDatabase
     public int GetUserId()
     {
         return ++userId;
+    }
+    
+    private readonly Random rnd = new Random();
+    private Survey ChooseSurvey(SurveyWrapper surveyWrapper)
+    {
+        var count = surveyWrapper.GetVersionCount();
+        var idx = rnd.Next(0, count);
+
+        if (!surveyWrapper.TryGetSurveyVersion(idx, out var survey))
+        {
+            throw new UnreachableException();
+        }
+
+        return survey;
+    }
+
+    public (int, Survey) StartSurvey(SurveyWrapper surveyWrapper)
+    {
+        if (_surveyRunning)
+        {
+            // we were somehow interrupted last time, so take up last session
+            return (userId, _runningSurvey!);
+        }
+        // This is a new instance of a survey
+        _surveyRunning = true;
+        _runningSurvey = ChooseSurvey(surveyWrapper);
+        return (++userId, _runningSurvey);
+    }
+
+    public void StopSurvey()
+    {
+        _surveyRunning = false;
     }
 
     public bool Store(SurveyWrapper surveyWrapper, UserId userId, bool overwrite = false)

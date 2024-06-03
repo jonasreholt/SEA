@@ -28,12 +28,9 @@ public class SurveyTakeViewModel : ViewModelBase
     private readonly List<List<Result>> _results = new();
     private int _resultIdx;
 
-    private readonly Random rnd;
-
     public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand)
     {
         _client = client;
-        rnd = new Random();
         _changeViewCommand = changeViewCommand;
 
         // Create dialog for quitting survey
@@ -41,8 +38,6 @@ public class SurveyTakeViewModel : ViewModelBase
 
         QuitCommand = ReactiveCommand.CreateFromTask(async () =>
         {
-            SaveQuestionResults();
-            
             var dialog = new ExitSurveyViewModel();
 
             var result = await ShowDialog.Handle(dialog);
@@ -50,43 +45,32 @@ public class SurveyTakeViewModel : ViewModelBase
             if (result)
             {
                 // Do the quit
-                _changeViewCommand.Invoke("PauseMenu", _wrapper);
+                _client.StopSurvey();
+                SaveQuestionResults();
+                _changeViewCommand.Invoke("PauseMenu", (_superUserId, _wrapper));
             }
         });
     }
 
-    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand, UserId superUserId, SurveyWrapper wrapper, int userId) : this(client, changeViewCommand)
+    public SurveyTakeViewModel(IDatabase client, Action<string, object> changeViewCommand, UserId superUserId, SurveyWrapper wrapper) : this(client, changeViewCommand)
     {
-        StartNewSurvey(superUserId, wrapper, userId);
+        StartNewSurvey(superUserId, wrapper);
     }
 
-    public void StartNewSurvey(UserId superUserId, SurveyWrapper surveyWrapper, int userId)
+    public void StartNewSurvey(UserId superUserId, SurveyWrapper surveyWrapper)
     {
         _superUserId = superUserId;
-        _userId = userId;
         _wrapper = surveyWrapper;
-        _survey = ChooseSurvey(surveyWrapper);
-        _survey.ResetCounter();
         _results.Clear();
         _results.Add(new List<Result>());
         _resultIdx = 0;
 
+        (_userId, _survey) = _client.StartSurvey(surveyWrapper);
+        _survey.ResetCounter();
+        
         // Load first page of questions
         NextQuestions();
         IsFirstQuestion = true;
-    }
-
-    internal Survey ChooseSurvey(SurveyWrapper surveyWrapper)
-    {
-        var count = surveyWrapper.GetVersionCount();
-        var idx = rnd.Next(0, count);
-
-        if (!surveyWrapper.TryGetSurveyVersion(idx, out var survey))
-        {
-            throw new UnreachableException();
-        }
-
-        return survey;
     }
 
     public ICommand QuitCommand { get; }

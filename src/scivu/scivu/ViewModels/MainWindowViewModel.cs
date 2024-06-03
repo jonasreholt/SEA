@@ -52,7 +52,7 @@ public class MainWindowViewModel : ViewModelBase
         switch (vm)
         {
             case SharedConstants.TakeSurveyName when arg is ValueTuple<UserId, SurveyWrapper> userIdSurvey:
-                _surveyTaker.StartNewSurvey(userIdSurvey.Item1, userIdSurvey.Item2, _database.GetUserId());
+                _surveyTaker.StartNewSurvey(userIdSurvey.Item1, userIdSurvey.Item2);
                 ContentViewModel = _surveyTaker;
                 break;
             case SharedConstants.ExperimenterMenuName when arg is ValueTuple<UserId, SurveyWrapper> userIdSurvey:
@@ -61,8 +61,8 @@ public class MainWindowViewModel : ViewModelBase
             case SharedConstants.MainMenuName:
                 ContentViewModel = new MainMenuViewModel(ChangeViewTo, _database);
                 break;
-            case SharedConstants.PaueMenuName when arg is SurveyWrapper survey:
-                ContentViewModel = new PauseMenuViewModel(ChangeViewTo, survey);
+            case SharedConstants.PaueMenuName when arg is ValueTuple<UserId,SurveyWrapper> userIdSurvey:
+                ContentViewModel = new PauseMenuViewModel(ChangeViewTo, userIdSurvey.Item1, userIdSurvey.Item2);
                 break;
             case SharedConstants.SuperUserMenuName:
                 if (arg is (UserId userId, List<SurveyWrapper> surveys))

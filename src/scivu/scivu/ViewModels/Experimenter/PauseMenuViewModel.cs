@@ -8,7 +8,7 @@ namespace scivu.ViewModels;
 
 public class PauseMenuViewModel : ViewModelBase
 {
-
+    private readonly UserId _superUserId;
     private readonly Action<string, object> _changeViewCommand;
     private string? _pincode;
     private bool _isLoginEnabled;
@@ -17,8 +17,9 @@ public class PauseMenuViewModel : ViewModelBase
 
     private string _errorMessage = string.Empty;
 
-    public PauseMenuViewModel(Action<string, object> changeViewCommand, SurveyWrapper survey)
+    public PauseMenuViewModel(Action<string, object> changeViewCommand, UserId superUserId, SurveyWrapper survey)
     {
+        _superUserId = superUserId;
         Survey = survey;
         _isLoggedIn = false;
         _changeViewCommand = changeViewCommand;
@@ -54,12 +55,12 @@ public class PauseMenuViewModel : ViewModelBase
 
     public void EndExperiment()
     {
-        _changeViewCommand(SharedConstants.ExperimenterMenuName, Survey);
+        _changeViewCommand(SharedConstants.ExperimenterMenuName, (_superUserId, Survey));
     }
 
     public void NextParticipant()
     {
-        _changeViewCommand(SharedConstants.TakeSurveyName, Survey);
+        _changeViewCommand(SharedConstants.TakeSurveyName, (_superUserId, Survey));
     }
 
     private bool EnableLoginButton()
