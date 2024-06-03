@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Model.Database;
 using Model.Structures;
 using ReactiveUI;
@@ -60,6 +61,11 @@ public class SurveyViewModel : ViewModelBase
 
         if (folder != null)
         {
+            // Save the results next to the actual survey to not ruin the state when starting
+            // a new experiment from imported survey
+            _client.ExportResults(_surveyWrapper, Path.Combine(folder.Path.LocalPath, "results.csv"));
+            _surveyWrapper.ClearResults();
+            
             _client.Serialize(_surveyWrapper, folder.Path.LocalPath);
         }
     }
@@ -67,6 +73,10 @@ public class SurveyViewModel : ViewModelBase
     public void Modify()
     {
         Save();
+        
+        // Since we are modifying the survey, results will no longer be valid
+        SurveyWrapper.ClearResults();
+        
         _modifyCallback.Invoke(this);
     }
 

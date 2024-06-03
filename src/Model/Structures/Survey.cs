@@ -36,6 +36,20 @@ public class Survey
         return results;
     }
 
+    public void ClearResults()
+    {
+        foreach (var page in surveyPages)
+        {
+            foreach (var question in page)
+            {
+                foreach (var subQuestion in question.SubQuestions)
+                {
+                    subQuestion.Results.Clear();
+                }
+            }
+        }
+    }
+
     public bool PreviousPageExist() => current > 0;
     public bool NextPageExist() => current + 1 < surveyPages.Count;
 

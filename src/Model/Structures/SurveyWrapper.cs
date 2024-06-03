@@ -22,6 +22,14 @@ public class SurveyWrapper
         surveyWrapperName = string.Empty;
     }
 
+    public void ClearResults()
+    {
+        foreach (var survey in SurveyVersions)
+        {
+            survey.ClearResults();
+        }
+    }
+
     public void Add(Survey survey)
     {
         SurveyVersions.Add(survey);
