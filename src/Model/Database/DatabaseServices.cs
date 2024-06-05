@@ -198,16 +198,6 @@ internal class DatabaseServices : IDatabase
             }
         }
         
-        
-        //var swss = _userToSurveys.Values;
-        //foreach (var sws in swss)
-        //{
-        //    var sw = sws.Find(sw => sw.PinCode == surveyId);
-        //    if (sw != null)
-        //    {
-        //        return sw;
-        //    }
-        //}
         throw new ArgumentException("Invalid pincode");
     }
 

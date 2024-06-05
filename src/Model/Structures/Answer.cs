@@ -5,19 +5,15 @@ using System.Collections.Generic;
 
 // Answer is the given options to a question, by the survey creater.
 // When an experimentee takes the survey, they will give a Result
-public class Answer 
+public class Answer
 {
-    private List<string> _answerOptions = new();
-    
-    private AnswerType _answerType = AnswerType.Text;
-    
-    public List<string> AnswerOptions => _answerOptions;
+    public List<string> AnswerOptions = new();
 
-    public AnswerType AnswerType { get => _answerType; set => _answerType = value; }
+    public AnswerType AnswerType;
 
     public Answer(AnswerType type)
     {
-        _answerType = type;
+        AnswerType = type;
     }
 
     public Answer(AnswerType type, string option) : this(type)
@@ -28,21 +24,21 @@ public class Answer
     [JsonConstructor]
     public Answer(AnswerType answerType, List<string> answerOptions)
     {
-        _answerType = answerType;
-        _answerOptions = new List<string>(answerOptions);
+        AnswerType = answerType;
+        AnswerOptions = new List<string>(answerOptions);
     }
 
     public void AddAnswerOption(string answer) {
-        _answerOptions.Add(answer);
+        AnswerOptions.Add(answer);
     }
     
     public void AddAnswerOption(string answer, int index) {
-        _answerOptions.Insert(index, answer);
+        AnswerOptions.Insert(index, answer);
     }
     
     public bool TryDeleteAnswerOption(int index) {
-        if (0 <= index && index < _answerOptions.Count()) {
-            _answerOptions.RemoveAt(index);
+        if (0 <= index && index < AnswerOptions.Count()) {
+            AnswerOptions.RemoveAt(index);
             return true;
         }
         return false;
@@ -50,7 +46,7 @@ public class Answer
 
     public Answer Copy()
     {
-        var optionsCopy = new List<string>(_answerOptions);
+        var optionsCopy = new List<string>(AnswerOptions);
         var copy = new Answer(AnswerType, optionsCopy);
         return copy;
     }

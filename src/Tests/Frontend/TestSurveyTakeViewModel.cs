@@ -41,7 +41,7 @@ public class TestSurveyTakeViewModel
         survey.Add(_page2);
         var surveyWrap = new SurveyWrapper(42);
         surveyWrap.Add(survey);
-        var vm = new SurveyTakeViewModel(default, dummy, default, surveyWrap);
+        var vm = new SurveyTakeViewModel(FrontEndFactory.CreateDatabase(), dummy, default, surveyWrap);
 
         Assert.Multiple(() =>
         {

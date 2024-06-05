@@ -7,8 +7,7 @@ namespace Model.Structures;
 [JsonConverter(typeof(PageConverter))]
 public class Page : IEnumerable<Question>
 {
-    [JsonInclude]
-    public List<Question> Questions = new();
+    [JsonInclude] public List<Question> Questions;
 
     public Page(List<Question> questions)
     {
