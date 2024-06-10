@@ -7,9 +7,9 @@ using System.Collections.Generic;
 // When an experimentee takes the survey, they will give a Result
 public class Answer
 {
-    public List<string> AnswerOptions = new();
+    [JsonInclude] public List<string> AnswerOptions = new();
 
-    public AnswerType AnswerType;
+    [JsonInclude] public AnswerType AnswerType;
 
     public Answer(AnswerType type)
     {
