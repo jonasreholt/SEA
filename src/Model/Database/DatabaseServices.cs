@@ -13,17 +13,17 @@ using backend.JsonConverters;
 
 internal class DatabaseServices : IDatabase
 {
-    private Dictionary<UserId, List<SurveyWrapper>> _userToSurveys = new();
+    internal Dictionary<UserId, List<SurveyWrapper>> _userToSurveys = new();
     
     private int userId = 0;
     private bool _surveyRunning = false;
     private Survey? _runningSurvey;
 
-    private const string DatabasePath = "./surveyDatabase";
-    private readonly string CachePath = Path.Combine(DatabasePath, "cache");
+    internal const string DatabasePath = "./surveyDatabase";
+    private static readonly string CachePath = Path.Combine(DatabasePath, "cache");
     internal DatabaseServices() 
     {
-        LoadCache();
+        LoadCache().Wait();
         
         // Add basic admin user with example survey if not present
         var username = "admin";
@@ -43,7 +43,7 @@ internal class DatabaseServices : IDatabase
         [JsonInclude] public Survey RunningSurvey = runningSurvey;
     }
 
-    private async void LoadCache()
+    private async Task LoadCache()
     {
         if (!Directory.Exists(DatabasePath) || !File.Exists(CachePath))
         {
@@ -57,7 +57,7 @@ internal class DatabaseServices : IDatabase
         _runningSurvey = cacheManifest.RunningSurvey;
     }
 
-    private async void SaveCache()
+    internal async Task SaveCache()
     {
         if (!Directory.Exists(DatabasePath))
         {
@@ -209,10 +209,11 @@ internal class DatabaseServices : IDatabase
     }
 }
 
-public static class StringBuilderExtension
+internal static class StringBuilderExtension
 {
     public static StringBuilder AppendQuestionHeader(this StringBuilder sb, int count)
     {
+        if (count <= 0) return sb;
         sb.Append(',').Append("UserID");
         for (var i = 0; i < count; i++)
         {
