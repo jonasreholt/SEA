@@ -21,9 +21,10 @@ internal class DatabaseServices : IDatabase
 
     internal const string DatabasePath = "./surveyDatabase";
     private static readonly string CachePath = Path.Combine(DatabasePath, "cache");
-    internal DatabaseServices() 
+    internal DatabaseServices()
     {
-        LoadCache().Wait();
+        Task.Run(() => LoadCache().Wait()).Wait();
+        
         
         // Add basic admin user with example survey if not present
         var username = "admin";
