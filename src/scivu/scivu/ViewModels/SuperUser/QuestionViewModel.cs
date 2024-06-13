@@ -56,9 +56,11 @@ public class QuestionViewModel : ViewModelBase
     {
         Question.Caption = Caption;
         Question.PicturePath = _imagePath;
+        Question.SubQuestions.Clear();
         foreach (var subquestion in SubQuestions)
         {
             subquestion.Save();
+            Question.SubQuestions.Add(subquestion.SubQuestion);
         }
     }
 

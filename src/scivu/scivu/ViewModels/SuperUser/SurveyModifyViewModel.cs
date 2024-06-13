@@ -57,17 +57,6 @@ public class SurveyModifyViewModel : ViewModelBase
             Questions.Add(vm);
         }
     }
-    
-    public void ChangeView(string view)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async void AddPicture(Question question)
-    {
-        var file = await FileExplorer.OpenImageAsync();
-        question.PicturePath = file?.Path.ToString() ?? string.Empty;
-    }
 
     public void Finish()
     {
