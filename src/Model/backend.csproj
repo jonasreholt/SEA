@@ -12,4 +12,8 @@
       <_Parameter1>tests</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="tmp_Moc/Screenshot 2024-04-30 233442.png"/>
+  </ItemGroup>
 </Project>

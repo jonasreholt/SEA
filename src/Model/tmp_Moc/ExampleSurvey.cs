@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Reflection;
 using Model.Structures;
 
 namespace Model.FrontEndAPI;
@@ -48,11 +50,33 @@ public static class ExampleSurvey
         return new Question(caption, image, subqs);
     }
 
+    // This is a hack instead of a custom MSBuild task
+    private static void CreateAssetFolder()
+    {
+        if (!Directory.Exists("Assets"))
+        {
+            Directory.CreateDirectory("Assets");
+        }
+        
+        // Get the embedded image from the resources:
+        var assembly = Assembly.GetExecutingAssembly();
+        var manifestResourceNames = assembly.GetManifestResourceNames();
+        Debug.Assert(manifestResourceNames.Length == 1);
+        var imageS = assembly.GetManifestResourceStream(manifestResourceNames[0]);
+        Debug.Assert(imageS != null);
+        
+        // Write image to disk:
+        using var fileWriter = File.OpenWrite(@"Assets\Screenshot 2024-04-30 233442.png");
+        imageS.CopyTo(fileWriter);
+    }
+    
     internal static SurveyWrapper GetSurvey()
     {
+        CreateAssetFolder();
+        
         var q1 = new Question(
             "Caption1",
-            @"C:\Users\StoreSpillemaskine\Pictures\Screenshots\Screenshot 2024-04-30 233442.png",
+            @"Assets\Screenshot 2024-04-30 233442.png",
             [ new SubQuestion("Question1", new Answer(AnswerType.Scale, new List<string> {"1", "8"}))
             , new SubQuestion("Question2", new Answer(AnswerType.Scale, new List<string> {"1", "3"}))
             ]);
